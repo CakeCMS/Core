@@ -229,7 +229,7 @@ class Plugin extends CakePlugin
      * @param null|string $key
      * @return Data
      */
-    protected function _getPluginData(array $data, $key = null)
+    protected static function _getPluginData(array $data, $key = null)
     {
         if (isset($data[$key])) {
             $data = $data[$key];
