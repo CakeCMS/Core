@@ -53,6 +53,10 @@
             "@phpcpd",
             "@phploc"
         ],
+        "update-all": [
+            "composer self-update --no-interaction",
+            "composer update --no-interaction --optimize-autoloader"
+        ],
         "manifest": "composer validate --no-interaction",
         "autoload": "composer dump-autoload --optimize --no-interaction",
         "phpunit": "php ./vendor/phpunit/phpunit/phpunit --configuration ./phpunit.xml.dist",
