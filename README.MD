@@ -1,0 +1,3 @@
+# Core plugin for CakePHP CMS [![Travis](https://img.shields.io/travis/CakeCMS/Core.svg?maxAge=2592000?style=flat-square)]() [![Coveralls](https://img.shields.io/coveralls/CakeCMS/Core.svg?maxAge=2592000?style=flat-square)]() [![Scrutinizer](https://img.shields.io/scrutinizer/g/CakeCMS/Core.svg?maxAge=2592000?style=flat-square)]()
+
+[![License](https://poser.pugx.org/cake-cms/core/license?format=flat-square)](https://packagist.org/packages/cake-cms/core) [![Latest Stable Version](https://poser.pugx.org/cake-cms/core/v/stable?format=flat-square)](https://packagist.org/packages/cake-cms/core) [![Latest Unstable Version](https://poser.pugx.org/cake-cms/core/v/unstable?format=flat-square)](https://packagist.org/packages/cake-cms/core)

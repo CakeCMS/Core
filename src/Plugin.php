@@ -113,7 +113,7 @@ class Plugin extends CakePlugin
     {
         parent::load($plugin, $config);
         
-        if (self::loaded($plugin)) {
+        if (is_string($plugin) && (bool) self::loaded($plugin)) {
             Cms::mergeConfig('App.paths.locales', self::getLocalePath($plugin));
         }
     }
