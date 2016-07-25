@@ -13,22 +13,21 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Test;
+return [
+    'meta' => [
+        'name'        => 'Test',
+        'author'      => 'Cheren',
+        'version'     => '0.0.1',
+        'copyright'   => 'CakePHP CMS',
+        'license'     => 'MIT',
+        'email'       => 'kalistratov.s.m@gmail.com',
+        'url'         => 'http://cool-code.ru',
+        'description' => 'Core plugin for UnionCMS'
+    ],
+    'init' => function () {
 
-use Core\TestSuite\CodeStyle;
-
-/**
- * Class CodeStyleTest
- *
- * @package Core\Test
- */
-class CodeStyleTest extends CodeStyle
-{
-
-    /**
-     * Package name.
-     *
-     * @var string
-     */
-    protected $_packageName = 'Core';
-}
+    },
+    'custom' => [
+        'key' => 'value'
+    ]
+];

@@ -39,7 +39,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Core\\Test\\": "./tests/Case",
+            "Core\\Test\\": "./tests",
             "Test\\App\\": "./tests/App/src"
         }
     },
