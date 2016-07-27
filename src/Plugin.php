@@ -217,7 +217,10 @@ class Plugin extends CakePlugin
     {
         $data = Plugin::getData($plugin);
         foreach ($data as $name => $callback) {
-            if (Arr::in($name, self::$_manifestEvents) && !isset(self::$_eventList[$name][$plugin]) && is_callable($callback)) {
+            if (Arr::in($name, self::$_manifestEvents) &&
+                !isset(self::$_eventList[$name][$plugin]) &&
+                is_callable($callback)
+            ) {
                 self::$_eventList[$name][$plugin] = $callback;
             }
         }
