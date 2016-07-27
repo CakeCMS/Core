@@ -13,6 +13,9 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
+use Core\View\AppView;
+use Cake\Controller\Controller;
+
 return [
     'meta' => [
         'name'        => 'Core',
@@ -24,4 +27,18 @@ return [
         'url'         => 'http://cool-code.ru',
         'description' => 'Core plugin for UnionCMS'
     ],
+
+    'Controller.initialize' => function (Controller $controller) {
+        $controller->loadComponent('RequestHandler');
+        $controller->loadComponent('Flash');
+    },
+
+    'View.initialize' => function (AppView $view) {
+        $view->loadHelper('Url');
+        $view->loadHelper('Html');
+        $view->loadHelper('Form');
+        $view->loadHelper('Text');
+        $view->loadHelper('Flash');
+        $view->loadHelper('Paginator');
+    }
 ];

@@ -29,7 +29,6 @@
     "require-dev": {
         "jbzoo/phpunit": "^1.0",
         "psy/psysh": "@stable",
-        "composer/composer": "1.0.*@dev",
         "cakephp/bake": "~1.1"
     },
     "autoload": {

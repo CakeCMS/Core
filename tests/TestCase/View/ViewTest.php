@@ -13,22 +13,22 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Test\Cases;
+namespace Core\Test\TestCase;
 
-use Core\TestSuite\CodeStyle;
+use Core\View\AjaxView;
+use Cake\TestSuite\TestCase;
 
 /**
- * Class CodeStyleTest
+ * Class ViewTest
  *
- * @package Core\Test
+ * @package Core\Test\TestCase
  */
-class CodeStyleTest extends CodeStyle
+class ViewTest extends TestCase
 {
 
-    /**
-     * Package name.
-     *
-     * @var string
-     */
-    protected $_packageName = 'Core';
+    public function testAjaxViewType()
+    {
+        $view = new AjaxView();
+        $this->assertSame('ajax', $view->layout);
+    }
 }

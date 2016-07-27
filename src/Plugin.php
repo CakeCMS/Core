@@ -53,6 +53,32 @@ class Plugin extends CakePlugin
     protected static $_data = [];
 
     /**
+     * Holds a list of all plugin events from manifest file.
+     *
+     * @var array
+     */
+    protected static $_eventList = [];
+
+    /**
+     * Manifest callback list.
+     *
+     * @var array
+     */
+    protected static $_manifestEvents = [
+        'Controller.initialize',
+        'Controller.beforeRender',
+        'Controller.beforeFilter',
+        'Controller.beforeRedirect',
+        'Controller.afterFilter',
+        'View.initialize',
+        'View.beforeRenderFile',
+        'View.afterRenderFile',
+        'View.beforeRender',
+        'View.afterRender',
+        'View.beforeLayout',
+    ];
+
+    /**
      * Get plugin manifest data.
      *
      * @param string $plugin
@@ -112,9 +138,13 @@ class Plugin extends CakePlugin
     public static function load($plugin, array $config = [])
     {
         parent::load($plugin, $config);
-        
-        if (is_string($plugin) && (bool) self::loaded($plugin)) {
-            Cms::mergeConfig('App.paths.locales', self::getLocalePath($plugin));
+
+        $plugin = (array) $plugin;
+        foreach ($plugin as $name) {
+            if ((bool) self::loaded($name)) {
+                self::_addManifestCallback($name);
+                Cms::mergeConfig('App.paths.locales', self::getLocalePath($name));
+            }
         }
     }
 
@@ -133,6 +163,24 @@ class Plugin extends CakePlugin
 
             if ($path = self::_findPlugin($name)) {
                 self::load($name, self::_getConfigForLoad($path));
+            }
+        }
+    }
+
+    /**
+     * Call plugin manifest callbacks.
+     *
+     * @return void
+     */
+    public static function manifestEvent()
+    {
+        $args     = func_get_args();
+        $callback = array_shift($args);
+
+        if (Arr::key($callback, self::$_eventList)) {
+            $callbacks = self::$_eventList[$callback];
+            foreach ($callbacks as $method) {
+                call_user_func_array($method, $args);
             }
         }
     }
@@ -157,6 +205,22 @@ class Plugin extends CakePlugin
         }
 
         parent::unload($plugin);
+    }
+
+    /**
+     * Registration plugin manifest callbacks.
+     *
+     * @param string $plugin
+     * @return void
+     */
+    protected static function _addManifestCallback($plugin)
+    {
+        $data = Plugin::getData($plugin);
+        foreach ($data as $name => $callback) {
+            if (Arr::in($name, self::$_manifestEvents) && !isset(self::$_eventList[$name][$plugin]) && is_callable($callback)) {
+                self::$_eventList[$name][$plugin] = $callback;
+            }
+        }
     }
 
     /**

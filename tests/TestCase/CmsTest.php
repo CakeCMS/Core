@@ -13,7 +13,7 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Test\Cases;
+namespace Core\Test\TestCase;
 
 use Core\Cms;
 use Cake\Core\Configure;
