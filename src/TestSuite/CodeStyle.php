@@ -16,6 +16,9 @@
 namespace Core\TestSuite;
 
 use JBZoo\PHPUnit\Codestyle as JBCodeStyle;
+use JBZoo\Utils\Arr;
+use Symfony\Component\Finder\Finder;
+use Symfony\Component\Finder\SplFileInfo;
 
 /**
  * Class CodeStyle
@@ -63,4 +66,35 @@ class CodeStyle extends JBCodeStyle
         'For the full copyright and license information, please view the LICENSE',
         'file that was distributed with this source code.'
     ];
+
+    /**
+     * Try to find cyrilic symbols in the code.
+     *
+     * @return void
+     */
+    public function testCyrillic()
+    {
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->exclude('tests')
+            ->notPath(basename(__FILE__))
+            ->notName('/\.md$/')
+            ->notName('/empty/')
+            ->notName('/\.min\.(js|css)$/')
+            ->notName('/\.min\.(js|css)\.map$/');
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = \JBZoo\PHPUnit\openFile($file->getPathname());
+
+            if (preg_match('#[А-Яа-яЁё]#ius', $content)) {
+                \JBZoo\PHPUnit\fail('File contains cyrilic symbols: ' . $file); // Short message in terminal
+            } else {
+                \JBZoo\PHPUnit\success();
+            }
+        }
+    }
 }
