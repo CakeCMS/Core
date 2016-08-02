@@ -9,7 +9,6 @@ matrix:
   fast_finish: true
 
 script:
-  - make
   - make test-all
 
 after_script:
