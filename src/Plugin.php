@@ -217,10 +217,7 @@ class Plugin extends CakePlugin
     {
         $data = Plugin::getData($plugin);
         foreach ($data as $name => $callback) {
-            if (Arr::in($name, self::$_manifestEvents) &&
-                !isset(self::$_eventList[$name][$plugin]) &&
-                is_callable($callback)
-            ) {
+            if (self::_isCallablePluginData($name, $plugin, $callback)) {
                 self::$_eventList[$name][$plugin] = $callback;
             }
         }
@@ -303,5 +300,25 @@ class Plugin extends CakePlugin
         }
 
         return new Data($data);
+    }
+
+    /**
+     * Check manifest param on callable.
+     *
+     * @param string $name
+     * @param string $plugin
+     * @param mixed $callback
+     * @return bool
+     */
+    protected static function _isCallablePluginData($name, $plugin, $callback)
+    {
+        if (Arr::in($name, self::$_manifestEvents) &&
+            !isset(self::$_eventList[$name][$plugin]) &&
+            is_callable($callback)
+        ) {
+            return true;
+        }
+
+        return false;
     }
 }

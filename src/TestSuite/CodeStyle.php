@@ -15,10 +15,8 @@
 
 namespace Core\TestSuite;
 
-use JBZoo\PHPUnit\Codestyle as JBCodeStyle;
-use JBZoo\Utils\Arr;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Finder\SplFileInfo;
+use JBZoo\PHPUnit\Codestyle as JBCodeStyle;
 
 /**
  * Class CodeStyle
