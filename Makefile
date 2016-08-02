@@ -8,8 +8,7 @@
 # @package   Core
 # @license   MIT
 # @copyright MIT License http://www.opensource.org/licenses/mit-license.php
-# @link      https://github.com/CakeCMS/Core".
-# @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+# @link      https://github.com/CakeCMS/Core
 #
 
 .PHONY: build update test-all autoload test phpmd phpcs phpcpd phploc coveralls
