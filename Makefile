@@ -16,17 +16,11 @@
 
 test-all:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Run all tests \033[0m"
-	@make composer-update validate autoload test-unit phpmd phpcs phpcpd phploc
+	@make validate autoload test-unit phpmd phpcs phpcpd phploc
 
 update:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Update project \033[0m"
 	@composer update --optimize-autoloader --no-interaction
-	@echo ""
-
-composer-update:
-	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Composer update \033[0m"
-	@composer self-update --no-interaction
-	@composer update --no-interaction --optimize-autoloader
 	@echo ""
 
 validate:
@@ -36,7 +30,7 @@ validate:
 
 autoload:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Composer autoload \033[0m"
-	@composer composer dump-autoload --optimize --no-interaction
+	@composer dump-autoload --optimize --no-interaction
 	@echo ""
 
 test-unit:
