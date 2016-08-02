@@ -12,9 +12,10 @@
 # @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
 #
 
-.PHONY: build
+.PHONY: build update test-all validate autoload test phpmd phpcs phpcpd phploc coveralls
 
 test-all:
+    @echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Run all tests \033[0m"
     @make composer-update validate autoload test-unit phpmd phpcs phpcpd phploc
 
 update:
