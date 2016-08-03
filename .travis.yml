@@ -9,6 +9,9 @@ matrix:
   fast_finish: true
 
 script:
+  - npm install
+  - bower install
+  - gulp update
   - make test-all
 
 after_script:

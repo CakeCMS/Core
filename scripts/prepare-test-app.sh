@@ -14,7 +14,7 @@
 #
 
 echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Install application npm \033[0m"
-cd ./vendor/cake-cms/app npm install && cd ../../../
+cd ./vendor/cake-cms/app && npm install && cd ../../../
 echo ""
 
 echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Install application bower \033[0m"
