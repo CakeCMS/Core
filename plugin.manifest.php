@@ -40,5 +40,9 @@ return [
         $view->loadHelper('Text');
         $view->loadHelper('Flash');
         $view->loadHelper('Paginator');
-    }
+    },
+
+    'events' => [
+        'Core.CoreEventHandler',
+    ]
 ];

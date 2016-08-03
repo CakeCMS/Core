@@ -83,5 +83,8 @@ return [
     },
     'custom' => [
         'key' => 'value'
+    ],
+    'events' => [
+        'Test.TestEventHandler'
     ]
 ];

@@ -18,6 +18,7 @@ namespace Core\Controller;
 use Core\Plugin;
 use Cake\Event\Event;
 use Cake\Network\Response;
+use Core\Event\EventManager;
 use Cake\Controller\Controller as CakeController;
 
 /**
@@ -67,6 +68,7 @@ class AppController extends CakeController
      */
     public function beforeFilter(Event $event)
     {
+        EventManager::trigger('Controller.setup', $this);
         Plugin::manifestEvent('Controller.beforeFilter', $this, $event);
     }
 
