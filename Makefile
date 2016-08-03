@@ -61,21 +61,22 @@ coveralls:
 
 prepare-test-app:
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Install application npm \033[0m"
-	@cd ./vendor/cake-cms/app && npm install && @cd ../../../
+	cd ./vendor/cake-cms/app && npm install && cd ../../../
 	@echo ""
 
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Install application bower \033[0m"
-	@cd ./vendor/cake-cms/app && bower install && @cd ../../../
+	cd ./vendor/cake-cms/app && bower install && cd ../../../
 	@echo ""
 
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Application gulp update \033[0m"
-	@cd ./vendor/cake-cms/app && gulp update && @cd ../../../
+	cd ./vendor/cake-cms/app && gulp update && cd ../../../
 	@echo ""
 
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Prepare app css libs \033[0m"
-	@mkdir -p ./tests/App/webroot/css/libs
-	@cp ./vendor/cake-cms/app/webroot/css/libs/* ./tests/App/webroot/css/libs
+	mkdir -p ./tests/App/webroot/css/libs
+	cp ./vendor/cake-cms/app/webroot/css/libs/* ./tests/App/webroot/css/libs
+	@echo ""
 
 	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Prepare app css libs \033[0m"
-	@mkdir -p ./tests/App/webroot/js/libs
-	@cp ./vendor/cake-cms/app/webroot/js/libs/* ./tests/App/webroot/js/libs
+	mkdir -p ./tests/App/webroot/js/libs
+	cp ./vendor/cake-cms/app/webroot/js/libs/* ./tests/App/webroot/js/libs
