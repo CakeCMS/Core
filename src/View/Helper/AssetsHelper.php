@@ -44,6 +44,43 @@ class AssetsHelper extends AppHelper
     ];
 
     /**
+     * Include bootstrap.
+     *
+     * @return $this
+     */
+    public function bootstrap()
+    {
+        $this->jquery();
+        $this->Html->script('libs/bootstrap.min.js', $this->_options);
+        $this->Html->css('libs/bootstrap.min.css', $this->_options);
+        return $this;
+    }
+
+    /**
+     * Include fancybox.
+     *
+     * @return $this
+     */
+    public function fancyBox()
+    {
+        $this->jquery();
+        $this->Html->script('libs/fancybox.min.js', $this->_options);
+        $this->Html->css('libs/fancybox.min.css', $this->_options);
+        return $this;
+    }
+
+    /**
+     * Include font awesome.
+     *
+     * @return $this
+     */
+    public function fontAwesome()
+    {
+        $this->Html->css('libs/font-awesome.min.css', $this->_options);
+        return $this;
+    }
+
+    /**
      * Include jquery lib.
      *
      * @return $this
@@ -51,6 +88,57 @@ class AssetsHelper extends AppHelper
     public function jquery()
     {
         $this->Html->script('libs/jquery.min.js', $this->_options);
+        return $this;
+    }
+
+    /**
+     * Include jquery factory.
+     *
+     * @return $this
+     */
+    public function jqueryFactory()
+    {
+        $this->jquery();
+        $this->Html->script(['libs/utils.min.js', 'libs/jquery-factory.min.js'], $this->_options);
+        return $this;
+    }
+
+    /**
+     * Include materialize design.
+     *
+     * @return $this
+     */
+    public function materialize()
+    {
+        $this->jquery();
+        $this->Html->script('libs/materialize.min.js', $this->_options);
+        $this->Html->css('libs/materialize.min.css', $this->_options);
+        return $this;
+    }
+
+    /**
+     * Include sweet alert.
+     *
+     * @return $this
+     */
+    public function sweetAlert()
+    {
+        $this->jquery();
+        $this->Html->script('libs/sweetalert.min.js', $this->_options);
+        $this->Html->css('libs/sweetalert.min.css', $this->_options);
+        return $this;
+    }
+
+    /**
+     * Include ui kit framework.
+     *
+     * @return $this
+     */
+    public function uikit()
+    {
+        $this->jquery();
+        $this->Html->script('libs/uikit.min.js', $this->_options);
+        $this->Html->css('libs/uikit.min.css', $this->_options);
         return $this;
     }
 }
