@@ -26,7 +26,7 @@ Configure::write('App', [
     'dir'           => 'src',
     'webroot'       => 'webroot',
     'wwwRoot'       => WWW_ROOT,
-    'fullBaseUrl'   => true,
+    'fullBaseUrl'   => 'http://localhost',
     'imageBaseUrl'  => 'img/',
     'cssBaseUrl'    => 'css/',
     'jsBaseUrl'     => 'js/',
