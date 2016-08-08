@@ -31,7 +31,10 @@ Configure::write('App', [
     'cssBaseUrl'    => 'css/',
     'jsBaseUrl'     => 'js/',
     'paths'         => [
-        'plugins' => [TEST_APP_DIR . 'plugins' . DS],
+        'plugins' => [
+            TEST_APP_DIR . 'plugins' . DS,
+            TEST_APP_DIR . 'themes' . DS,
+        ],
         'templates' => [APP . 'Template' . DS],
         'locales' => [APP . 'Locale' . DS],
     ],
@@ -57,6 +60,11 @@ Configure::write('Email', [
         'charset'       => 'utf-8',
         'headerCharset' => 'utf-8',
     ],
+]);
+
+Configure::write('Theme', [
+    'site'  => 'SiteTheme',
+    'admin' => 'AdminTheme',
 ]);
 
 Configure::write('Session', ['defaults' => 'php']);

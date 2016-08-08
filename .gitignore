@@ -2,5 +2,6 @@
 vendor
 build
 composer.lock
+tests/App/themes
 tests/App/webroot/css/libs
 tests/App/webroot/js/libs
