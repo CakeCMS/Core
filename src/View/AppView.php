@@ -17,12 +17,14 @@ namespace Core\View;
 
 use Core\Plugin;
 use Cake\View\View;
+use JBZoo\Utils\FS;
 use Cake\Event\Event;
 
 /**
  * Class AppView
  *
  * @package Core\View
+ * @property \Core\View\Helper\AssetsHelper $Assets
  */
 class AppView extends View
 {
@@ -116,5 +118,48 @@ class AppView extends View
     public function afterLayout(Event $event, $layoutFile)
     {
         Plugin::manifestEvent('View.beforeLayout', $this, $event, $layoutFile);
+    }
+
+    /**
+     * Render layout partial.
+     *
+     * @param string $name
+     * @param array $data
+     * @return null|string
+     */
+    public function partial($name, array $data = [])
+    {
+        $file = $this->_getLayoutPartialPath($name);
+
+        if (FS::isFile($file)) {
+            return $this->_render($file, $data);
+        }
+
+        return null;
+    }
+
+    /**
+     * Finds an partial filename, returns false on failure.
+     *
+     * @param string $name
+     * @return bool|string
+     */
+    protected function _getLayoutPartialPath($name)
+    {
+        list($plugin, $name) = $this->pluginSplit($name);
+
+        $paths       = $this->_paths($plugin);
+        $layoutPaths = $this->_getSubPaths('Layout' . DS . 'Partial');
+
+        foreach ($paths as $path) {
+            foreach ($layoutPaths as $layoutPath) {
+                $partial = $path . $layoutPath . DS . $name . $this->_ext;
+                if (FS::isFile($partial)) {
+                    return $partial;
+                }
+            }
+        }
+
+        return false;
     }
 }

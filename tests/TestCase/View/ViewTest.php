@@ -15,6 +15,8 @@
 
 namespace Core\Test\TestCase;
 
+use Core\Plugin;
+use Core\View\AppView;
 use Core\View\AjaxView;
 use Core\TestSuite\TestCase;
 
@@ -26,9 +28,49 @@ use Core\TestSuite\TestCase;
 class ViewTest extends TestCase
 {
 
+    /**
+     * @var AppView
+     */
+    protected $View;
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->View = new AppView();
+        Plugin::load('Test');
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @return void
+     */
+    public function tearDown()
+    {
+        parent::tearDown();
+        unset($this->View);
+        Plugin::unload('Test');
+    }
+
     public function testAjaxViewType()
     {
         $view = new AjaxView();
         $this->assertSame('ajax', $view->layout);
+    }
+    
+    public function testPartial()
+    {
+        $actual = $this->View->partial('frontend');
+        $this->assertSame('Frontend partial', $actual);
+
+        $actual = $this->View->partial('Test.plugin');
+        $this->assertSame('Plugin partial', $actual);
+
+        $this->assertNull($this->View->partial('no-found'));
     }
 }
