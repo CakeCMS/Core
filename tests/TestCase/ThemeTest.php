@@ -15,12 +15,12 @@
 
 namespace Core\Test\TestCase;
 
-use Core\Plugin;
 use Core\Theme;
+use Core\Plugin;
 use Cake\Core\App;
 use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
-use Cake\TestSuite\TestCase;
+use Core\TestSuite\TestCase;
 
 /**
  * Class ThemeTest
@@ -42,6 +42,7 @@ class ThemeTest extends TestCase
 
     /**
      * {@inheritdoc}
+     *
      * @return void
      */
     public function setUp()

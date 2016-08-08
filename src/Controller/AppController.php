@@ -15,6 +15,7 @@
 
 namespace Core\Controller;
 
+use Core\Theme;
 use Core\Plugin;
 use Cake\Event\Event;
 use Cake\Network\Response;
@@ -29,7 +30,6 @@ use Cake\Controller\Controller as CakeController;
 class AppController extends CakeController
 {
 
-
     /**
      * Initialization hook method.
      *
@@ -38,6 +38,7 @@ class AppController extends CakeController
     public function initialize()
     {
         parent::initialize();
+        $this->_setTheme();
         Plugin::manifestEvent('Controller.initialize', $this);
     }
 
@@ -95,5 +96,16 @@ class AppController extends CakeController
     public function afterFilter(Event $event)
     {
         Plugin::manifestEvent('Controller.afterFilter', $this, $event);
+    }
+
+    /**
+     * Setup application theme.
+     *
+     * @return void
+     */
+    protected function _setTheme()
+    {
+        $theme = Theme::get($this->request->param('prefix'));
+        $this->viewBuilder()->theme($theme);
     }
 }

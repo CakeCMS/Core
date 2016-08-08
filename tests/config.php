@@ -63,8 +63,8 @@ Configure::write('Email', [
 ]);
 
 Configure::write('Theme', [
-    'site'  => 'SiteTheme',
-    'admin' => 'AdminTheme',
+    'site'  => 'Frontend',
+    'admin' => 'Backend',
 ]);
 
 Configure::write('Session', ['defaults' => 'php']);

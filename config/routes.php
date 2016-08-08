@@ -12,3 +12,14 @@
  * @link      https://github.com/CakeCMS/Core".
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
+
+use Cake\Routing\Router;
+use Cake\Routing\RouteBuilder;
+
+Router::plugin('Core', ['path' => '/'], function (RouteBuilder $routeBuilder) {
+    $routeBuilder->prefix('admin', function (RouteBuilder $routeBuilder) {
+        $routeBuilder->connect('/:controller/:action/*', []);
+        $routeBuilder->connect('/dashboard', ['controller' => 'Root', 'action' => 'dashboard']);
+        $routeBuilder->connect('/', ['controller' => 'Root', 'action' => 'dashboard']);
+    });
+});

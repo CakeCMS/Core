@@ -13,22 +13,6 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Test\TestCase;
-
-use Core\View\AjaxView;
-use Core\TestSuite\TestCase;
-
-/**
- * Class ViewTest
- *
- * @package Core\Test\TestCase
- */
-class ViewTest extends TestCase
-{
-
-    public function testAjaxViewType()
-    {
-        $view = new AjaxView();
-        $this->assertSame('ajax', $view->layout);
-    }
-}
+//  Include core routes.
+/** @noinspection PhpIncludeInspection */
+require_once ROOT . DS . 'config' . DS . 'routes.php';

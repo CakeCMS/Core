@@ -13,22 +13,22 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Test\TestCase;
-
-use Core\View\AjaxView;
-use Core\TestSuite\TestCase;
+namespace Core\Controller\Admin;
 
 /**
- * Class ViewTest
+ * Class RootController
  *
- * @package Core\Test\TestCase
+ * @package Core\Controller\Admin
  */
-class ViewTest extends TestCase
+class RootController extends AppController
 {
 
-    public function testAjaxViewType()
+    /**
+     * Dashboard action.
+     *
+     * @return void
+     */
+    public function dashboard()
     {
-        $view = new AjaxView();
-        $this->assertSame('ajax', $view->layout);
     }
 }

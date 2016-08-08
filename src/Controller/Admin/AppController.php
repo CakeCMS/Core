@@ -13,22 +13,15 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Test\TestCase;
+namespace Core\Controller\Admin;
 
-use Core\View\AjaxView;
-use Core\TestSuite\TestCase;
+use Core\Controller\AppController as CoreAppController;
 
 /**
- * Class ViewTest
+ * Class AppController
  *
- * @package Core\Test\TestCase
+ * @package Core\Controller\Admin
  */
-class ViewTest extends TestCase
+class AppController extends CoreAppController
 {
-
-    public function testAjaxViewType()
-    {
-        $view = new AjaxView();
-        $this->assertSame('ajax', $view->layout);
-    }
 }

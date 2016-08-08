@@ -13,7 +13,6 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-use Core\Plugin;
 use Cake\Mailer\Email;
 use Cake\Core\Configure;
 use Cake\Routing\DispatcherFactory;
@@ -40,11 +39,6 @@ require_once CAKE_CORE_INCLUDE_PATH . '/config/bootstrap.php';
 
 //  Include test app configuration.
 require_once __DIR__ . '/config.php';
-
-Plugin::load('Core', [
-    'path'      => ROOT . DS,
-    'bootstrap' => true,
-]);
 
 //  Configure the mbstring extension to use the correct encoding.
 mb_internal_encoding(Configure::read('App.encoding'));

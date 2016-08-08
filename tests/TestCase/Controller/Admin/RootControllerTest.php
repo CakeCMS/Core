@@ -15,20 +15,25 @@
 
 namespace Core\Test\TestCase;
 
-use Core\View\AjaxView;
-use Core\TestSuite\TestCase;
+use Core\TestSuite\IntegrationTestCase;
 
 /**
- * Class ViewTest
+ * Class RootControllerTest
  *
  * @package Core\Test\TestCase
  */
-class ViewTest extends TestCase
+class RootControllerTest extends IntegrationTestCase
 {
 
-    public function testAjaxViewType()
+    public function testDashboard()
     {
-        $view = new AjaxView();
-        $this->assertSame('ajax', $view->layout);
+        $url = $this->_getUrl([
+            'prefix'     => 'admin',
+            'controller' => 'Root',
+            'action'     => 'dashboard',
+        ]);
+
+        $this->get($url);
+        $this->assertResponseOk();
     }
 }

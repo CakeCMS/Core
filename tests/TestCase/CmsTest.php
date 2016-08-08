@@ -17,7 +17,7 @@ namespace Core\Test\TestCase;
 
 use Core\Cms;
 use Cake\Core\Configure;
-use Cake\TestSuite\TestCase;
+use Core\TestSuite\TestCase;
 
 /**
  * Class CmsTest

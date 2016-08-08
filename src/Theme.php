@@ -69,6 +69,6 @@ class Theme extends Plugin
             }
         }
 
-        return null;
+        return Configure::read('plugins.' . $theme);
     }
 }

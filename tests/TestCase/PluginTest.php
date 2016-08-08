@@ -23,7 +23,7 @@ use Cake\Filesystem\File;
 use Cake\Network\Request;
 use Cake\Network\Response;
 use Cake\Filesystem\Folder;
-use Cake\TestSuite\TestCase;
+use Core\TestSuite\TestCase;
 use Core\Controller\AppController;
 
 /**
