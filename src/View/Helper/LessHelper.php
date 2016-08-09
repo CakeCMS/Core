@@ -28,7 +28,7 @@ use Cake\Utility\Inflector;
  * Class LessHelper
  *
  * @package Core\View\Helper
- * @property \Cake\View\Helper\UrlHelper $Url
+ * @property \Core\View\Helper\UrlHelper $Url
  */
 class LessHelper extends AppHelper
 {
@@ -39,7 +39,7 @@ class LessHelper extends AppHelper
      * @var array
      */
     public $helpers = [
-        'Url',
+        'Url' => ['className' => 'Core.Url'],
     ];
 
     /**
