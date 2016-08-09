@@ -222,13 +222,9 @@ class LessHelper extends AppHelper
         $details = explode('/', $path, 3);
         $pluginName = Inflector::camelize(trim($details[0], '/'));
 
-        dump($pluginName);
-
         if (Plugin::loaded($pluginName)) {
             unset($details[0]);
             $source = $pluginName . '.' . ltrim(implode('/', $details), '/');
-            dump($source);
-            dump($this->Url->assetUrl($source, ['fullBase' => true]));
             return $this->_getAssetUrl($source);
         }
 
@@ -257,19 +253,16 @@ class LessHelper extends AppHelper
     {
         $assetPath = str_replace(Router::fullBaseUrl(), '', $match[2]);
         $assetPath = trim(FS::clean($assetPath, '/'), '/');
-        $appDir    = FS::clean(APP_ROOT, '/');
-dump($assetPath);
-dump($appDir);
+        $appDir    = trim(FS::clean(APP_ROOT, '/'), '/');
+
         list ($isPlugin, $assetPath) = $this->_getPlgAssetUrl($assetPath);
 
         if (!$isPlugin) {
             $assetPath = str_replace($appDir, '', $assetPath);
         }
 
-        dump($assetPath);
         $assetPath = str_replace(Configure::read('App.webroot'), '', $assetPath);
         $assetPath = FS::clean($assetPath, '/');
-        dump($assetPath);
 
         if ($isPlugin) {
             return $this->_normalizePlgAssetUrl($assetPath);
