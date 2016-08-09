@@ -29,6 +29,7 @@ class UrlHelper extends CakeUrlHelper
     public function assetUrl($path, array $options = [])
     {
         dump('---------');
+        dump($path);
         if (is_array($path)) {
             return $this->build($path, !empty($options['fullBase']));
         }
