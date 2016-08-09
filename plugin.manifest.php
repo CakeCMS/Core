@@ -35,7 +35,8 @@ return [
 
     'View.initialize' => function (AppView $view) {
         $view->loadHelper('Url');
-        $view->loadHelper('Html');
+        $view->loadHelper('Core.Less');
+        $view->loadHelper('Html', ['className' => 'Core.Html']);
         $view->loadHelper('Form');
         $view->loadHelper('Text');
         $view->loadHelper('Flash');

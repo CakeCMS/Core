@@ -43,6 +43,11 @@ define('TESTS_DIR', ROOT . DS . 'tests' . DS);
 define('TEST_APP_DIR', TESTS_DIR . 'App' . DS);
 
 /**
+ * The full path to application dir.
+ */
+define('APP_ROOT', TEST_APP_DIR);
+
+/**
  * Path to the application's directory.
  */
 define('APP', TEST_APP_DIR . APP_DIR . DS);

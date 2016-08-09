@@ -15,6 +15,7 @@
 
 namespace Core\Test\TestCase\View\Helper;
 
+use Core\Plugin;
 use Core\View\AppView;
 use Cake\TestSuite\TestCase;
 
@@ -41,6 +42,7 @@ class HelperTestCase extends TestCase
     public function setUp()
     {
         parent::setUp();
+        Plugin::load('Core', ['path' => ROOT . DS, 'bootstrap' => true]);
         $this->View  = new AppView();
         $helperClass = 'Core\View\Helper\\' . $this->_name . 'Helper';
         $this->{$this->_name} = new $helperClass($this->View);
@@ -49,6 +51,7 @@ class HelperTestCase extends TestCase
     public function tearDown()
     {
         parent::tearDown();
+        Plugin::unload('Core');
         unset($this->View, $this->{$this->_name});
     }
 }

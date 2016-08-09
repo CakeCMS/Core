@@ -4,4 +4,5 @@ build
 composer.lock
 tests/App/themes
 tests/App/webroot/css/libs
+tests/App/webroot/css/cache
 tests/App/webroot/js/libs

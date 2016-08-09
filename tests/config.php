@@ -24,12 +24,14 @@ Configure::write('App', [
     'defaultLocale' => env('APP_DEFAULT_LOCALE', 'en_US'),
     'base'          => false,
     'dir'           => 'src',
+    'cacheDir'      => 'cache',
     'webroot'       => 'webroot',
     'wwwRoot'       => WWW_ROOT,
     'fullBaseUrl'   => 'http://localhost',
     'imageBaseUrl'  => 'img/',
     'cssBaseUrl'    => 'css/',
     'jsBaseUrl'     => 'js/',
+    'lessBaseUrl'   => 'less/',
     'paths'         => [
         'plugins' => [
             TEST_APP_DIR . 'plugins' . DS,
