@@ -168,15 +168,10 @@ class LessHelper extends AppHelper
     {
         $isPlugin = false;
         $plgPaths = Configure::read('App.paths.plugins');
-        dump($plgPaths);
         foreach ($plgPaths as $plgPath) {
             $plgPath = ltrim(FS::clean($plgPath, '/'), '/');
-            dump($path);
-            dump($plgPath);
-            dump(preg_match('(' . quotemeta($plgPath) . ')', $path));
             if (preg_match('(' . quotemeta($plgPath) . ')', $path)) {
                 $path = str_replace($plgPath, '', $path);
-                dump($path);
                 return [true, $path];
             }
         }
