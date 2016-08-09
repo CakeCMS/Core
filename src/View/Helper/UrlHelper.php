@@ -28,6 +28,7 @@ class UrlHelper extends CakeUrlHelper
 {
     public function assetUrl($path, array $options = [])
     {
+        dump('---------');
         if (is_array($path)) {
             return $this->build($path, !empty($options['fullBase']));
         }
@@ -36,6 +37,7 @@ class UrlHelper extends CakeUrlHelper
         }
         if (!array_key_exists('plugin', $options) || $options['plugin'] !== false) {
             list($plugin, $path) = $this->_View->pluginSplit($path, false);
+            dump($plugin . ':' . $path);
         }
         if (!empty($options['pathPrefix']) && $path[0] !== '/') {
             $path = $options['pathPrefix'] . $path;
@@ -49,12 +51,20 @@ class UrlHelper extends CakeUrlHelper
         if (preg_match('|^([a-z0-9]+:)?//|', $path)) {
             return $path;
         }
-        dump($plugin);
+
         if (isset($plugin)) {
-            dump($plugin);
-            dump($path);
+
+            if ($plugin == 'Test') {
+                dump($plugin);
+                dump($path);
+                dump(Inflector::underscore($plugin));
+            }
+
             $path = Inflector::underscore($plugin) . '/' . $path;
-            dump($path);
+
+            if ($plugin == 'Test') {
+                dump($path);
+            }
         }
         dump($path);
         $path = $this->_encodeUrl($this->assetTimestamp($this->webroot($path)));
