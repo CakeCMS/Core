@@ -23,10 +23,11 @@ use Cake\Core\Configure;
  * - btnPrefix  - button prefix (Default is "Bootstrap Framework)
  */
 Configure::write('Cms', [
-    'docDir'    => 'ltr',
-    'iconPref'  => 'fa',
-    'btnPref'   => 'btn',
-    'lineTab'   => '    ',
+    'docDir'      => 'ltr',
+    'iconPref'    => 'fa',
+    'btnPref'     => 'btn',
+    'lineTab'     => '    ',
+    'classPrefix' => 'ck'
 ]);
 
 Configure::write('Cache.defaultConfig', [

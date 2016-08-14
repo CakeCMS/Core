@@ -15,13 +15,13 @@
 
 namespace Core\Test\TestCase\View\Helper;
 
+use Core\Plugin;
+use JBZoo\Utils\FS;
+use Core\View\AppView;
 use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
-use Core\Plugin;
 use Core\TestSuite\TestCase;
-use Core\View\AppView;
 use Core\View\Helper\LessHelper;
-use JBZoo\Utils\FS;
 
 /**
  * Class LessHelperTest
