@@ -21,7 +21,7 @@ Configure::write('debug', true);
 Configure::write('App', [
     'namespace'     => 'App',
     'encoding'      => env('APP_ENCODING', 'UTF-8'),
-    'defaultLocale' => env('APP_DEFAULT_LOCALE', 'en_US'),
+    'defaultLocale' => env('APP_DEFAULT_LOCALE', 'ru_RU'),
     'base'          => false,
     'dir'           => 'src',
     'cacheDir'      => 'cache',
