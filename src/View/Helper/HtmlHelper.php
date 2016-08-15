@@ -25,11 +25,23 @@ use Cake\View\Helper\HtmlHelper as CakeHtmlHelper;
  * Class HtmlHelper
  *
  * @package Core\View\Helper
+ * @property \Core\View\Helper\LessHelper $Less
+ * @property \Core\View\Helper\UrlHelper $Url
  */
 class HtmlHelper extends CakeHtmlHelper
 {
 
     use HelperTrait;
+
+    /**
+     * List of helpers used by this helper.
+     *
+     * @var array
+     */
+    public $helpers = [
+        'Core.Less',
+        'Url' => ['className' => 'Core.Url'],
+    ];
 
     /**
      * HtmlHelper constructor.
@@ -71,6 +83,34 @@ class HtmlHelper extends CakeHtmlHelper
             'class' => $classes,
             'attrs' => $templater->formatAttributes($options),
         ]);
+    }
+
+    /**
+     * Creates a CSS stylesheets from less.
+     *
+     * @param string|array $path
+     * @param array $options
+     * @return null|string
+     */
+    public function less($path, array $options = [])
+    {
+        $cssPath = [];
+
+        if (!isset($options['force'])) {
+            $options['force'] = false;
+        }
+
+        if (is_array($path)) {
+            foreach ($path as $i) {
+                $cssPath[] = $this->Less->process($i, $options['force']);
+            }
+        }
+
+        if (is_string($path)) {
+            $cssPath[] = $this->Less->process($path, $options['force']);
+        }
+
+        return $this->css($cssPath, $options);
     }
 
     /**

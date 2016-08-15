@@ -15,35 +15,21 @@
 
 namespace Core\Test\TestCase\View\Helper;
 
-use Core\View\AppView;
-use Core\TestSuite\TestCase;
+use JBZoo\Utils\FS;
+use Cake\Core\Configure;
+use Cake\Filesystem\Folder;
 use Core\View\Helper\HtmlHelper;
 
 /**
  * Class HtmlHelperTest
  *
  * @package Core\Test\TestCase\View\Helper
+ * @property \Core\View\Helper\HtmlHelper $Html
  */
-class HtmlHelperTest extends TestCase
+class HtmlHelperTest extends HelperTestCase
 {
 
-    /**
-     * @var HtmlHelper
-     */
-    protected $Html;
-
-    public function setUp()
-    {
-        parent::setUp();
-        $view = new AppView();
-        $this->Html = new HtmlHelper($view);
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-        unset($this->Html);
-    }
+    protected $_name = 'Html';
 
     public function testClassName()
     {
@@ -309,5 +295,31 @@ class HtmlHelperTest extends TestCase
         ];
 
         $this->assertHtml($expected, $this->Html->link('Custom', 'http://google.com', ['tooltip' => true]));
+    }
+
+    public function testLessByString()
+    {
+        $this->Html->less('styles.less', ['block' => true]);
+        $expected = ['link' => ['rel' => 'stylesheet', 'href' => 'preg:/.*cache\/[A-Za-z0-9-]+\.css/']];
+        $this->assertHtml($expected, $this->View->fetch('css'));
+        $this->_clearCache();
+    }
+
+    public function testLessByArray()
+    {
+        $this->Html->less(['styles.less'], ['block' => true]);
+        $expected = ['link' => ['rel' => 'stylesheet', 'href' => 'preg:/.*cache\/[A-Za-z0-9-]+\.css/']];
+        $this->assertHtml($expected, $this->View->fetch('css'));
+        $this->_clearCache();
+    }
+
+    /**
+     * @return void
+     */
+    protected function _clearCache()
+    {
+        $path = FS::clean(APP_ROOT . Configure::read('App.webroot') . '/' . Configure::read('App.cssBaseUrl') . 'cache');
+        $folder = new Folder($path);
+        $folder->delete();
     }
 }

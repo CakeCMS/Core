@@ -19,6 +19,7 @@ namespace Core\View\Helper;
  * Class AssetsHelper
  *
  * @package Core\View\Helper
+ * @property \Cake\View\Helper\UrlHelper $Url
  * @property \Cake\View\Helper\HtmlHelper $Html
  */
 class AssetsHelper extends AppHelper
@@ -30,7 +31,8 @@ class AssetsHelper extends AppHelper
      * @var array
      */
     public $helpers = [
-        'Html',
+        'Url'  => ['className' => 'Core.Url'],
+        'Html' => ['className' => 'Core.Html'],
     ];
 
     /**

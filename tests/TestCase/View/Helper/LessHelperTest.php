@@ -20,28 +20,24 @@ use JBZoo\Utils\FS;
 use Core\View\AppView;
 use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
-use Core\TestSuite\TestCase;
 use Core\View\Helper\LessHelper;
 
 /**
  * Class LessHelperTest
  *
  * @package Core\Test\TestCase\View\Helper
+ * @property \Core\View\Helper\LessHelper $Less
  */
-class LessHelperTest extends TestCase
+class LessHelperTest extends HelperTestCase
 {
 
-    /**
-     * @var LessHelper
-     */
-    protected $Less;
+    protected $_name = 'Less';
 
     public function setUp()
     {
         parent::setUp();
         Plugin::load('Test', ['autoload' => true]);
         Plugin::load('DebugKit', ['autoload' => true]);
-        $this->Less = new LessHelper(new AppView());
     }
 
     public function tearDown()
@@ -50,7 +46,6 @@ class LessHelperTest extends TestCase
         Plugin::unload('Test');
         Plugin::unload('DebugKit');
         $this->_clearCache();
-        unset($this->Less);
     }
 
     public function testPluginLessProcess()
@@ -70,7 +65,7 @@ class LessHelperTest extends TestCase
         $this->assertTrue(file_exists($full));
         $this->assertRegExp('(http://localhost/img/cake-big.jpg)', file_get_contents($full));
     }
-    
+
     public function testProcessNoDebug()
     {
         Configure::write('debug', false);
