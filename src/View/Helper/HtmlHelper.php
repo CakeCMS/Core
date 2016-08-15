@@ -90,11 +90,11 @@ class HtmlHelper extends CakeHtmlHelper
             'label'       => $title,
         ], $options);
 
-        $isClear = $options['clear'];
+        $isClear = (bool) $options['clear'];
         unset($options['clear']);
 
         //  Set title in html tag.
-        if ($options['escapeTitle'] === false && !empty($title) && !$isClear) {
+        if ($this->_isEscapeTitle($title, $isClear, $options)) {
             $title = $this->tag('span', $title, ['class' => $this->_class(__FUNCTION__) . '-title']);
         }
 
@@ -114,5 +114,18 @@ class HtmlHelper extends CakeHtmlHelper
 
         unset($options['label']);
         return parent::link($title, $url, $options);
+    }
+
+    /**
+     * Check if need escape link title.
+     *
+     * @param string $title
+     * @param bool $isClear
+     * @param array $options
+     * @return bool
+     */
+    protected function _isEscapeTitle($title, $isClear, array $options = [])
+    {
+        return $options['escapeTitle'] === false && !empty($title) && !$isClear;
     }
 }

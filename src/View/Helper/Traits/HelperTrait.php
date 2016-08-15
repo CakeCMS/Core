@@ -28,6 +28,35 @@ trait HelperTrait
 {
 
     /**
+     * Adds the given class to the element options
+     *
+     * @param array $options Array options/attributes to add a class to
+     * @param string $class The class name being added.
+     * @param string $key the key to use for class.
+     * @return array Array of options with $key set.
+     */
+    protected function _addClass(array $options = [], $class = null, $key = 'class')
+    {
+        if (isset($options[$key]) && Str::trim($options[$key])) {
+            $options[$key] .= ' ' . $class;
+        } else {
+            $options[$key] = $class;
+        }
+        return $options;
+    }
+
+    /**
+     * Get class with union prefix.
+     *
+     * @param string $class
+     * @return string
+     */
+    protected function _class($class = 'cms')
+    {
+        return $this->_configRead('classPrefix') . '-' . Str::trim(Str::slug($class));
+    }
+
+    /**
      * Create icon attributes.
      *
      * @param array $options
@@ -42,23 +71,33 @@ trait HelperTrait
                 unset($options['iconClass']);
             }
 
-            $icon = $options['icon'];
-            if (isset($options['iconInline'])) {
-                $iconPrefix = $this->_configRead('iconPref');
-                $options = $this->_addClass($options, implode(' ', [
-                    $this->_class('icon'),
-                    $iconPrefix,
-                    $iconPrefix . '-' . $icon
-                ]));
-
-                unset($options['icon']);
-            } else {
-                $options['escape'] = false;
-                $iconOptions['createIcon'] = true;
-            }
+            list ($options, $iconOptions) = $this->_setIconOptions($options, $iconOptions);
         }
 
         return [$options, $iconOptions];
+    }
+
+    /**
+     * Create and get button classes.
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function _getBtnClass(array $options = [])
+    {
+        if (isset($options['button'])) {
+
+            $button = $options['button'];
+            unset($options['button']);
+
+            if (is_callable($this->config('prepareBtnClass'))) {
+                return (array) call_user_func($this->config('prepareBtnClass'), $this, $options);
+            }
+
+            $options = $this->_setBtnClass($button, $options);
+        }
+
+        return $options;
     }
 
     /**
@@ -89,13 +128,7 @@ trait HelperTrait
                 unset($options['tooltipPos']);
             }
 
-            if ($tooltip === true && !isset($options['title'])) {
-                $options['title'] = strip_tags($options['label']);
-            }
-
-            if (is_string($tooltip)) {
-                $options['title'] = $tooltip;
-            }
+            $options = $this->_setTooltipTitle($tooltip, $options);
 
             return Hash::merge($_options, $options);
         }
@@ -104,60 +137,69 @@ trait HelperTrait
     }
 
     /**
-     * Create and get button classes.
+     * Setup button classes by options.
      *
+     * @param string $button
      * @param array $options
      * @return array
      */
-    protected function _getBtnClass(array $options = [])
+    protected function _setBtnClass($button, array $options = [])
     {
-        if (isset($options['button'])) {
-
-            $button = $options['button'];
-            unset($options['button']);
-
-            if (is_callable($this->config('prepareBtnClass'))) {
-                return (array) call_user_func($this->config('prepareBtnClass'), $this, $options);
+        if ($button !== true) {
+            $classes = [$this->_configRead('btnPref')];
+            foreach ((array) $button as $button) {
+                $classes[] = $this->_configRead('btnPref') . '-' . $button;
             }
-
-            if ($button !== true) {
-                $classes = [$this->_configRead('btnPref')];
-                foreach ((array) $button as $button) {
-                    $classes[] = $this->_configRead('btnPref') . '-' . $button;
-                }
-                $options = $this->_addClass($options, implode(' ', $classes));
-            }
+            $options = $this->_addClass($options, implode(' ', $classes));
         }
 
         return $options;
     }
 
     /**
-     * Get class with union prefix.
+     * Setup icon options.
      *
-     * @param string $class
-     * @return string
+     * @param array $options
+     * @param array $iconOptions
+     * @return array
      */
-    protected function _class($class = 'cms')
+    protected function _setIconOptions(array $options = [], array $iconOptions = [])
     {
-        return $this->_configRead('classPrefix') . '-' . Str::trim(Str::slug($class));
+        $icon = $options['icon'];
+        if (isset($options['iconInline'])) {
+            $iconPrefix = $this->_configRead('iconPref');
+            $options = $this->_addClass($options, implode(' ', [
+                $this->_class('icon'),
+                $iconPrefix,
+                $iconPrefix . '-' . $icon
+            ]));
+
+            unset($options['icon']);
+        } else {
+            $options['escape'] = false;
+            $iconOptions['createIcon'] = true;
+        }
+
+        return [$options, $iconOptions];
     }
 
     /**
-     * Adds the given class to the element options
+     * Setup tooltip title by options.
      *
-     * @param array $options Array options/attributes to add a class to
-     * @param string $class The class name being added.
-     * @param string $key the key to use for class.
-     * @return array Array of options with $key set.
+     * @param string $tooltip
+     * @param array $options
+     * @return array
      */
-    protected function _addClass(array $options = [], $class = null, $key = 'class')
+    protected function _setTooltipTitle($tooltip, array $options = [])
     {
-        if (isset($options[$key]) && Str::trim($options[$key])) {
-            $options[$key] .= ' ' . $class;
-        } else {
-            $options[$key] = $class;
+        if ($tooltip === true && !isset($options['title'])) {
+            $options['title'] = strip_tags($options['label']);
         }
+
+        if (is_string($tooltip)) {
+            $options['title'] = $tooltip;
+        }
+
         return $options;
     }
 }
