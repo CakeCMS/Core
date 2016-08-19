@@ -37,7 +37,7 @@ return [
         $view->loadHelper('Core.Less');
         $view->loadHelper('Url', ['className' => 'Core.Url']);
         $view->loadHelper('Html', ['className' => 'Core.Html']);
-        $view->loadHelper('Form');
+        $view->loadHelper('Form', ['className' => 'Core.Form']);
         $view->loadHelper('Text');
         $view->loadHelper('Flash');
         $view->loadHelper('Paginator');

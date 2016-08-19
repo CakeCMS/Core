@@ -14,6 +14,7 @@
  */
 
 namespace Core\Test\TestCase\View\Helper;
+
 use Cake\Core\Configure;
 use Core\View\Helper\DocumentHelper;
 

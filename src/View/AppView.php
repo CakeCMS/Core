@@ -25,6 +25,11 @@ use Cake\Event\Event;
  *
  * @package Core\View
  * @property \Core\View\Helper\AssetsHelper $Assets
+ * @property \Core\View\Helper\DocumentHelper $Document
+ * @property \Core\View\Helper\FormHelper $Form
+ * @property \Core\View\Helper\UrlHelper $Url
+ * @property \Core\View\Helper\LessHelper $Less
+ * @property \Core\View\Helper\HtmlHelper $Html
  */
 class AppView extends View
 {

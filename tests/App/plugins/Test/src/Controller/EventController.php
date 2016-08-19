@@ -48,4 +48,13 @@ class EventController extends AppController
         $event = EventManager::trigger('Event.Controller.view');
         return $event->result;
     }
+
+    /**
+     * Process action.
+     *
+     * @return void
+     */
+    public function process()
+    {
+    }
 }
