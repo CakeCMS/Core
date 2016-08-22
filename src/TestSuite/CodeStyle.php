@@ -66,6 +66,28 @@ class CodeStyle extends JBCodeStyle
     ];
 
     /**
+     * Ignore list for.
+     *
+     * @var array
+     */
+    protected $_excludePaths = array(
+        '.git',
+        '.idea',
+        'bin',
+        'bower_components',
+        'build',
+        'fonts',
+        'fixtures',
+        'logs',
+        'node_modules',
+        'resources',
+        'vendor',
+        'temp',
+        'tmp',
+        'webroot/css/cache'
+    );
+
+    /**
      * Try to find cyrilic symbols in the code.
      *
      * @return void
