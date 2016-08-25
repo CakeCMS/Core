@@ -25,6 +25,8 @@ use Cake\View\Helper\FormHelper as CakeFormHelper;
  * Class FormHelper
  *
  * @package Core\View\Helper
+ * @property \Core\View\Helper\UrlHelper $Url
+ * @property \Core\View\Helper\HtmlHelper $Html
  */
 class FormHelper extends CakeFormHelper
 {
@@ -37,7 +39,7 @@ class FormHelper extends CakeFormHelper
      * @var array
      */
     public $helpers = [
-        'Url' => ['className' => 'Core.Url'],
+        'Url'  => ['className' => 'Core.Url'],
         'Html' => ['className' => 'Core.Html'],
     ];
 
