@@ -32,6 +32,7 @@ class LessHelperTest extends HelperTestCase
 {
 
     protected $_name = 'Less';
+    protected $_plugin = 'Core';
 
     public function setUp()
     {

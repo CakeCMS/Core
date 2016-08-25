@@ -25,6 +25,7 @@ class AssetsHelperTest extends HelperTestCase
 {
 
     protected $_name = 'Assets';
+    protected $_plugin = 'Core';
     
     public function testJQuery()
     {

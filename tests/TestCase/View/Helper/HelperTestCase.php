@@ -35,6 +35,13 @@ class HelperTestCase extends TestCase
     protected $_name = '';
 
     /**
+     * Plugin name.
+     *
+     * @var string
+     */
+    protected $_plugin = '';
+
+    /**
      * @var \Core\View\AppView
      */
     protected $View;
@@ -42,16 +49,16 @@ class HelperTestCase extends TestCase
     public function setUp()
     {
         parent::setUp();
-        Plugin::load('Core', ['path' => ROOT . DS, 'bootstrap' => true]);
+        Plugin::load($this->_plugin, ['path' => ROOT . DS, 'bootstrap' => true]);
         $this->View  = new AppView();
-        $helperClass = 'Core\View\Helper\\' . $this->_name . 'Helper';
+        $helperClass = $this->_plugin . '\View\Helper\\' . $this->_name . 'Helper';
         $this->{$this->_name} = new $helperClass($this->View);
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        Plugin::unload('Core');
+        Plugin::unload($this->_plugin);
         unset($this->View, $this->{$this->_name});
     }
 }

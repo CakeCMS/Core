@@ -28,6 +28,7 @@ class DocumentHelperTest extends HelperTestCase
 {
 
     protected $_name = 'Document';
+    protected $_plugin = 'Core';
 
     public function testClassName()
     {

@@ -30,6 +30,7 @@ class HtmlHelperTest extends HelperTestCase
 {
 
     protected $_name = 'Html';
+    protected $_plugin = 'Core';
 
     public function testClassName()
     {

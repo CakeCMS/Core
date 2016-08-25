@@ -31,6 +31,7 @@ class FormHelperTest extends HelperTestCase
 {
 
     protected $_name = 'Form';
+    protected $_plugin = 'Core';
 
     public function setUp()
     {
