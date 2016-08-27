@@ -42,13 +42,6 @@ class HelperTestCase extends TestCase
     protected $_plugin = '';
 
     /**
-     * Helper configure.
-     *
-     * @var array
-     */
-    protected $_config = [];
-
-    /**
      * @var \Core\View\AppView
      */
     protected $View;
@@ -57,9 +50,8 @@ class HelperTestCase extends TestCase
     {
         parent::setUp();
         Plugin::load($this->_plugin, ['path' => ROOT . DS, 'bootstrap' => true]);
-        $this->View  = new AppView();
-        $helperClass = $this->_plugin . '\View\Helper\\' . $this->_name . 'Helper';
-        $this->{$this->_name} = new $helperClass($this->View, $this->_config);
+        $this->View = new AppView();
+        $this->{$this->_name} = $this->View->{$this->_name};
     }
 
     public function tearDown()
