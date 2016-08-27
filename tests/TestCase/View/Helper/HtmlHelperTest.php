@@ -15,6 +15,7 @@
 
 namespace Core\Test\TestCase\View\Helper;
 
+use Core\Plugin;
 use JBZoo\Utils\FS;
 use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
@@ -93,7 +94,6 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        var_dump($this->Html->link('My link button', '#', ['button' => true]));
         $this->assertHtml($expected, $this->Html->link('My link button', '#', ['button' => true]));
 
         $expected = [

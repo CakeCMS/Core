@@ -52,6 +52,10 @@ class HelperTestCase extends TestCase
         Plugin::load($this->_plugin, ['path' => ROOT . DS, 'bootstrap' => true]);
         $this->View = new AppView();
         $this->{$this->_name} = $this->View->{$this->_name};
+
+        if (Plugin::loaded('Backend')) {
+            Plugin::unload('Backend');
+        }
     }
 
     public function tearDown()
