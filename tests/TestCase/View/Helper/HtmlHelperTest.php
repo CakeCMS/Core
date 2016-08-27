@@ -93,6 +93,7 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
+        var_dump($this->Html->link('My link button', '#', ['button' => true]));
         $this->assertHtml($expected, $this->Html->link('My link button', '#', ['button' => true]));
 
         $expected = [
