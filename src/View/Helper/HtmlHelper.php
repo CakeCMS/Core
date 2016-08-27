@@ -133,6 +133,8 @@ class HtmlHelper extends CakeHtmlHelper
         $isClear = (bool) $options['clear'];
         unset($options['clear']);
 
+        $options = $this->_setTitleAttr($title, $options);
+
         //  Set title in html tag.
         if ($this->_isEscapeTitle($title, $isClear, $options)) {
             $title = $this->tag('span', $title, ['class' => $this->_class(__FUNCTION__) . '-title']);
@@ -167,5 +169,21 @@ class HtmlHelper extends CakeHtmlHelper
     protected function _isEscapeTitle($title, $isClear, array $options = [])
     {
         return $options['escapeTitle'] === false && !empty($title) && !$isClear;
+    }
+
+    /**
+     * Setup default title attr.
+     *
+     * @param string $title
+     * @param array $options
+     * @return array
+     */
+    protected function _setTitleAttr($title, array $options = [])
+    {
+        if (!isset($options['title'])) {
+            $options['title'] = strip_tags($title);
+        }
+
+        return $options;
     }
 }
