@@ -91,7 +91,7 @@ trait HelperTrait
             unset($options['button']);
 
             if (is_callable($this->config('prepareBtnClass'))) {
-                return (array) call_user_func($this->config('prepareBtnClass'), $this, $options);
+                return (array) call_user_func($this->config('prepareBtnClass'), $this, $options, $button);
             }
 
             $options = $this->_setBtnClass($button, $options);
@@ -115,7 +115,7 @@ trait HelperTrait
             unset($options['tooltip']);
 
             if (is_callable($this->config('prepareTooltip'))) {
-                return (array) call_user_func($this->config('prepareTooltip'), $this, $options);
+                return (array) call_user_func($this->config('prepareTooltip'), $this, $options, $tooltip);
             }
 
             $_options = [
