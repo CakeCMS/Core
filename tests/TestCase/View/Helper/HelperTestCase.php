@@ -16,8 +16,8 @@
 namespace Core\Test\TestCase\View\Helper;
 
 use Core\Plugin;
+use Cake\View\View;
 use Cake\Utility\Hash;
-use Core\View\AppView;
 use Cake\TestSuite\TestCase;
 
 /**
@@ -50,7 +50,7 @@ class HelperTestCase extends TestCase
     protected $_config = [];
 
     /**
-     * @var \Core\View\AppView
+     * @var View
      */
     protected $View;
 
@@ -58,7 +58,7 @@ class HelperTestCase extends TestCase
     {
         parent::setUp();
         Plugin::load($this->_plugin, ['path' => ROOT . DS, 'bootstrap' => true]);
-        $this->View = new AppView();
+        $this->View = new View();
     }
 
     public function tearDown()
