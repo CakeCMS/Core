@@ -25,7 +25,7 @@ use Core\View\Helper\FormHelper;
  * Class FormHelperTest
  *
  * @package Core\Test\TestCase\View\Helper
- * @property \Core\View\Helper\FormHelper $Form
+ * @method \Core\View\Helper\FormHelper _helper()
  */
 class FormHelperTest extends HelperTestCase
 {
@@ -48,7 +48,7 @@ class FormHelperTest extends HelperTestCase
 
     public function testClassName()
     {
-        $this->assertInstanceOf('Core\View\Helper\FormHelper', $this->Form);
+        $this->assertInstanceOf('Core\View\Helper\FormHelper', $this->_helper());
     }
 
     public function testCreateForm()
@@ -60,8 +60,8 @@ class FormHelperTest extends HelperTestCase
                 '/div',
         ];
 
-        $this->assertHtml($expected, $this->Form->create(false));
-        $this->assertSame('</form>', $this->Form->end());
+        $this->assertHtml($expected, $this->_helper()->create(false));
+        $this->assertSame('</form>', $this->_helper()->end());
 
         $expected = [
             'form' => ['method' => 'post', 'accept-charset' => 'utf-8', 'class' => 'ck-form jsForm', 'action' => '/'],
@@ -70,13 +70,14 @@ class FormHelperTest extends HelperTestCase
                 '/div',
         ];
 
-        $this->assertHtml($expected, $this->Form->create(false, ['jsForm' => true]));
+        $helper = $this->_helper();
+        $this->assertHtml($expected, $helper->create(false, ['jsForm' => true]));
         $this->assertSame(
             '<input type="hidden" name="action" class="jsFormAction" value=""/></form>',
-            $this->Form->end()
+            $helper->end()
         );
     }
-    
+
     public function testCreateProcessForm()
     {
         $Request = new Request([

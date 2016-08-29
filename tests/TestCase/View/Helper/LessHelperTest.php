@@ -26,7 +26,7 @@ use Core\View\Helper\LessHelper;
  * Class LessHelperTest
  *
  * @package Core\Test\TestCase\View\Helper
- * @property \Core\View\Helper\LessHelper $Less
+ * @method \Core\View\Helper\LessHelper _helper()
  */
 class LessHelperTest extends HelperTestCase
 {
@@ -49,9 +49,14 @@ class LessHelperTest extends HelperTestCase
         $this->_clearCache();
     }
 
+    public function testClassName()
+    {
+        $this->assertInstanceOf('Core\View\Helper\LessHelper', $this->_helper());
+    }
+
     public function testPluginLessProcess()
     {
-        $url  = $this->Less->process('Test.custom.less', true);
+        $url  = $this->_helper()->process('Test.custom.less', true);
         $full = $this->_getCacheFilePath($url);
 
         $this->assertTrue(file_exists($full));
@@ -60,7 +65,7 @@ class LessHelperTest extends HelperTestCase
 
     public function testAppLessProcess()
     {
-        $url  = $this->Less->process('styles.less', true);
+        $url  = $this->_helper()->process('styles.less', true);
         $full = $this->_getCacheFilePath($url);
 
         $this->assertTrue(file_exists($full));
@@ -90,7 +95,7 @@ class LessHelperTest extends HelperTestCase
     {
         Configure::write('Asset', ['timestamp' => true]);
 
-        $url  = $this->Less->process('styles.less', true);
+        $url  = $this->_helper()->process('styles.less', true);
         $full = $this->_getCacheFilePath($url);
 
         $this->assertTrue(file_exists($full));
@@ -103,10 +108,10 @@ class LessHelperTest extends HelperTestCase
 
     public function testProcessNoExistFile()
     {
-        $url = $this->Less->process('not-found.less', true);
+        $url = $this->_helper()->process('not-found.less', true);
         $this->assertNull($url);
 
-        $url = $this->Less->process('Plugin.not-found.less', true);
+        $url = $this->_helper()->process('Plugin.not-found.less', true);
         $this->assertNull($url);
     }
 
@@ -115,7 +120,7 @@ class LessHelperTest extends HelperTestCase
      */
     public function testProcessError()
     {
-        $this->Less->process('error.less');
+        $this->_helper()->process('error.less');
     }
 
     /**

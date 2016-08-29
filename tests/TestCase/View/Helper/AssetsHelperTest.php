@@ -19,7 +19,7 @@ namespace Core\Test\TestCase\View\Helper;
  * Class AssetsHelperTest
  * 
  * @package Core\Test\TestCase\View\Helper
- * @property \Core\View\Helper\AssetsHelper $Assets
+ * @method \Core\View\Helper\AssetsHelper _helper()
  */
 class AssetsHelperTest extends HelperTestCase
 {
@@ -29,7 +29,7 @@ class AssetsHelperTest extends HelperTestCase
     
     public function testJQuery()
     {
-        $object   = $this->Assets->jquery();
+        $object   = $this->_helper()->jquery();
         $expected = [
             ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
         ];
@@ -40,7 +40,7 @@ class AssetsHelperTest extends HelperTestCase
 
     public function testJQueryFactory()
     {
-        $object   = $this->Assets->jqueryFactory();
+        $object   = $this->_helper()->jqueryFactory();
         $expected = [
             ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
             ['script' => ['src' => 'http://localhost/js/libs/utils.min.js']], '/script',
@@ -53,7 +53,7 @@ class AssetsHelperTest extends HelperTestCase
 
     public function testBootstrap()
     {
-        $object = $this->Assets->bootstrap();
+        $object = $this->_helper()->bootstrap();
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
         
         $expected = [
@@ -75,7 +75,7 @@ class AssetsHelperTest extends HelperTestCase
 
     public function testFancyBox()
     {
-        $object = $this->Assets->fancyBox();
+        $object = $this->_helper()->fancyBox();
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
@@ -97,7 +97,7 @@ class AssetsHelperTest extends HelperTestCase
 
     public function testMaterialize()
     {
-        $object = $this->Assets->materialize();
+        $object = $this->_helper()->materialize();
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
@@ -119,7 +119,7 @@ class AssetsHelperTest extends HelperTestCase
 
     public function testSweetAlert()
     {
-        $object = $this->Assets->sweetAlert();
+        $object = $this->_helper()->sweetAlert();
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
@@ -141,7 +141,7 @@ class AssetsHelperTest extends HelperTestCase
 
     public function testUIKit()
     {
-        $object = $this->Assets->uikit();
+        $object = $this->_helper()->uikit();
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
@@ -163,7 +163,7 @@ class AssetsHelperTest extends HelperTestCase
 
     public function testFontAwesome()
     {
-        $object = $this->Assets->fontAwesome();
+        $object = $this->_helper()->fontAwesome();
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [

@@ -16,6 +16,7 @@
 namespace Core\Test\TestCase\View\Helper;
 
 use Core\Plugin;
+use Cake\Utility\Hash;
 use Core\View\AppView;
 use Cake\TestSuite\TestCase;
 
@@ -42,6 +43,13 @@ class HelperTestCase extends TestCase
     protected $_plugin = '';
 
     /**
+     * Helper configure.
+     *
+     * @var array
+     */
+    protected $_config = [];
+
+    /**
      * @var \Core\View\AppView
      */
     protected $View;
@@ -51,17 +59,27 @@ class HelperTestCase extends TestCase
         parent::setUp();
         Plugin::load($this->_plugin, ['path' => ROOT . DS, 'bootstrap' => true]);
         $this->View = new AppView();
-        $this->{$this->_name} = $this->View->{$this->_name};
-
-        if (Plugin::loaded('Backend')) {
-            Plugin::unload('Backend');
-        }
     }
 
     public function tearDown()
     {
         parent::tearDown();
         Plugin::unload($this->_plugin);
-        unset($this->View, $this->{$this->_name});
+        unset($this->View);
+    }
+
+    /**
+     * Get helper object.
+     *
+     * @param null|string $name
+     * @param array $config
+     * @return mixed
+     */
+    protected function _helper($name = null, array $config = [])
+    {
+        $name   = ($name !== null) ? $name : $this->_name;
+        $object = $this->_plugin . '\View\Helper\\' . $name . 'Helper';
+        $config = Hash::merge($config, $this->_config);
+        return new $object($this->View, $config);
     }
 }

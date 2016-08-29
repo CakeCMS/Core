@@ -22,7 +22,7 @@ use Core\View\Helper\DocumentHelper;
  * Class DocumentHelperTest
  *
  * @package Core\Test\TestCase\View\Helper
- * @property \Core\View\Helper\DocumentHelper $Document
+ * @method \Core\View\Helper\DocumentHelper _helper()
  */
 class DocumentHelperTest extends HelperTestCase
 {
@@ -32,18 +32,18 @@ class DocumentHelperTest extends HelperTestCase
 
     public function testClassName()
     {
-        $this->assertInstanceOf('Core\View\Helper\DocumentHelper', $this->Document);
+        $this->assertInstanceOf('Core\View\Helper\DocumentHelper', $this->_helper());
     }
 
     public function testProperties()
     {
-        $this->Document->initialize([]);
+        $this->_helper()->initialize([]);
 
-        $this->assertSame('ltr', $this->Document->dir);
-        $this->assertSame('utf-8', $this->Document->charset);
-        $this->assertSame('ru_RU', $this->Document->locale);
-        $this->assertSame(PHP_EOL, $this->Document->eol);
-        $this->assertSame('    ', $this->Document->tab);
+        $this->assertSame('ltr', $this->_helper()->dir);
+        $this->assertSame('utf-8', $this->_helper()->charset);
+        $this->assertSame('ru_RU', $this->_helper()->locale);
+        $this->assertSame(PHP_EOL, $this->_helper()->eol);
+        $this->assertSame('    ', $this->_helper()->tab);
 
         Configure::write('debug', 0);
 
@@ -56,8 +56,8 @@ class DocumentHelperTest extends HelperTestCase
     
     public function testLang()
     {
-        $this->assertSame('ru', $this->Document->lang());
-        $this->assertSame('ru', $this->Document->lang(false));
+        $this->assertSame('ru', $this->_helper()->lang());
+        $this->assertSame('ru', $this->_helper()->lang(false));
 
         Configure::write('App.defaultLocale', 'en_GB');
         $doc = new DocumentHelper($this->View);
@@ -76,9 +76,9 @@ class DocumentHelperTest extends HelperTestCase
             '<!--[if gt IE 8]><!--><html class="no-js" xmlns="http://www.w3.org/1999/xhtml" lang="ru" dir="ltr" prefix="og: http://ogp.me/ns#" > <!--<![endif]-->'
         ];
 
-        $expected = implode($this->Document->eol, $expected) . $this->Document->eol;
+        $expected = implode($this->_helper()->eol, $expected) . $this->_helper()->eol;
 
-        $this->assertSame($expected, $this->Document->type());
+        $this->assertSame($expected, $this->_helper()->type());
     }
 
     public function testMeta()
@@ -89,8 +89,8 @@ class DocumentHelperTest extends HelperTestCase
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
         ];
 
-        $output   = $this->Document->meta($expected);
-        $expected = implode($this->Document->eol, $expected) . $this->Document->eol;
+        $output   = $this->_helper()->meta($expected);
+        $expected = implode($this->_helper()->eol, $expected) . $this->_helper()->eol;
 
         $this->assertSame($expected, $output);
 
@@ -101,9 +101,9 @@ class DocumentHelperTest extends HelperTestCase
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
         ];
 
-        $this->assertNull($this->Document->meta($expected, 'meta'));
+        $this->assertNull($this->_helper()->meta($expected, 'meta'));
 
-        $expected = implode($this->Document->eol, $expected) . $this->Document->eol;
+        $expected = implode($this->_helper()->eol, $expected) . $this->_helper()->eol;
         $this->assertSame($expected, $this->View->fetch('meta'));
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,9 +114,9 @@ class DocumentHelperTest extends HelperTestCase
             '<meta http-equiv="Content-Language" content="en">',
         ];
 
-        $expected = implode($this->Document->eol, $expected) . $this->Document->eol;
+        $expected = implode($this->_helper()->eol, $expected) . $this->_helper()->eol;
 
-        $this->Document->meta(['<meta http-equiv="Content-Language" content="en">'], 'meta');
+        $this->_helper()->meta(['<meta http-equiv="Content-Language" content="en">'], 'meta');
 
         $this->assertSame($expected, $this->View->fetch('meta'));
     }

@@ -15,7 +15,6 @@
 
 namespace Core\Test\TestCase\View\Helper;
 
-use Core\Plugin;
 use JBZoo\Utils\FS;
 use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
@@ -25,7 +24,7 @@ use Core\View\Helper\HtmlHelper;
  * Class HtmlHelperTest
  *
  * @package Core\Test\TestCase\View\Helper
- * @property \Core\View\Helper\HtmlHelper $Html
+ * @method \Core\View\Helper\HtmlHelper _helper()
  */
 class HtmlHelperTest extends HelperTestCase
 {
@@ -35,22 +34,22 @@ class HtmlHelperTest extends HelperTestCase
 
     public function testClassName()
     {
-        $this->assertInstanceOf('Core\View\Helper\HtmlHelper', $this->Html);
+        $this->assertInstanceOf('Core\View\Helper\HtmlHelper', $this->_helper());
     }
 
     public function testIcon()
     {
         $expected = ['i' => ['class' => 'ck-icon fa fa-home']];
-        $this->assertHtml($expected, $this->Html->icon());
+        $this->assertHtml($expected, $this->_helper()->icon());
 
         $expected = ['i' => ['class' => 'ck-icon fa fa-profile']];
-        $this->assertHtml($expected, $this->Html->icon('profile'));
+        $this->assertHtml($expected, $this->_helper()->icon('profile'));
 
         $expected = ['i' => ['class' => 'my-class ck-icon fa fa-profile']];
-        $this->assertHtml($expected, $this->Html->icon('profile', ['class' => 'my-class']));
+        $this->assertHtml($expected, $this->_helper()->icon('profile', ['class' => 'my-class']));
 
         $expected = ['i' => ['class' => 'ck-icon fa fa-profile', 'id' => 'icon', 'data-rel' => 'top']];
-        $this->assertHtml($expected, $this->Html->icon('profile', ['id' => 'icon', 'data-rel' => 'top']));
+        $this->assertHtml($expected, $this->_helper()->icon('profile', ['id' => 'icon', 'data-rel' => 'top']));
     }
 
     public function testLink()
@@ -62,14 +61,14 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link 1', '#'));
+        $this->assertHtml($expected, $this->_helper()->link('My link 1', '#'));
 
         $expected = [
             'a' => ['href' => '#', 'class' => 'ck-link', 'title' => 'My clear link'],
                 'My clear link',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My clear link', '#', ['clear' => true]));
+        $this->assertHtml($expected, $this->_helper()->link('My clear link', '#', ['clear' => true]));
 
         $expected = [
             'a' => ['href' => '#', 'class' => 'simple ck-link', 'title' => 'My link 2'],
@@ -78,14 +77,14 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link 2', '#', ['class' => 'simple']));
+        $this->assertHtml($expected, $this->_helper()->link('My link 2', '#', ['class' => 'simple']));
 
         $expected = [
             'a' => ['href' => '#', 'class' => 'simple ck-link', 'title' => 'My clear link'],
                 'My clear link',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My clear link', '#', ['clear' => true, 'class' => 'simple']));
+        $this->assertHtml($expected, $this->_helper()->link('My clear link', '#', ['clear' => true, 'class' => 'simple']));
 
         $expected = [
             'a' => ['href' => '#', 'class' => 'ck-link', 'title' => 'My link button'],
@@ -94,7 +93,7 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link button', '#', ['button' => true]));
+        $this->assertHtml($expected, $this->_helper()->link('My link button', '#', ['button' => true]));
 
         $expected = [
             'a' => ['href' => '#', 'class' => 'ck-link btn btn-success', 'title' => 'My link success button'],
@@ -103,7 +102,7 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link success button', '#', ['button' => 'success']));
+        $this->assertHtml($expected, $this->_helper()->link('My link success button', '#', ['button' => 'success']));
 
         $expected = [
             'a' => ['href' => '#', 'class' => 'ck-link btn btn-danger', 'title' => 'My link danger button'],
@@ -112,14 +111,14 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link danger button', '#', ['button' => 'danger']));
+        $this->assertHtml($expected, $this->_helper()->link('My link danger button', '#', ['button' => 'danger']));
 
         $expected = [
             'a' => ['href' => '#', 'class' => 'ck-link btn btn-danger', 'title' => 'My link danger button'],
                 'My link danger button',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link danger button', '#', [
+        $this->assertHtml($expected, $this->_helper()->link('My link danger button', '#', [
             'button' => 'danger', 'clear' => true
         ]));
 
@@ -131,7 +130,7 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link icon', '#', ['icon' => 'home']));
+        $this->assertHtml($expected, $this->_helper()->link('My link icon', '#', ['icon' => 'home']));
 
         $expected = [
             'a' => ['href' => '#', 'class' => 'ck-link', 'title' => 'My link icon'],
@@ -139,7 +138,7 @@ class HtmlHelperTest extends HelperTestCase
                 'My link icon',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link icon', '#', ['clear' => true, 'icon' => 'home']));
+        $this->assertHtml($expected, $this->_helper()->link('My link icon', '#', ['clear' => true, 'icon' => 'home']));
 
         $expected = [
             'a' => ['href' => '#', 'class' => 'ck-link', 'title' => 'My link icon'],
@@ -149,7 +148,7 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link icon', '#', [
+        $this->assertHtml($expected, $this->_helper()->link('My link icon', '#', [
             'icon' => 'profile', 'iconClass' => 'my-class'
         ]));
 
@@ -160,7 +159,7 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link icon', '#', [
+        $this->assertHtml($expected, $this->_helper()->link('My link icon', '#', [
             'icon' => 'profile', 'iconInline' => true,
         ]));
 
@@ -169,7 +168,7 @@ class HtmlHelperTest extends HelperTestCase
                 'My link icon',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link icon', '#', [
+        $this->assertHtml($expected, $this->_helper()->link('My link icon', '#', [
             'icon' => 'profile', 'iconInline' => true, 'clear' => true,
         ]));
 
@@ -186,7 +185,7 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link tooltip', '#', [
+        $this->assertHtml($expected, $this->_helper()->link('My link tooltip', '#', [
             'icon' => 'profile', 'iconInline' => true, 'tooltip' => true,
         ]));
 
@@ -203,7 +202,7 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link tooltip', '#', ['tooltip' => 'Tooltip my title']));
+        $this->assertHtml($expected, $this->_helper()->link('My link tooltip', '#', ['tooltip' => 'Tooltip my title']));
 
         $expected = [
             'a' => [
@@ -218,7 +217,7 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link tooltip', '#', [
+        $this->assertHtml($expected, $this->_helper()->link('My link tooltip', '#', [
             'tooltip'    => 'Tooltip my title',
             'tooltipPos' => 'bottom',
         ]));
@@ -236,7 +235,7 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link tooltip', '#', [
+        $this->assertHtml($expected, $this->_helper()->link('My link tooltip', '#', [
             'tooltip'    => 'Tooltip my title',
             'tooltipPos' => 'left',
         ]));
@@ -254,12 +253,13 @@ class HtmlHelperTest extends HelperTestCase
                 '/span',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link tooltip', '#', [
+        $this->assertHtml($expected, $this->_helper()->link('My link tooltip', '#', [
             'tooltip'    => true,
             'tooltipPos' => 'right',
         ]));
 
-        $this->Html->config('prepareBtnClass', function (HtmlHelper $html, array $options) {
+        $helper = $this->_helper();
+        $helper->config('prepareBtnClass', function (HtmlHelper $html, array $options) {
             $options = $html->addClass($options, 'from-callback');
             unset($options['button']);
             return $options;
@@ -277,9 +277,9 @@ class HtmlHelperTest extends HelperTestCase
             '/a'
         ];
 
-        $this->assertHtml($expected, $this->Html->link('Custom', 'http://google.com', ['button' => 'red']));
+        $this->assertHtml($expected, $helper->link('Custom', 'http://google.com', ['button' => 'red']));
 
-        $this->Html->config('prepareTooltip', function (HtmlHelper $html, array $options) {
+        $helper->config('prepareTooltip', function (HtmlHelper $html, array $options) {
             $options = $html->addClass($options, 'from-callback');
             $options['tooltip'] = 'bottom';
             return $options;
@@ -298,21 +298,21 @@ class HtmlHelperTest extends HelperTestCase
             '/a'
         ];
 
-        $this->assertHtml($expected, $this->Html->link('Custom', 'http://google.com', ['tooltip' => true]));
+        $this->assertHtml($expected, $helper->link('Custom', 'http://google.com', ['tooltip' => true]));
 
         $expected = [
             'a' => ['href' => '#', 'class' => 'ck-link ck-icon fa fa-profile', 'title' => 'Set custom title'],
                 'My link icon',
             '/a'
         ];
-        $this->assertHtml($expected, $this->Html->link('My link icon', '#', [
+        $this->assertHtml($expected, $helper->link('My link icon', '#', [
             'icon' => 'profile', 'iconInline' => true, 'clear' => true, 'title' => 'Set custom title'
         ]));
     }
 
     public function testLessByString()
     {
-        $this->Html->less('styles.less', ['block' => true]);
+        $this->_helper()->less('styles.less', ['block' => true]);
         $expected = ['link' => ['rel' => 'stylesheet', 'href' => 'preg:/.*cache\/[A-Za-z0-9-]+\.css/']];
         $this->assertHtml($expected, $this->View->fetch('css'));
         $this->_clearCache();
@@ -320,7 +320,7 @@ class HtmlHelperTest extends HelperTestCase
 
     public function testLessByArray()
     {
-        $this->Html->less(['styles.less'], ['block' => true]);
+        $this->_helper()->less(['styles.less'], ['block' => true]);
         $expected = ['link' => ['rel' => 'stylesheet', 'href' => 'preg:/.*cache\/[A-Za-z0-9-]+\.css/']];
         $this->assertHtml($expected, $this->View->fetch('css'));
         $this->_clearCache();
