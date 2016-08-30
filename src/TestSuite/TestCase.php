@@ -43,7 +43,18 @@ class TestCase extends CakeTestCase
     public function setUp()
     {
         parent::setUp();
-        Plugin::load($this->_plugin, ['path' => ROOT . DS, 'bootstrap' => true]);
+
+        $options = [
+            'path' => ROOT . DS,
+            'bootstrap' => true
+        ];
+
+        if ($this->_plugin !== 'Core') {
+            unset($options['path']);
+            $options['autoload'] = true;
+        }
+
+        Plugin::load($this->_plugin, $options);
     }
 
     /**

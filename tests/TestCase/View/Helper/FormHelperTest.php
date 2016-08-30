@@ -16,6 +16,7 @@
 namespace Core\Test\TestCase\View\Helper;
 
 use Core\Plugin;
+use Cake\Cache\Cache;
 use Core\View\AppView;
 use Cake\Core\Configure;
 use Cake\Network\Request;
@@ -44,6 +45,7 @@ class FormHelperTest extends HelperTestCase
     {
         parent::tearDown();
         Plugin::unload('Test');
+        Cache::drop('test_cached');
     }
 
     public function testClassName()

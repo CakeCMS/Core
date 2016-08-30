@@ -14,6 +14,7 @@
  */
 
 namespace Core;
+
 use Cake\Log\Log;
 use Cake\Utility\Hash;
 use Cake\Utility\Inflector;

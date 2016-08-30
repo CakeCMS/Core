@@ -18,6 +18,7 @@ namespace Core\Test\TestCase;
 use Core\Theme;
 use Core\Plugin;
 use Cake\Core\App;
+use Cake\Cache\Cache;
 use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
 use Core\TestSuite\TestCase;
@@ -40,16 +41,17 @@ class ThemeTest extends TestCase
      */
     protected $_paths;
 
-    /**
-     * {@inheritdoc}
-     *
-     * @return void
-     */
     public function setUp()
     {
         parent::setUp();
         $this->_folder = new Folder();
         $this->_paths  = App::path('Plugin');
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+        Cache::drop('test_cached');
     }
 
     public function testNotFound()
