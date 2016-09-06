@@ -34,6 +34,7 @@ return [
     },
 
     'View.initialize' => function (AppView $view) {
+        $view->loadHelper('Core.Nav');
         $view->loadHelper('Core.Less');
         $view->loadHelper('Core.Assets');
         $view->loadHelper('Core.Document');
