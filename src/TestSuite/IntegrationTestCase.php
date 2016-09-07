@@ -15,8 +15,8 @@
 
 namespace Core\TestSuite;
 
-use Cake\Utility\Hash;
 use Core\Plugin;
+use Cake\Utility\Hash;
 use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
 
 /**
@@ -60,6 +60,8 @@ class IntegrationTestCase extends CakeIntegrationTestCase
             'bootstrap' => true,
             'routes'    => true,
         ]);
+
+        Plugin::routes('Core');
 
         $this->_url['plugin'] = $this->_plugin;
     }

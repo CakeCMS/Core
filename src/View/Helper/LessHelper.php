@@ -93,7 +93,6 @@ class LessHelper extends AppHelper
         }
 
         $source = str_replace(FS::clean(APP_ROOT . '/' . Configure::read('App.webroot'), '/'), '', $source);
-        $source = str_replace(Configure::read('App.cssBaseUrl'), '', $source);
 
         return $source;
     }

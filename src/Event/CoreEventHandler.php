@@ -15,7 +15,10 @@
 
 namespace Core\Event;
 
+use Core\Plugin;
+use JBZoo\Utils\FS;
 use Cake\Event\Event;
+use Core\Controller\AppController;
 use Cake\Event\EventListenerInterface;
 
 /**
@@ -40,9 +43,33 @@ class CoreEventHandler implements EventListenerInterface
 
     /**
      * @param Event $event
-     * @SuppressWarnings("unused")
      */
     public function onControllerSetup(Event $event)
     {
+        /** @var AppController $controller */
+        $controller = $event->subject();
+        if ($controller->request->param('prefix') == 'admin') {
+            $this->_onSetupAdmin($controller);
+        }
+    }
+
+    /**
+     * Setup admin data.
+     *
+     * @param AppController $controller
+     * @SuppressWarnings("unused")
+     */
+    protected function _onSetupAdmin(AppController $controller)
+    {
+        $plugins = Plugin::loaded();
+        foreach ($plugins as $plugin) {
+            $path    = Plugin::path($plugin);
+            $navConf = $path . 'config/admin_menu.php';
+
+            if (FS::isFile($navConf)) {
+                /** @noinspection PhpIncludeInspection */
+                require_once $navConf;
+            }
+        }
     }
 }

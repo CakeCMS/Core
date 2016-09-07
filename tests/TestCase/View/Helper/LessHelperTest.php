@@ -139,6 +139,6 @@ class LessHelperTest extends HelperTestCase
      */
     protected function _getCacheFilePath($url)
     {
-        return FS::clean(APP_ROOT . Configure::read('App.webroot') . '/' . Configure::read('App.cssBaseUrl') . $url);
+        return FS::clean(APP_ROOT . Configure::read('App.webroot') . '/' . $url);
     }
 }
