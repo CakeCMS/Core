@@ -30,5 +30,6 @@ class RootController extends AppController
      */
     public function dashboard()
     {
+        $this->set('page_title', __d('core', 'Dashboard'));
     }
 }

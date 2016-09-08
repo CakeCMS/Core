@@ -15,7 +15,9 @@
 
 namespace Core\View\Helper;
 
+use Core\Plugin;
 use JBZoo\Utils\Str;
+use Cake\Event\Event;
 use Cake\Core\Configure;
 
 /**
@@ -123,5 +125,108 @@ class DocumentHelper extends AppHelper
             . '> <!--<![endif]-->',
         ];
         return implode($this->eol, $html) . $this->eol;
+    }
+
+    /**
+     * Is called before each view file is rendered. This includes elements, views, parent views and layouts.
+     *
+     * @param Event $event
+     * @param string $viewFile
+     * @return void
+     */
+    public function beforeRenderFile(Event $event, $viewFile)
+    {
+        Plugin::manifestEvent('View.beforeRenderFile', $this->_View, $event, $viewFile);
+    }
+
+    /**
+     * Is called after each view file is rendered. This includes elements, views, parent views and layouts.
+     * A callback can modify and return $content to change how the rendered content will be displayed in the browser.
+     *
+     * @param Event $event
+     * @param string $viewFile
+     * @param string $content
+     * @return void
+     */
+    public function afterRenderFile(Event $event, $viewFile, $content)
+    {
+        Plugin::manifestEvent('View.afterRenderFile', $this->_View, $event, $viewFile, $content);
+    }
+
+    /**
+     * Is called after the controller’s beforeRender method but before the controller renders view and layout.
+     * Receives the file being rendered as an argument.
+     *
+     * @param Event $event
+     * @param string $viewFile
+     * @return void
+     */
+    public function beforeRender(Event $event, $viewFile)
+    {
+        Plugin::manifestEvent('View.beforeRender', $this->_View, $event, $viewFile);
+    }
+
+    /**
+     * Is called after the view has been rendered but before layout rendering has started.
+     *
+     * @param Event $event
+     * @param string $viewFile
+     * @return void
+     */
+    public function afterRender(Event $event, $viewFile)
+    {
+        $this->_setupMetaData();
+        Plugin::manifestEvent('View.afterRender', $this->_View, $event, $viewFile);
+    }
+
+    /**
+     * Is called before layout rendering starts. Receives the layout filename as an argument.
+     *
+     * @param Event $event
+     * @param string $layoutFile
+     * @return void
+     */
+    public function beforeLayout(Event $event, $layoutFile)
+    {
+        Plugin::manifestEvent('View.beforeLayout', $this->_View, $event, $layoutFile);
+    }
+
+    /**
+     * Is called after layout rendering is complete. Receives the layout filename as an argument.
+     *
+     * @param Event $event
+     * @param string $layoutFile
+     * @return void
+     */
+    public function afterLayout(Event $event, $layoutFile)
+    {
+        Plugin::manifestEvent('View.beforeLayout', $this->_View, $event, $layoutFile);
+    }
+
+    /**
+     * Setup view meta data.
+     *
+     * @return void
+     */
+    protected function _setupMetaData()
+    {
+        $this->_assignMeta('page_title')
+            ->_assignMeta('meta_keywords')
+            ->_assignMeta('meta_description');
+    }
+
+    /**
+     * Assign data from view vars.
+     *
+     * @param string $key
+     * @return $this
+     */
+    protected function _assignMeta($key)
+    {
+        if (isset($this->_View->viewVars[$key])) {
+            $this->_View->assign($key, $this->_View->viewVars[$key]);
+        }
+
+        return $this;
     }
 }

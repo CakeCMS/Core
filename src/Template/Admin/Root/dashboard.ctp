@@ -11,6 +11,7 @@
  * @copyright MIT License http://www.opensource.org/licenses/mit-license.php
  * @link      https://github.com/CakeCMS/Core".
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @var       \Core\View\AppView $this
  */
 
 echo 'Dashboard action.';

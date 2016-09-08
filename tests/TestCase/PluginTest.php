@@ -240,10 +240,10 @@ class PluginTest extends TestCase
 
     public function testManifestBeforeRenderFile()
     {
-        $view  = new AppView();
+        $view  = $this->_getView();
         $file  = __FILE__;
         $event = new Event('View.beforeRenderFile', $view);
-        $view->beforeRenderFile($event, $file);
+        $view->Document->beforeRenderFile($event, $file);
         $viewVars = $view->viewVars;
 
         $this->assertTrue(is_array($viewVars));
@@ -253,11 +253,11 @@ class PluginTest extends TestCase
     
     public function testManifestAfterRenderFile()
     {
-        $view    = new AppView();
+        $view    = $this->_getView();
         $file    = __FILE__;
         $content = 'After render content';
         $event   = new Event('View.afterRenderFile', $view);
-        $view->afterRenderFile($event, $file, $content);
+        $view->Document->afterRenderFile($event, $file, $content);
         $viewVars = $view->viewVars;
 
         $this->assertTrue(is_array($viewVars));
@@ -268,10 +268,10 @@ class PluginTest extends TestCase
 
     public function testManifestBeforeRender()
     {
-        $view    = new AppView();
+        $view    = $this->_getView();
         $file    = __FILE__;
         $event   = new Event('View.beforeRender', $view);
-        $view->beforeRender($event, $file);
+        $view->Document->beforeRender($event, $file);
         $viewVars = $view->viewVars;
 
         $this->assertTrue(is_array($viewVars));
@@ -281,10 +281,10 @@ class PluginTest extends TestCase
 
     public function testManifestAfterRender()
     {
-        $view    = new AppView();
+        $view    = $this->_getView();
         $file    = __FILE__;
         $event   = new Event('View.afterRender', $view);
-        $view->afterRender($event, $file);
+        $view->Document->afterRender($event, $file);
         $viewVars = $view->viewVars;
 
         $this->assertTrue(is_array($viewVars));
@@ -294,10 +294,10 @@ class PluginTest extends TestCase
 
     public function testManifestBeforeLayout()
     {
-        $view    = new AppView();
+        $view    = $this->_getView();
         $file    = __FILE__;
         $event   = new Event('View.beforeLayout', $view);
-        $view->beforeLayout($event, $file);
+        $view->Document->beforeLayout($event, $file);
         $viewVars = $view->viewVars;
 
         $this->assertTrue(is_array($viewVars));
@@ -307,14 +307,24 @@ class PluginTest extends TestCase
 
     public function testManifestAfterLayout()
     {
-        $view    = new AppView();
+        $view    = $this->_getView();
         $file    = __FILE__;
         $event   = new Event('View.afterLayout', $view);
-        $view->afterLayout($event, $file);
+        $view->Document->afterLayout($event, $file);
         $viewVars = $view->viewVars;
 
         $this->assertTrue(is_array($viewVars));
         $this->assertSame('View.afterLayout', $viewVars['eventName']);
         $this->assertSame($file, $viewVars['file']);
+    }
+
+    /**
+     * Get app view object.
+     *
+     * @return AppView
+     */
+    protected function _getView()
+    {
+        return new AppView();
     }
 }
