@@ -221,4 +221,24 @@ class NavHelperTest extends TestCase
         $this->assertHtml($expected, $actual);
         Nav::clear(__METHOD__);
     }
+
+    public function testRenderCallback()
+    {
+        Nav::add(__METHOD__, __METHOD__, [
+            'weight'   => 9,
+            'callable' => function (AppView $view) {
+                return 'callable partial';
+            }
+        ]);
+
+        $actual = $this->Nav->render(__METHOD__, Nav::items(__METHOD__));
+
+        $this->assertHtml([
+            'ul' => ['class' => 'menu'],
+                'callable partial',
+            '/ul'
+        ], $actual);
+
+        Nav::clear(__METHOD__);
+    }
 }

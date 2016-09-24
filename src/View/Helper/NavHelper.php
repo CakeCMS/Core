@@ -70,15 +70,19 @@ class NavHelper extends AppHelper
                 $children = $this->render($key, $item['children'], $options, $level + 1);
             }
 
-            $itemOutput = $this->_View->element($options['itemElement'], [
+            $itemParams = [
                 'options'  => $options,
                 'item'     => $item,
                 'count'    => $i,
                 'children' => $children,
                 'level'    => $level,
-            ]);
+            ];
 
-            $output[] = $itemOutput;
+            if (isset($item['callable']) && is_callable($item['callable'])) {
+                $output[] = call_user_func_array($item['callable'], array_merge(['view' => $this->_View], $itemParams));
+            } else {
+                $output[] = $this->_View->element($options['itemElement'], $itemParams);
+            }
         }
 
         $element = $this->_getCurrentMenuElement($options, $level);

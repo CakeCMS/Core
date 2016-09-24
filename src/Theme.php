@@ -28,27 +28,35 @@ class Theme extends Plugin
 {
 
     /**
-     * Get current theme.
+     * Setup current theme.
      *
-     * @param null $prefix
-     * @return mixed|string
+     * @param null|string $prefix
+     * @return null|string
      */
-    public static function get($prefix = null)
+    public static function setup($prefix = null)
     {
-        $theme = ($prefix == 'admin') ? Configure::read('Theme.admin') : Configure::read('Theme.site');
-        $path = self::_find($theme);
+        $theme = self::name($prefix);
+        $path  = self::find($theme);
 
         if ($path !== null) {
-            self::loadList([$theme]);
             $config = self::getData($theme, 'meta');
             if ($config->get('type') == 'theme') {
                 return $theme;
-            } else {
-                self::unload($theme);
             }
         }
 
         return null;
+    }
+
+    /**
+     * Get name by prefix.
+     *
+     * @param string|null $prefix
+     * @return mixed
+     */
+    public static function name($prefix = null)
+    {
+        return ($prefix == 'admin') ? Configure::read('Theme.admin') : Configure::read('Theme.site');
     }
 
     /**
@@ -57,7 +65,7 @@ class Theme extends Plugin
      * @param string $theme
      * @return null|string
      */
-    protected static function _find($theme)
+    public static function find($theme)
     {
         $paths = App::path('Plugin');
         foreach ($paths as $path) {

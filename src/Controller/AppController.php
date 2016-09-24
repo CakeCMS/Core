@@ -105,7 +105,9 @@ class AppController extends CakeController
      */
     protected function _setTheme()
     {
-        $theme = Theme::get($this->request->param('prefix'));
-        $this->viewBuilder()->theme($theme);
+        if ($this->request->is('theme')) {
+            $theme = $this->request->param('theme');
+            $this->viewBuilder()->theme($theme);
+        }
     }
 }

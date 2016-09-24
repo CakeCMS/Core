@@ -56,31 +56,31 @@ class ThemeTest extends TestCase
 
     public function testNotFound()
     {
-        $this->assertNull(Theme::get());
+        $this->assertNull(Theme::setup());
     }
 
     public function testNotFoundTheme()
     {
-        $actual = Theme::get();
+        $actual = Theme::setup();
         $this->assertNull($actual);
     }
 
     public function testCustomTheme()
     {
+        Plugin::load('Realty');
         $themeName = 'Realty';
         Configure::write('Theme.site', $themeName);
-        $actual = Theme::get();
+        $actual = Theme::setup();
 
         $this->assertSame($themeName, $actual);
-        $this->assertTrue(Plugin::loaded($themeName));
-        Plugin::unload($themeName);
+        Plugin::unload('Realty');
     }
 
     public function testNotFoundManifestParam()
     {
         $themeName = 'Test';
         Configure::write('Theme.site', $themeName);
-        $actual = Theme::get();
+        $actual = Theme::setup();
         $this->assertNull($actual);
     }
 }

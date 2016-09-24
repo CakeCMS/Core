@@ -11,17 +11,5 @@
  * @copyright MIT License http://www.opensource.org/licenses/mit-license.php
  * @link      https://github.com/CakeCMS/Core".
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @var       \Core\View\AppView $this
  */
-
-use Core\Nav;
-
-Nav::add('sidebar', 'dashboard', [
-    'title' =>__d('core', 'Dashboard'),
-    'weight'=> 10,
-    'icon' => 'dashboard',
-    'url' => [
-        'plugin' => 'Core',
-        'controller' => 'Root',
-        'action' => 'dashboard',
-    ],
-]);
