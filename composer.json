@@ -24,7 +24,7 @@
         "friendsofcake/search": "~1.2",
         "jbzoo/less": "^1.0",
         "oyejorge/less.php": "^1.7",
-        "cake-cms/backend": "@dev"
+        "cake-cms/backend": "~1.0"
     },
     "require-dev": {
         "jbzoo/phpunit": "^1.10",
