@@ -46,7 +46,8 @@ class TestCase extends CakeTestCase
 
         $options = [
             'path' => ROOT . DS,
-            'bootstrap' => true
+            'bootstrap' => true,
+            'routes' => true,
         ];
 
         if ($this->_plugin !== 'Core') {
@@ -55,6 +56,7 @@ class TestCase extends CakeTestCase
         }
 
         Plugin::load($this->_plugin, $options);
+        Plugin::routes($this->_plugin);
     }
 
     /**

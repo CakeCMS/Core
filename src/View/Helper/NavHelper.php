@@ -22,9 +22,26 @@ use Cake\Utility\Hash;
  * Class NavHelper
  *
  * @package Core\View\Helper
+ * @property \Core\View\Helper\UrlHelper $Url
  */
 class NavHelper extends AppHelper
 {
+
+    /**
+     * List of helpers used by this helper.
+     *
+     * @var array
+     */
+    public $helpers = [
+        'Url' => ['className' => 'Core.Url']
+    ];
+
+    /**
+     * Hold item params.
+     *
+     * @var array
+     */
+    protected static $_itemParams = [];
 
     /**
      * Default menu params.
@@ -77,6 +94,8 @@ class NavHelper extends AppHelper
                 'children' => $children,
                 'level'    => $level,
             ];
+
+            $this->_setItemParams($itemParams);
 
             if (isset($item['callable']) && is_callable($item['callable'])) {
                 $output[] = call_user_func_array($item['callable'], array_merge(['view' => $this->_View], $itemParams));
@@ -157,5 +176,56 @@ class NavHelper extends AppHelper
         }
 
         return $item;
+    }
+
+    /**
+     * Get default li attributes.
+     *
+     * @return array
+     */
+    public function getLiAttr()
+    {
+        $params = self::$_itemParams;
+        $attr   = ['class' => 'li-item'];
+
+        if (isset($params['item']['liClass'])) {
+            $attr = $this->addClass($attr, $params['item']['liClass']);
+        }
+
+        if ($params['item']['last']) {
+            $attr = $this->addClass($attr, 'last');
+        }
+
+        if ($params['item']['first']) {
+            $attr = $this->addClass($attr, 'first');
+        }
+
+        return $this->_setActive($attr);
+    }
+
+    /**
+     * Set active item link.
+     *
+     * @param array $attr
+     * @return array
+     */
+    protected function _setActive(array $attr = [])
+    {
+        if ($this->Url->build(self::$_itemParams['item']['url']) == env('REQUEST_URI')) {
+            $attr = $this->addClass($attr, 'active');
+        }
+
+        return $attr;
+    }
+
+    /**
+     * Set item params fo hold.
+     *
+     * @param array $params
+     * @return void
+     */
+    protected function _setItemParams(array $params = [])
+    {
+        self::$_itemParams = $params;
     }
 }

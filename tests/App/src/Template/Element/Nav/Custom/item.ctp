@@ -27,10 +27,6 @@ $linkAttr = [
     'class' => 'item-link-' . $count,
 ];
 
-$liAttr = [
-    'class' => 'li-item'
-];
-
 if (isset($item['linkClass'])) {
     $linkAttr = $this->Html->addClass($linkAttr, $item['linkClass']);
 }
@@ -41,22 +37,11 @@ if ($icon = $item['icon']) {
 
 $liContent = $this->Html->link($title, $item['url'], $linkAttr);
 
-if (isset($item['liClass'])) {
-    $liAttr = $this->Html->addClass($liAttr, $item['liClass']);
-}
-
-if ($item['last']) {
-    $liAttr = $this->Html->addClass($liAttr, 'last');
-}
-
-if ($item['first']) {
-    $liAttr = $this->Html->addClass($liAttr, 'first');
-}
-
 if ($children !== false) {
     $liContent .= $children;
 }
 
+$liAttr = $this->Nav->getLiAttr();
 $liAttr['data-test'] = 'current-data-test';
 
 echo $this->Html->tag('li', $liContent, $liAttr);

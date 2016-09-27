@@ -29,6 +29,7 @@ use JBZoo\Utils\FS;
  * @property \Core\View\Helper\UrlHelper $Url
  * @property \Core\View\Helper\LessHelper $Less
  * @property \Core\View\Helper\HtmlHelper $Html
+ * @property \Core\View\Helper\NavHelper $Nav
  */
 class AppView extends View
 {
