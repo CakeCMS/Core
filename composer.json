@@ -23,13 +23,13 @@
         "mobiledetect/mobiledetectlib": "2.*",
         "friendsofcake/search": "~1.2",
         "jbzoo/less": "^1.0",
-        "oyejorge/less.php": "^1.7",
-        "cake-cms/backend": "~1.0"
+        "oyejorge/less.php": "^1.7"
     },
     "require-dev": {
         "jbzoo/phpunit": "^1.10",
         "psy/psysh": "@stable",
-        "cake-cms/app": "~1.0",
+        "cake-cms/app": "~1",
+        "cake-cms/backend": "~1.0",
         "cakephp/bake": "~1.1",
         "cakephp/plugin-installer": "^0.0.15"
     },
