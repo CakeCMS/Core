@@ -40,7 +40,7 @@ class HelperTestCase extends TestCase
      *
      * @var string
      */
-    protected $_plugin = '';
+    protected $_plugin = 'Core';
 
     /**
      * Helper configure.

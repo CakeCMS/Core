@@ -30,6 +30,7 @@ use JBZoo\Utils\FS;
  * @property \Core\View\Helper\LessHelper $Less
  * @property \Core\View\Helper\HtmlHelper $Html
  * @property \Core\View\Helper\NavHelper $Nav
+ * @property \Core\View\Helper\FilterHelper $Filter
  */
 class AppView extends View
 {
