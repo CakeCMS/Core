@@ -163,6 +163,7 @@ class DocumentHelper extends AppHelper
      */
     public function beforeRender(Event $event, $viewFile)
     {
+        $this->_loadPluginAssets();
         Plugin::manifestEvent('View.beforeRender', $this->_View, $event, $viewFile);
     }
 
@@ -175,7 +176,6 @@ class DocumentHelper extends AppHelper
      */
     public function afterRender(Event $event, $viewFile)
     {
-        $this->_setupMetaData();
         Plugin::manifestEvent('View.afterRender', $this->_View, $event, $viewFile);
     }
 
@@ -228,5 +228,21 @@ class DocumentHelper extends AppHelper
         }
 
         return $this;
+    }
+
+    /**
+     * Autoload plugin assets.
+     *
+     * @return void
+     */
+    protected function _loadPluginAssets()
+    {
+        $plugin = (string) $this->request->param('plugin');
+        $prefix = ($this->request->param('prefix')) ? $this->request->param('prefix') . '/' : null;
+
+        $cssOptions = ['block' => 'css_bottom', 'fullBase' => true];
+        $this->Html->css($plugin . '.' . $prefix . 'styles.css', $cssOptions);
+        $this->Html->less($plugin . '.' . $prefix . 'styles.less', $cssOptions);
+        $this->Html->script($plugin . '.' . $prefix . 'script.js', ['block' => 'script_bottom', 'fullBase' => true]);
     }
 }

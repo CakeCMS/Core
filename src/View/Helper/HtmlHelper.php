@@ -102,12 +102,14 @@ class HtmlHelper extends CakeHtmlHelper
 
         if (is_array($path)) {
             foreach ($path as $i) {
-                $cssPath[] = $this->Less->process($i, $options['force']);
+                if ($result = $this->Less->process($i, $options['force'])) {
+                    $cssPath[] = $result;
+                }
             }
         }
 
-        if (is_string($path)) {
-            $cssPath[] = $this->Less->process($path, $options['force']);
+        if (is_string($path) && $result = $this->Less->process($path, $options['force'])) {
+            $cssPath[] = $result;
         }
 
         return $this->css($cssPath, $options);
