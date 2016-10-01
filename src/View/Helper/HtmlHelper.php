@@ -145,18 +145,9 @@ class HtmlHelper extends CakeHtmlHelper
         $options = $this->_getBtnClass($options);
         $options = $this->_getToolTipAttr($options);
 
-        list($options, $iconOptions) = $this->_createIconAttr($options);
-        if (isset($iconOptions['createIcon'])) {
-            unset($iconOptions['createIcon']);
-            $title = $this->icon($options['icon'], $iconOptions) . PHP_EOL . $title;
-            unset($options['icon']);
-        }
-
-        if (isset($options['iconInline'])) {
-            unset($options['iconInline']);
-        }
-
+        list($title, $options) = $this->_createIcon($this, $title, $options);
         unset($options['label']);
+
         return parent::link($title, $url, $options);
     }
 

@@ -109,4 +109,26 @@ class FormHelperTest extends HelperTestCase
         $this->assertHtml($expected, $Form->create(false, ['process' => true]));
         $this->assertSame('<input type="hidden" name="action" class="jsFormAction" value=""/></form>', $Form->end());
     }
+    
+    public function testButton()
+    {
+        $this->assertHtml([
+            'button' => ['data-title' => 'test', 'class' => 'ck-button', 'type' => 'submit'],
+                'Test',
+            '/button',
+        ], $this->_helper()->button('Test', ['data-title' => 'test']));
+
+        $this->assertHtml([
+            'button' => ['class' => 'ck-button btn btn-default', 'type' => 'submit'],
+                'Test',
+            '/button',
+        ], $this->_helper()->button('Test', ['button' => 'default']));
+
+        $this->assertHtml([
+            'button' => ['class' => 'ck-button', 'type' => 'submit'],
+                'i' => ['class' => 'ck-icon fa fa-home'], '/i',
+                'Test',
+            '/button',
+        ], $this->_helper()->button('Test', ['icon' => 'home']));
+    }
 }

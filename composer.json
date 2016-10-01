@@ -21,7 +21,7 @@
         "jbzoo/utils": "^1.0",
         "jbzoo/data": "^1.0",
         "mobiledetect/mobiledetectlib": "2.*",
-        "friendsofcake/search": "~1.2",
+        "friendsofcake/search": "~2.3",
         "jbzoo/less": "^1.0",
         "oyejorge/less.php": "^1.7"
     },

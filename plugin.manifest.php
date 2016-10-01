@@ -13,6 +13,7 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
+use JBZoo\Utils\Str;
 use Core\View\AppView;
 use Cake\Controller\Controller;
 
@@ -38,9 +39,21 @@ return [
         $view->loadHelper('Core.Less');
         $view->loadHelper('Core.Assets');
         $view->loadHelper('Core.Document');
+        $view->loadHelper('Core.Filter');
+        $view->loadHelper('Core.Toolbar');
         $view->loadHelper('Url', ['className' => 'Core.Url']);
         $view->loadHelper('Html', ['className' => 'Core.Html']);
-        $view->loadHelper('Form', ['className' => 'Core.Form']);
+        $view->loadHelper('Form', [
+            'className' => 'Core.Form',
+            'prepareBtnClass' => function (\Core\View\Helper\FormHelper $html, $options, $button) {
+                $options = $html->addClass($options, 'waves-effect waves-light btn');
+                if (!empty($button)) {
+                    $options = $html->addClass($options, Str::trim((string) $button));
+                }
+
+                return $options;
+            },
+        ]);
         $view->loadHelper('Text');
         $view->loadHelper('Flash');
         $view->loadHelper('Paginator');

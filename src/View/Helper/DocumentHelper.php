@@ -241,6 +241,7 @@ class DocumentHelper extends AppHelper
         $prefix = ($this->request->param('prefix')) ? $this->request->param('prefix') . '/' : null;
 
         $cssOptions = ['block' => 'css_bottom', 'fullBase' => true];
+
         $this->Html->css($plugin . '.' . $prefix . 'styles.css', $cssOptions);
         $this->Html->less($plugin . '.' . $prefix . 'styles.less', $cssOptions);
         $this->Html->script($plugin . '.' . $prefix . 'script.js', ['block' => 'script_bottom', 'fullBase' => true]);

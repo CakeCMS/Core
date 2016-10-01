@@ -18,6 +18,7 @@ namespace Core\View\Helper\Traits;
 use JBZoo\Utils\Str;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
+use Core\View\Helper\HtmlHelper;
 
 /**
  * Class HelperTrait
@@ -54,6 +55,30 @@ trait HelperTrait
     protected function _class($class = 'cms')
     {
         return $this->_configRead('classPrefix') . '-' . Str::trim(Str::slug($class));
+    }
+
+    /**
+     * Create current icon.
+     *
+     * @param HtmlHelper $html
+     * @param string|int $title
+     * @param array $options
+     * @return array
+     */
+    protected function _createIcon(HtmlHelper $html, $title, array $options = [])
+    {
+        list($options, $iconOptions) = $this->_createIconAttr($options);
+        if (isset($iconOptions['createIcon'])) {
+            unset($iconOptions['createIcon']);
+            $title = $html->icon($options['icon'], $iconOptions) . PHP_EOL . $title;
+            unset($options['icon']);
+        }
+
+        if (isset($options['iconInline'])) {
+            unset($options['iconInline']);
+        }
+
+        return [$title, $options];
     }
 
     /**

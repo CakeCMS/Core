@@ -65,6 +65,23 @@ class FormHelper extends CakeFormHelper
     }
 
     /**
+     * Creates a `<button>` tag.
+     *
+     * @param string $title
+     * @param array $options
+     * @return string
+     */
+    public function button($title, array $options = [])
+    {
+        $options = $this->addClass($options, $this->_class(__FUNCTION__));
+        $options = $this->_getBtnClass($options);
+
+        list($title, $options) = $this->_createIcon($this->Html, $title, $options);
+
+        return parent::button($title, $options);
+    }
+
+    /**
      * Create html form.
      *
      * @param mixed $model
