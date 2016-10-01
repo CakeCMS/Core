@@ -16,7 +16,9 @@
 namespace Core\Test\TestCase\View\Helper;
 
 use Cake\Core\Configure;
+use Core\Plugin;
 use Core\View\Helper\DocumentHelper;
+use Core\TestSuite\IntegrationTestCase;
 
 /**
  * Class DocumentHelperTest
@@ -119,5 +121,42 @@ class DocumentHelperTest extends HelperTestCase
         $this->_helper()->meta(['<meta http-equiv="Content-Language" content="en">'], 'meta');
 
         $this->assertSame($expected, $this->View->fetch('meta'));
+    }
+}
+
+/**
+ * Class DocumentHelperTestIntegration
+ *
+ * @package Core\Test\TestCase\View\Helper
+ */
+class DocumentHelperTestIntegration extends IntegrationTestCase
+{
+
+    protected $_plugin = 'Test';
+
+    public function testMetaDataFromController()
+    {
+        $this->_url['controller'] = 'Metadata';
+        $this->_url['action'] = 'index';
+
+        $this->get($this->_url);
+        $this->assertResponseOk();
+        $this->assertResponseContains('metadata index action');
+        $this->assertResponseContains('<title>Test page title</title>');
+        $this->assertResponseContains('<meta name="keywords" content="test, meta, key" />');
+        $this->assertResponseContains('<meta name="description" content="test meta description" />');
+    }
+
+    public function testReloadMetaDataFromView()
+    {
+        $this->_url['controller'] = 'Metadata';
+        $this->_url['action'] = 'form';
+
+        $this->get($this->_url);
+        $this->assertResponseOk();
+        $this->assertResponseContains('metadata form action');
+        $this->assertResponseContains('<title>Title from view</title>');
+        $this->assertResponseContains('<meta name="keywords" content="key, from view" />');
+        $this->assertResponseContains('<meta name="description" content="description from view" />');
     }
 }

@@ -16,6 +16,7 @@
 namespace Core\TestSuite;
 
 use Core\Plugin;
+use Cake\Cache\Cache;
 use Cake\Utility\Hash;
 use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
 
@@ -63,6 +64,9 @@ class IntegrationTestCase extends CakeIntegrationTestCase
 
         Plugin::routes('Core');
 
+        Plugin::loadList([$this->_plugin]);
+        Plugin::routes($this->_plugin);
+
         $this->_url['plugin'] = $this->_plugin;
     }
 
@@ -75,6 +79,8 @@ class IntegrationTestCase extends CakeIntegrationTestCase
     {
         parent::tearDown();
         Plugin::unload('Core');
+        Plugin::unload($this->_plugin);
+        Cache::drop('test_cached');
         unset($this->_url);
     }
 

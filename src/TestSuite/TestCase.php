@@ -16,6 +16,7 @@
 namespace Core\TestSuite;
 
 use Core\Plugin;
+use Cake\Cache\Cache;
 use Cake\TestSuite\TestCase as CakeTestCase;
 
 /**
@@ -68,5 +69,6 @@ class TestCase extends CakeTestCase
     {
         parent::tearDown();
         Plugin::unload($this->_plugin);
+        Cache::drop('test_cached');
     }
 }

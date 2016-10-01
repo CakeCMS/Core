@@ -15,46 +15,45 @@
 
 namespace Test\Controller;
 
-use Core\Event\EventManager;
 use Core\Controller\AppController;
 
-
 /**
- * Class EventController
+ * Class MetadataController
  *
  * @package Test\Controller
  */
-class EventController extends AppController
+class MetadataController extends AppController
 {
 
     /**
-     * Index action.
-     *
-     * @return mixed
-     */
-    public function index()
-    {
-        $event = EventManager::trigger('Event.Controller.index', $this);
-        return $event->result;
-    }
-
-    /**
-     * View action.
-     *
-     * @return mixed
-     */
-    public function view()
-    {
-        $event = EventManager::trigger('Event.Controller.view');
-        return $event->result;
-    }
-
-    /**
-     * Process action.
+     * Index action for test meta data from controller.
      *
      * @return void
      */
-    public function process()
+    public function index()
     {
+        $this->_setMetaData();
+    }
+
+    /**
+     * Form action for test reload meta data from view.
+     *
+     * @return void
+     */
+    public function form()
+    {
+        $this->_setMetaData();
+    }
+
+    /**
+     * Set page title and meta data.
+     *
+     * @return void
+     */
+    protected function _setMetaData()
+    {
+        $this->set('page_title', 'Test page title');
+        $this->set('meta_keywords', 'test, meta, key');
+        $this->set('meta_description', 'test meta description');
     }
 }

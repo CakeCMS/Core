@@ -176,6 +176,7 @@ class DocumentHelper extends AppHelper
      */
     public function afterRender(Event $event, $viewFile)
     {
+        $this->_setupMetaData();
         Plugin::manifestEvent('View.afterRender', $this->_View, $event, $viewFile);
     }
 
