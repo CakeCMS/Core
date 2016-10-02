@@ -15,6 +15,9 @@
 
 namespace Core\View\Helper;
 
+use Core\Plugin;
+use JBZoo\Utils\FS;
+use Cake\Core\Configure;
 use Cake\View\Helper\UrlHelper as CakeUrlHelper;
 
 /**
@@ -24,4 +27,48 @@ use Cake\View\Helper\UrlHelper as CakeUrlHelper;
  */
 class UrlHelper extends CakeUrlHelper
 {
+
+    /**
+     * Get absolute asset path.
+     *
+     * @param string $source Plugin.path/to/file.css
+     * @param null|string $type Assets folder - default is file ext
+     * @return bool|string
+     */
+    public function assetPath($source, $type = null)
+    {
+        $ext  = FS::ext($source);
+        $type = (empty($type)) ? $ext : $type;
+        $path = '/' . $type . '/' . $source;
+
+        $path = FS::clean(WWW_ROOT . $path, '/');
+        if (FS::isFile($path)) {
+            return $path;
+        }
+
+        $path = $this->_findPluginAsset($source, $type);
+
+        return $path;
+    }
+
+    /**
+     * Find plugin assets by source.
+     *
+     * @param string $source
+     * @param null|string $type
+     * @return bool|string
+     */
+    protected function _findPluginAsset($source, $type = null)
+    {
+        list($plugin, $path) = pluginSplit($source);
+        if (Plugin::loaded($plugin)) {
+            $plgPath = implode('/', [Plugin::path($plugin), Configure::read('App.webroot'), $type, $path]);
+            $plgPath = FS::clean($plgPath, '/');
+            if (FS::isFile($plgPath)) {
+                return $plgPath;
+            }
+        }
+
+        return false;
+    }
 }
