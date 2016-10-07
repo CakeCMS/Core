@@ -15,6 +15,7 @@
 
 namespace Core\Test\TestCase\View\Helper;
 
+use Core\Plugin;
 use JBZoo\Utils\FS;
 use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
@@ -31,6 +32,18 @@ class HtmlHelperTest extends HelperTestCase
 
     protected $_name = 'Html';
     protected $_plugin = 'Core';
+
+    public function setUp()
+    {
+        parent::setUp();
+        Plugin::load('Test', ['autoload' => true]);
+    }
+
+    public function tearDown()
+    {
+        parent::tearDown();
+        Plugin::unload('Test');
+    }
 
     public function testClassName()
     {
@@ -324,6 +337,75 @@ class HtmlHelperTest extends HelperTestCase
         $expected = ['link' => ['rel' => 'stylesheet', 'href' => 'preg:/.*cache\/[A-Za-z0-9-]+\.css/']];
         $this->assertHtml($expected, $this->View->fetch('css'));
         $this->_clearCache();
+    }
+
+    public function testCss()
+    {
+        $actual = $this->_helper()->css('styles.css');
+        $this->assertHtml(['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/styles.css']], $actual);
+
+        $actual = $this->_helper()->css([
+            'styles.css',
+            'styles.css',
+        ]);
+
+        $this->assertHtml(['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/styles.css']], $actual);
+
+        $this->assertNull($this->_helper()->css('no-exist.css'));
+
+        $googleJQuery = 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js';
+        $actual = $this->_helper()->css($googleJQuery);
+        $this->assertHtml(['link' => ['rel' => 'stylesheet', 'href' => $googleJQuery]], $actual);
+
+        $actual = $this->_helper()->css([], ['block' => __METHOD__]);
+        $this->assertNull($actual);
+
+        $actual = $this->_helper()->css('styles.css', ['rel' => 'import']);
+        $this->assertSame('<style>@import url(http://localhost/css/styles.css);</style>', $actual);
+
+        $this->_helper()->css('styles.css', ['block' => true]);
+        $this->assertHtml(
+            ['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/styles.css']],
+            $this->View->fetch('css')
+        );
+
+        $actual = $this->_helper()->css('Test.styles.css');
+        $this->assertHtml(
+            ['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/test/css/styles.css']],
+            $actual
+        );
+    }
+
+    public function testScript()
+    {
+        $actual = $this->_helper()->script('scripts.js');
+        $this->assertHtml(['script' => ['src' => 'http://localhost/js/scripts.js'], '/script'], $actual);
+
+        $actual = $this->_helper()->script([
+            'styles.js',
+            'styles.js',
+        ]);
+
+        $this->assertHtml([], $actual);
+
+        $googleJQuery = 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js';
+        $actual = $this->_helper()->script($googleJQuery);
+        $this->assertHtml(['script' => ['src' => $googleJQuery], '/script'], $actual);
+
+        $actual = $this->_helper()->script([], ['block' => __METHOD__]);
+        $this->assertNull($actual);
+
+        $this->_helper()->script('scripts.js', ['block' => true]);
+        $this->assertHtml(
+            ['script' => ['src' => 'http://localhost/js/scripts.js'], '/script'],
+            $this->View->fetch('script')
+        );
+
+        $actual = $this->_helper()->script('Test.scripts.js');
+        $this->assertHtml(
+            ['script' => ['src' => 'http://localhost/test/js/scripts.js'], '/script'],
+            $actual
+        );
     }
 
     /**

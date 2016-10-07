@@ -39,9 +39,13 @@ class UrlHelper extends CakeUrlHelper
     {
         $ext  = FS::ext($source);
         $type = (empty($type)) ? $ext : $type;
-        $path = '/' . $type . '/' . $source;
 
-        $path = FS::clean(WWW_ROOT . $path, '/');
+        $path = FS::clean(WWW_ROOT . '/' . $source, '/');
+        if (FS::isFile($path)) {
+            return $path;
+        }
+
+        $path = FS::clean(WWW_ROOT . '/' . $type . '/' . $source, '/');
         if (FS::isFile($path)) {
             return $path;
         }
@@ -61,6 +65,7 @@ class UrlHelper extends CakeUrlHelper
     protected function _findPluginAsset($source, $type = null)
     {
         list($plugin, $path) = pluginSplit($source);
+        $plugin = (string) $plugin;
         if (Plugin::loaded($plugin)) {
             $plgPath = implode('/', [Plugin::path($plugin), Configure::read('App.webroot'), $type, $path]);
             $plgPath = FS::clean($plgPath, '/');

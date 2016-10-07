@@ -19,6 +19,7 @@ use Cake\View\View;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
 use Core\View\Helper\Traits\HelperTrait;
+use Core\View\Helper\Traits\IncludeTrait;
 use Cake\View\Helper\HtmlHelper as CakeHtmlHelper;
 
 /**
@@ -27,11 +28,12 @@ use Cake\View\Helper\HtmlHelper as CakeHtmlHelper;
  * @package Core\View\Helper
  * @property \Core\View\Helper\LessHelper $Less
  * @property \Core\View\Helper\UrlHelper $Url
+ * @property \Core\View\Helper\DocumentHelper $Document
  */
 class HtmlHelper extends CakeHtmlHelper
 {
 
-    use HelperTrait;
+    use HelperTrait, IncludeTrait;
 
     /**
      * List of helpers used by this helper.
@@ -40,6 +42,7 @@ class HtmlHelper extends CakeHtmlHelper
      */
     public $helpers = [
         'Core.Less',
+        'Core.Document',
         'Url' => ['className' => 'Core.Url'],
     ];
 
@@ -56,6 +59,19 @@ class HtmlHelper extends CakeHtmlHelper
         $this->_configWrite('iconPref', Configure::read('Cms.iconPref'));
         $this->_configWrite('classPrefix', Configure::read('Cms.classPrefix'));
         $this->_configWrite('templates.icon', '<i class="{{class}}"{{attrs}}></i>');
+    }
+
+    /**
+     * Creates a link element for CSS stylesheets.
+     *
+     * @param array|string $path
+     * @param array $options
+     * @return null|string
+     */
+    public function css($path, array $options = [])
+    {
+        $options += ['rel' => 'stylesheet'];
+        return $this->_include($path, $options, 'css');
     }
 
     /**
@@ -149,6 +165,18 @@ class HtmlHelper extends CakeHtmlHelper
         unset($options['label']);
 
         return parent::link($title, $url, $options);
+    }
+
+    /**
+     * Returns one or many `<script>` tags depending on the number of scripts given.
+     *
+     * @param array|string $path
+     * @param array $options
+     * @return null|string
+     */
+    public function script($path, array $options = [])
+    {
+        return $this->_include($path, $options, 'script');
     }
 
     /**
