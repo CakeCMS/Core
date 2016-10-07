@@ -159,4 +159,14 @@ class DocumentHelperTestIntegration extends IntegrationTestCase
         $this->assertResponseContains('<meta name="keywords" content="key, from view" />');
         $this->assertResponseContains('<meta name="description" content="description from view" />');
     }
+
+    public function testActionWidget()
+    {
+        $this->_url['controller'] = 'Metadata';
+        $this->_url['action'] = 'form';
+
+        $this->get($this->_url);
+        $this->assertResponseOk();
+        $this->assertResponseContains('test/js/widget/metadata-form.js');
+    }
 }

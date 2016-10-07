@@ -15,12 +15,14 @@
 
 namespace Core\View\Helper;
 
+use JBZoo\Utils\Str;
+
 /**
  * Class AssetsHelper
  *
  * @package Core\View\Helper
  * @property \Cake\View\Helper\UrlHelper $Url
- * @property \Cake\View\Helper\HtmlHelper $Html
+ * @property \Core\View\Helper\HtmlHelper $Html
  */
 class AssetsHelper extends AppHelper
 {
@@ -142,5 +144,28 @@ class AssetsHelper extends AppHelper
         $this->Html->script('libs/uikit.min.js', $this->_options);
         $this->Html->css('libs/uikit.min.css', $this->_options);
         return $this;
+    }
+
+    /**
+     * Autoload plugin assets.
+     *
+     * @return void
+     */
+    public function loadPluginAssets()
+    {
+        $plugin = (string) $this->request->param('plugin');
+        $prefix = ($this->request->param('prefix')) ? $this->request->param('prefix') . '/' : null;
+        $action = (string) $this->request->param('action');
+
+        $controller = (string) $this->request->param('controller');
+        $widgetName = Str::slug($controller . '-' . $action) . '.js';
+        $cssOptions = ['block' => 'css_bottom', 'fullBase' => true];
+
+        $this->Html->css($plugin . '.' . $prefix . 'styles.css', $cssOptions);
+        $this->Html->less($plugin . '.' . $prefix . 'styles.less', $cssOptions);
+        $this->Html->script([
+            $plugin . '.' . $prefix . 'widget/' . $widgetName,
+            $plugin . '.' . $prefix . 'script.js',
+        ], ['block' => 'script_bottom', 'fullBase' => true]);
     }
 }
