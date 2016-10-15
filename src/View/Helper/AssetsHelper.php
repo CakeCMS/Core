@@ -16,6 +16,7 @@
 namespace Core\View\Helper;
 
 use JBZoo\Utils\Str;
+use Cake\Utility\Hash;
 
 /**
  * Class AssetsHelper
@@ -43,9 +44,21 @@ class AssetsHelper extends AppHelper
      * @var array
      */
     protected $_options = [
-        'block'    => true,
+        'block'    => 'assets',
         'fullBase' => true,
+        'weight'   => 10,
     ];
+
+    /**
+     * Get sort assets included list.
+     *
+     * @param string $type
+     * @return array|null
+     */
+    public function getAssets($type = 'css')
+    {
+        return $this->Html->getAssets($type);
+    }
 
     /**
      * Include bootstrap.
@@ -55,8 +68,17 @@ class AssetsHelper extends AppHelper
     public function bootstrap()
     {
         $this->jquery();
-        $this->Html->script('libs/bootstrap.min.js', $this->_options);
-        $this->Html->css('libs/bootstrap.min.css', $this->_options);
+
+        $this->Html->script('libs/bootstrap.min.js', $this->_setOptions([
+            'weight' => 2,
+            'alias'  => __FUNCTION__,
+        ]));
+
+        $this->Html->css('libs/bootstrap.min.css', $this->_setOptions([
+            'weight' => 1,
+            'alias'  => __FUNCTION__,
+        ]));
+
         return $this;
     }
 
@@ -68,8 +90,17 @@ class AssetsHelper extends AppHelper
     public function fancyBox()
     {
         $this->jquery();
-        $this->Html->script('libs/fancybox.min.js', $this->_options);
-        $this->Html->css('libs/fancybox.min.css', $this->_options);
+
+        $this->Html->script('libs/fancybox.min.js', $this->_setOptions([
+            'weight' => 2,
+            'alias'  => __FUNCTION__,
+        ]));
+
+        $this->Html->css('libs/fancybox.min.css', $this->_setOptions([
+            'weight' => 1,
+            'alias'  => __FUNCTION__,
+        ]));
+
         return $this;
     }
 
@@ -80,7 +111,11 @@ class AssetsHelper extends AppHelper
      */
     public function fontAwesome()
     {
-        $this->Html->css('libs/font-awesome.min.css', $this->_options);
+        $this->Html->css('libs/font-awesome.min.css', $this->_setOptions([
+            'weight' => 1,
+            'alias'  => 'font-awesome',
+        ]));
+
         return $this;
     }
 
@@ -91,7 +126,11 @@ class AssetsHelper extends AppHelper
      */
     public function jquery()
     {
-        $this->Html->script('libs/jquery.min.js', $this->_options);
+        $this->Html->script('libs/jquery.min.js', $this->_setOptions([
+            'weight' => 1,
+            'alias'  => __FUNCTION__,
+        ]));
+
         return $this;
     }
 
@@ -103,7 +142,17 @@ class AssetsHelper extends AppHelper
     public function jqueryFactory()
     {
         $this->jquery();
-        $this->Html->script(['libs/utils.min.js', 'libs/jquery-factory.min.js'], $this->_options);
+
+        $this->Html->script('libs/utils.min.js', $this->_setOptions([
+            'weight' => 2,
+            'alias'  => 'jquery-utils',
+        ]));
+
+        $this->Html->script('libs/jquery-factory.min.js', $this->_setOptions([
+            'weight' => 2,
+            'alias'  => 'jquery-factory',
+        ]));
+
         return $this;
     }
 
@@ -115,8 +164,17 @@ class AssetsHelper extends AppHelper
     public function materialize()
     {
         $this->jquery();
-        $this->Html->script('libs/materialize.min.js', $this->_options);
-        $this->Html->css('libs/materialize.min.css', $this->_options);
+
+        $this->Html->script('libs/materialize.min.js', $this->_setOptions([
+            'weight' => 2,
+            'alias'  => __FUNCTION__,
+        ]));
+
+        $this->Html->css('libs/materialize.min.css', $this->_setOptions([
+            'weight' => 1,
+            'alias'  => __FUNCTION__,
+        ]));
+
         return $this;
     }
 
@@ -128,8 +186,17 @@ class AssetsHelper extends AppHelper
     public function sweetAlert()
     {
         $this->jquery();
-        $this->Html->script('libs/sweetalert.min.js', $this->_options);
-        $this->Html->css('libs/sweetalert.min.css', $this->_options);
+
+        $this->Html->script('libs/sweetalert.min.js', $this->_setOptions([
+            'weight' => 2,
+            'alias'  => __FUNCTION__,
+        ]));
+
+        $this->Html->css('libs/sweetalert.min.css', $this->_setOptions([
+            'weight' => 1,
+            'alias'  => __FUNCTION__,
+        ]));
+
         return $this;
     }
 
@@ -141,8 +208,17 @@ class AssetsHelper extends AppHelper
     public function uikit()
     {
         $this->jquery();
-        $this->Html->script('libs/uikit.min.js', $this->_options);
-        $this->Html->css('libs/uikit.min.css', $this->_options);
+
+        $this->Html->script('libs/uikit.min.js', $this->_setOptions([
+            'weight' => 2,
+            'alias'  => __FUNCTION__,
+        ]));
+
+        $this->Html->css('libs/uikit.min.css', $this->_setOptions([
+            'weight' => 1,
+            'alias'  => __FUNCTION__,
+        ]));
+
         return $this;
     }
 
@@ -167,5 +243,16 @@ class AssetsHelper extends AppHelper
             $plugin . '.' . $prefix . 'widget/' . $widgetName,
             $plugin . '.' . $prefix . 'script.js',
         ], ['block' => 'script_bottom', 'fullBase' => true]);
+    }
+
+    /**
+     * Setup asset options.
+     *
+     * @param array $options
+     * @return array
+     */
+    protected function _setOptions(array $options = [])
+    {
+        return Hash::merge($this->_options, $options);
     }
 }

@@ -47,6 +47,16 @@ class HtmlHelper extends CakeHtmlHelper
     ];
 
     /**
+     * Hold assets data.
+     *
+     * @var array
+     */
+    protected $_assets = [
+        'styles'  => [],
+        'scripts' => [],
+    ];
+
+    /**
      * HtmlHelper constructor.
      *
      * @param View $View
@@ -59,6 +69,22 @@ class HtmlHelper extends CakeHtmlHelper
         $this->_configWrite('iconPref', Configure::read('Cms.iconPref'));
         $this->_configWrite('classPrefix', Configure::read('Cms.classPrefix'));
         $this->_configWrite('templates.icon', '<i class="{{class}}"{{attrs}}></i>');
+    }
+
+    /**
+     * Get sort assets included list.
+     *
+     * @param string $key
+     * @return array|null
+     */
+    public function getAssets($key)
+    {
+        $value = Hash::get($this->_assets, $key);
+        if (is_string($value)) {
+            return $value;
+        }
+
+        return Hash::sort($value, '{n}.weight', 'asc');
     }
 
     /**

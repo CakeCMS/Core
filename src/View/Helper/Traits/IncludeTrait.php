@@ -25,6 +25,7 @@ use JBZoo\Utils\Str;
  * @property \Core\View\Helper\UrlHelper $Url
  * @property \Core\View\AppView _View
  * @property array _includedAssets
+ * @property array _assets
  * @method \Cake\View\StringTemplate templater()
  * @method string formatTemplate($name, $data)
  */
@@ -80,7 +81,7 @@ trait IncludeTrait
     {
         if ($options['rel'] === 'import') {
             return $this->formatTemplate('style', [
-                'attrs'   => $this->templater()->formatAttributes($options, ['rel', 'block']),
+                'attrs'   => $this->templater()->formatAttributes($options, ['rel', 'block', 'weight', 'alias']),
                 'content' => '@import url(' . $url . ');',
             ]);
         }
@@ -88,7 +89,7 @@ trait IncludeTrait
         return $this->formatTemplate('css', [
             'rel'   => $options['rel'],
             'url'   => $url,
-            'attrs' => $this->templater()->formatAttributes($options, ['rel', 'block']),
+            'attrs' => $this->templater()->formatAttributes($options, ['rel', 'block', 'weight', 'alias']),
         ]);
     }
 
@@ -138,7 +139,7 @@ trait IncludeTrait
     {
         return $this->formatTemplate('javascriptlink', [
             'url'   => $url,
-            'attrs' => $this->templater()->formatAttributes($options, ['block', 'once']),
+            'attrs' => $this->templater()->formatAttributes($options, ['block', 'once', 'weight', 'alias']),
         ]);
     }
 
@@ -184,7 +185,7 @@ trait IncludeTrait
     protected function _include($path, array $options = [], $type = 'css')
     {
         $doc = $this->Document;
-        $options += ['once' => true, 'block' => null, 'fullBase' => true];
+        $options += ['once' => true, 'block' => null, 'fullBase' => true, 'weight' => 10];
         $external = false;
 
         $assetArray = $this->_arrayInclude($path, $options, $type);
@@ -193,11 +194,11 @@ trait IncludeTrait
         }
 
         $path = $this->_getCurrentPath($path, $assetArray);
-
         if (empty($path)) {
             return null;
         }
 
+        $options += ['alias' => Str::slug($path)];
         list($url, $options, $external) = $this->_getCurrentUrlAndOptions($path, $options, $type, $external);
 
         if (($this->_isOnceIncluded($path, $type, $options)) || $this->_hasAsset($path, $type, $external)) {
@@ -208,6 +209,18 @@ trait IncludeTrait
         $this->_includedAssets[$type][$path] = true;
 
         $out = $this->_getTypeOutput($options, $url, $type);
+
+        $options['alias'] = Str::low($options['alias']);
+        if ($options['block'] === 'assets') {
+            $this->_assets[$type][$options['alias']] = [
+                'url'    => $url,
+                'output' => $out,
+                'path'   => $path,
+                'weight' => $options['weight'],
+            ];
+
+            return null;
+        }
 
         if (empty($options['block'])) {
             return $out;

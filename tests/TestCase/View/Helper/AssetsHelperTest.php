@@ -34,7 +34,8 @@ class AssetsHelperTest extends HelperTestCase
             ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('script'));
+        $actual = $this->_helper()->getAssets('script.jquery.output');
+        $this->assertHtml($expected, $actual);
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
     }
 
@@ -42,12 +43,19 @@ class AssetsHelperTest extends HelperTestCase
     {
         $object   = $this->_helper()->jqueryFactory();
         $expected = [
-            ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
-            ['script' => ['src' => 'http://localhost/js/libs/utils.min.js']], '/script',
-            ['script' => ['src' => 'http://localhost/js/libs/jquery-factory.min.js']], '/script',
+            'jquery'  => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
+            'utils'   => ['script' => ['src' => 'http://localhost/js/libs/utils.min.js']], '/script',
+            'factory' => ['script' => ['src' => 'http://localhost/js/libs/jquery-factory.min.js']], '/script',
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('script'));
+        $jquery  = $this->_helper()->getAssets('script.jquery.output');
+        $utils   = $this->_helper()->getAssets('script.jquery-utils.output');
+        $factory = $this->_helper()->getAssets('script.jquery-factory.output');
+
+        $this->assertHtml($expected['utils'],   $utils);
+        $this->assertHtml($expected['jquery'],  $jquery);
+        $this->assertHtml($expected['factory'], $factory);
+
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
     }
 
@@ -57,11 +65,15 @@ class AssetsHelperTest extends HelperTestCase
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
         
         $expected = [
-            ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
-            ['script' => ['src' => 'http://localhost/js/libs/bootstrap.min.js']], '/script',
+            'jquery'    => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
+            'bootstrap' => ['script' => ['src' => 'http://localhost/js/libs/bootstrap.min.js']], '/script',
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('script'));
+        $jquery    = $this->_helper()->getAssets('script.jquery.output');
+        $bootstrap = $this->_helper()->getAssets('script.bootstrap.output');
+
+        $this->assertHtml($expected['jquery'], $jquery);
+        $this->assertHtml($expected['bootstrap'], $bootstrap);
 
         $expected = [
             'link' => [
@@ -70,7 +82,7 @@ class AssetsHelperTest extends HelperTestCase
             ]
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('css'));
+        $this->assertHtml($expected, $this->_helper()->getAssets('css.bootstrap.output'));
     }
 
     public function testFancyBox()
@@ -79,11 +91,15 @@ class AssetsHelperTest extends HelperTestCase
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
-            ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
-            ['script' => ['src' => 'http://localhost/js/libs/fancybox.min.js']], '/script',
+            'jquery'   => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
+            'fancybox' => ['script' => ['src' => 'http://localhost/js/libs/fancybox.min.js']], '/script',
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('script'));
+        $jquery   = $this->_helper()->getAssets('script.jquery.output');
+        $fancybox = $this->_helper()->getAssets('script.fancybox.output');
+
+        $this->assertHtml($expected['jquery'], $jquery);
+        $this->assertHtml($expected['fancybox'], $fancybox);
 
         $expected = [
             'link' => [
@@ -92,7 +108,7 @@ class AssetsHelperTest extends HelperTestCase
             ]
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('css'));
+        $this->assertHtml($expected, $this->_helper()->getAssets('css.fancybox.output'));
     }
 
     public function testMaterialize()
@@ -101,11 +117,15 @@ class AssetsHelperTest extends HelperTestCase
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
-            ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
-            ['script' => ['src' => 'http://localhost/js/libs/materialize.min.js']], '/script',
+            'jquery' => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
+            'mategialize' => ['script' => ['src' => 'http://localhost/js/libs/materialize.min.js']], '/script',
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('script'));
+        $jquery = $this->_helper()->getAssets('script.jquery.output');
+        $materialize = $this->_helper()->getAssets('script.materialize.output');
+
+        $this->assertHtml($expected['jquery'], $jquery);
+        $this->assertHtml($expected['materialize'], $materialize);
 
         $expected = [
             'link' => [
@@ -114,7 +134,7 @@ class AssetsHelperTest extends HelperTestCase
             ]
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('css'));
+        $this->assertHtml($expected, $this->_helper()->getAssets('css.materialize.output'));
     }
 
     public function testSweetAlert()
@@ -123,11 +143,15 @@ class AssetsHelperTest extends HelperTestCase
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
-            ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
-            ['script' => ['src' => 'http://localhost/js/libs/sweetalert.min.js']], '/script',
+            'jquery' => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
+            'sweetalert' => ['script' => ['src' => 'http://localhost/js/libs/sweetalert.min.js']], '/script',
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('script'));
+        $jquery = $this->_helper()->getAssets('script.jquery.output');
+        $sweetalert = $this->_helper()->getAssets('script.sweetalert.output');
+
+        $this->assertHtml($expected['jquery'], $jquery);
+        $this->assertHtml($expected['sweetalert'], $sweetalert);
 
         $expected = [
             'link' => [
@@ -136,7 +160,7 @@ class AssetsHelperTest extends HelperTestCase
             ]
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('css'));
+        $this->assertHtml($expected, $this->_helper()->getAssets('css.sweetalert.output'));
     }
 
     public function testUIKit()
@@ -145,11 +169,15 @@ class AssetsHelperTest extends HelperTestCase
         $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
-            ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
-            ['script' => ['src' => 'http://localhost/js/libs/uikit.min.js']], '/script',
+            'jquery' => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
+            'uikit' => ['script' => ['src' => 'http://localhost/js/libs/uikit.min.js']], '/script',
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('script'));
+        $jquery = $this->_helper()->getAssets('script.jquery.output');
+        $uikit  = $this->_helper()->getAssets('script.uikit.output');
+
+        $this->assertHtml($expected['jquery'], $jquery);
+        $this->assertHtml($expected['uikit'], $uikit);
 
         $expected = [
             'link' => [
@@ -158,7 +186,7 @@ class AssetsHelperTest extends HelperTestCase
             ]
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('css'));
+        $this->assertHtml($expected, $this->_helper()->getAssets('css.uikit.output'));
     }
 
     public function testFontAwesome()
@@ -173,6 +201,16 @@ class AssetsHelperTest extends HelperTestCase
             ]
         ];
 
-        $this->assertHtml($expected, $this->View->fetch('css'));
+        $this->assertHtml($expected, $this->_helper()->getAssets('css.font-awesome.output'));
+    }
+
+    public function testGetAssets()
+    {
+        $this->_helper()->fontAwesome()->uikit();
+        $scripts = $this->_helper()->getAssets('script');
+
+        $this->assertTrue(is_array($scripts));
+        $this->assertArrayHasKey('jquery', $scripts);
+        $this->assertArrayHasKey('uikit', $scripts);
     }
 }
