@@ -68,6 +68,40 @@ class DocumentHelper extends AppHelper
     }
 
     /**
+     * Create head for layout.
+     *
+     * @return string
+     */
+    public function head()
+    {
+        $output = [
+            'meta' => $this->_View->fetch('meta'),
+            'assets' => $this->assets('css'),
+            'fetch_css' => $this->_View->fetch('css'),
+            'fetch_css_bottom' => $this->_View->fetch('css_bottom'),
+        ];
+
+        return implode('', $output);
+    }
+
+    /**
+     * Get assets fot layout render.
+     *
+     * @param string $type
+     * @return string
+     */
+    public function assets($type = 'css')
+    {
+        $output = [];
+        $assets = $this->Assets->getAssets($type);
+        foreach ($assets as $asset) {
+            $output[] = $asset['output'];
+        }
+
+        return implode($this->eol, $output);
+    }
+
+    /**
      * Site language.
      *
      * @param bool|true $isLang

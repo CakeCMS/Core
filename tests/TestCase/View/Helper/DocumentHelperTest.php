@@ -122,6 +122,41 @@ class DocumentHelperTest extends HelperTestCase
 
         $this->assertSame($expected, $this->View->fetch('meta'));
     }
+
+    public function testAssets()
+    {
+        $this->_helper()->Assets
+            ->bootstrap()
+            ->fancyBox();
+
+        $styles = $this->_helper()->assets('css');
+        $this->assertHtml([
+            ['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/libs/bootstrap.min.css']],
+            ['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/libs/fancybox.min.css']],
+        ], $styles);
+
+        $scripts = $this->_helper()->assets('script');
+        $this->assertHtml([
+            ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
+            ['script' => ['src' => 'http://localhost/js/libs/bootstrap.min.js']], '/script',
+            ['script' => ['src' => 'http://localhost/js/libs/fancybox.min.js']], '/script',
+        ], $scripts);
+    }
+
+    public function testHead()
+    {
+        $this->_helper()->Assets
+            ->bootstrap()
+            ->fancyBox();
+
+        $this->_helper()->Html->css('styles.css', ['block' => 'css']);
+
+        $this->assertHtml([
+            ['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/libs/bootstrap.min.css']],
+            ['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/libs/fancybox.min.css']],
+            ['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/styles.css']],
+        ], $this->_helper()->head());
+    }
 }
 
 /**

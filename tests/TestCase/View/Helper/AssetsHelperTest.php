@@ -118,7 +118,7 @@ class AssetsHelperTest extends HelperTestCase
 
         $expected = [
             'jquery' => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
-            'mategialize' => ['script' => ['src' => 'http://localhost/js/libs/materialize.min.js']], '/script',
+            'materialize' => ['script' => ['src' => 'http://localhost/js/libs/materialize.min.js']], '/script',
         ];
 
         $jquery = $this->_helper()->getAssets('script.jquery.output');
