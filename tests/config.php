@@ -19,7 +19,7 @@ use Cake\Core\Configure;
 //  Write test application config.
 Configure::write('debug', true);
 Configure::write('App', [
-    'namespace'     => 'App',
+    'namespace'     => 'Test\App',
     'encoding'      => env('APP_ENCODING', 'UTF-8'),
     'defaultLocale' => env('APP_DEFAULT_LOCALE', 'ru_RU'),
     'base'          => false,
