@@ -40,7 +40,6 @@ return [
         $view->loadHelper('Core.Assets');
         $view->loadHelper('Core.Document');
         $view->loadHelper('Core.Filter');
-        $view->loadHelper('Core.Toolbar');
         $view->loadHelper('Url', ['className' => 'Core.Url']);
         $view->loadHelper('Html', ['className' => 'Core.Html']);
         $view->loadHelper('Form', [
