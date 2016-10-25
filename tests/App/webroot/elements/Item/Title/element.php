@@ -13,15 +13,9 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\ORM;
-
-use Cake\ORM\Entity as CakeEntity;
-
-/**
- * Class Entity
- *
- * @package Core\ORM
- */
-class Entity extends CakeEntity
-{
-}
+return [
+    'meta' => [
+        'name' => 'Item Title',
+        'core' => true,
+    ]
+];

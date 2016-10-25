@@ -37,8 +37,15 @@ Configure::write('App', [
             TEST_APP_DIR . 'plugins' . DS,
             TEST_APP_DIR . 'themes' . DS,
         ],
-        'templates' => [APP . 'Template' . DS],
-        'locales' => [APP . 'Locale' . DS],
+        'templates' => [
+            APP . 'Template' . DS,
+        ],
+        'locales' => [
+            APP . 'Locale' . DS,
+        ],
+        'elements' => [
+            WWW_ROOT . 'elements',
+        ]
     ],
 ]);
 
