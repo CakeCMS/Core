@@ -13,3 +13,24 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  * @var       \Core\View\AppView $this
  */
+
+$this->Document->meta([
+    '<title>' . $this->fetch('page_title') . '</title>',
+    '<meta http-equiv="X-UA-Compatible" content="IE=edge">',
+    '<meta name="viewport" content="width=device-width, initial-scale=1">',
+], 'meta');
+
+echo $this->Document->type();
+?>
+<head>
+    <?= $this->Document->head() ?>
+</head>
+<body>
+    <div class="content">
+        <?= $this->fetch('content') ?>
+    </div>
+<?= $this->Document->assets('script') ?>
+<?= $this->fetch('script') ?>
+<?= $this->fetch('script_bottom') ?>
+</body>
+</html>

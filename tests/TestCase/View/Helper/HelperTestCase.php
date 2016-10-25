@@ -18,7 +18,7 @@ namespace Core\Test\TestCase\View\Helper;
 use Core\Plugin;
 use Cake\View\View;
 use Cake\Utility\Hash;
-use Cake\TestSuite\TestCase;
+use Core\TestSuite\TestCase;
 
 /**
  * Class HelperTestCase

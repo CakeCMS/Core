@@ -84,7 +84,7 @@ class HtmlHelper extends CakeHtmlHelper
             return $value;
         }
 
-        return Hash::sort($value, '{n}.weight', 'asc');
+        return Hash::sort((array) $value, '{n}.weight', 'asc');
     }
 
     /**

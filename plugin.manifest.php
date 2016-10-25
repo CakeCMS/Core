@@ -53,6 +53,7 @@ return [
                 return $options;
             },
         ]);
+        $view->loadHelper('Core.Js');
         $view->loadHelper('Text');
         $view->loadHelper('Flash');
         $view->loadHelper('Paginator');

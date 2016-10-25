@@ -16,6 +16,7 @@
 namespace Core\TestSuite;
 
 use Core\Plugin;
+use JBZoo\Utils\Str;
 use Cake\Cache\Cache;
 use Cake\TestSuite\TestCase as CakeTestCase;
 
@@ -70,5 +71,21 @@ class TestCase extends CakeTestCase
         parent::tearDown();
         Plugin::unload($this->_plugin);
         Cache::drop('test_cached');
+    }
+
+    /**
+     * @param string $string
+     * @return array
+     */
+    protected function _getStrArray($string)
+    {
+        $output  = [];
+        $details = explode("\n", $string);
+        foreach ($details as $string) {
+            $string   = Str::trim($string);
+            $output[] = $string;
+        }
+
+        return $output;
     }
 }
