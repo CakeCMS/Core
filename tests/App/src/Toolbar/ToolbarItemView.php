@@ -30,7 +30,7 @@ class ToolbarItemView extends ToolbarItem
      *
      * @return string
      */
-    public function fetchButton()
+    public function fetchItem()
     {
         return 'view';
     }

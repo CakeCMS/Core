@@ -28,7 +28,9 @@ use Core\Toolbar\ToolbarItem;
 class Toolbar
 {
 
-    const DEFAULT_NAME = 'toolbar';
+    const DEFAULT_NAME      = 'toolbar';
+    const CLASS_TYPE        = 'Toolbar';
+    const CLASS_NAME_PREFIX = 'ToolbarItem';
 
     /**
      * Button type objects.
@@ -160,11 +162,25 @@ class Toolbar
      * Render toolbar items.
      *
      * @return string
+     * @SuppressWarnings(PHPMD.ShortVariable)
      */
     public function render()
     {
+        $i = 0;
         $output = [];
+        $count  = count($this->_items);
         foreach ($this->_items as $item) {
+            $i++;
+            $item['class'] = 'item-wrapper tb-item-' . $i;
+
+            if ($i == 1) {
+                $item['class'] .= ' first';
+            }
+
+            if ($i == $count) {
+                $item['class'] .= ' last';
+            }
+
             $output[] = $this->renderItem($item);
         }
 
@@ -202,12 +218,12 @@ class Toolbar
             $plugin = 'Core';
         }
 
-        $buttonClass = $plugin . '.ToolbarItem' . $aliasClass;
-        $className   = App::className($buttonClass, 'Toolbar');
+        $buttonClass = $plugin . '.' . self::CLASS_NAME_PREFIX . $aliasClass;
+        $className   = App::className($buttonClass, self::CLASS_TYPE);
 
         if ($className === false) {
-            $buttonClass = 'ToolbarItem' . $aliasClass;
-            $className   = App::className($buttonClass, 'Toolbar');
+            $buttonClass = self::CLASS_NAME_PREFIX . $aliasClass;
+            $className   = App::className($buttonClass, self::CLASS_TYPE);
         }
 
         return $className;

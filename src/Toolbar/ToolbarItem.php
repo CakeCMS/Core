@@ -15,6 +15,7 @@
 
 namespace Core\Toolbar;
 
+use JBZoo\Utils\Str;
 use Core\Utility\Toolbar;
 use Core\View\ButtonView;
 use Cake\Utility\Inflector;
@@ -53,11 +54,11 @@ abstract class ToolbarItem
     }
 
     /**
-     * Get the button output.
+     * Get the item output.
      *
      * @return string
      */
-    abstract public function fetchButton();
+    abstract public function fetchItem();
 
     /**
      * Fetch button id.
@@ -69,7 +70,7 @@ abstract class ToolbarItem
      */
     public function fetchId($type, $name)
     {
-        return Inflector::dasherize($this->_parent->getName()) . '-' . $name;
+        return Inflector::dasherize($this->_parent->getName()) . '-' . Str::slug($type);
     }
 
     /**
@@ -81,13 +82,21 @@ abstract class ToolbarItem
     public function render(&$node)
     {
         $id = call_user_func_array([&$this, 'fetchId'], $node);
-        $output = call_user_func_array([&$this, 'fetchButton'], $node);
+        $output = call_user_func_array([&$this, 'fetchItem'], $node);
+        list ($source) = $node;
+        list ($plugin) = pluginSplit($source);
 
         $options = [
             'id'     => $id,
             'output' => $output,
+            'class'  => $node['class'],
         ];
 
-        return $this->_view->element('Toolbar/wrapper', $options);
+        $element = 'Toolbar/wrapper';
+        if ($plugin !== null) {
+            $element = $plugin . '.' . $element;
+        }
+
+        return $this->_view->element($element, $options);
     }
 }

@@ -13,26 +13,29 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Test\Toolbar;
+namespace Core\Toolbar;
 
-use Core\Toolbar\ToolbarItem;
+use Cake\Routing\Router;
 
 /**
- * Class ToolbarItemSimple
+ * Class ToolbarItemLink
  *
- * @package Test\Toolbar
+ * @package Core\Toolbar
  */
-class ToolbarItemSimple extends ToolbarItem
+class ToolbarItemLink extends ToolbarItem
 {
 
     /**
-     * Fetch the HTML for the button.
+     * Fetch button id.
      *
      * @return string
+     * @SuppressWarnings("unused")
      */
     public function fetchItem()
     {
-        list($type) = func_get_args();
-        return $type;
+        list ($source, $title, $url, $options) = func_get_args();
+        $url = Router::url($url);
+
+        return $this->_view->Html->link($title, $url, $options);
     }
 }

@@ -16,8 +16,8 @@
 namespace Core\Test\TestCase\Utility;
 
 use Core\Plugin;
-use Core\TestSuite\TestCase;
 use Core\Utility\Toolbar;
+use Core\TestSuite\TestCase;
 
 /**
  * Class ToolbarTest
@@ -119,14 +119,14 @@ class ToolbarTest extends TestCase
 
         $output = $object->render();
         $this->assertHtml([
-            'div' => ['class' => 'btn-wrapper', 'id' => 'test-render-button-home'],
+            'div' => ['class' => 'btn-wrapper', 'id' => 'test-render-button-test-simple'],
                 'Test.simple',
             '/div'
         ], $output);
 
         $output = $object->render();
         $this->assertHtml([
-            'div' => ['class' => 'btn-wrapper', 'id' => 'test-render-button-home'],
+            'div' => ['class' => 'btn-wrapper', 'id' => 'test-render-button-test-simple'],
                 'Test.simple',
             '/div'
         ], $output);
