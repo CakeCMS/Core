@@ -15,11 +15,20 @@
 
 namespace Core\ORM\Entity;
 
+use JBZoo\Data\Data;
+
 /**
  * Class Element
  *
  * @package Core\ORM\Entity
  */
-class Element extends Entity
+abstract class Element extends Entity
 {
+
+    /**
+     * List of elements.
+     *
+     * @var Data
+     */
+    public $elements;
 }

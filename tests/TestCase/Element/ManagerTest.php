@@ -27,6 +27,11 @@ use Core\ORM\Entity\Element as ElementEntity;
 class ManagerTest extends TestCase
 {
 
+    public function testClassName()
+    {
+        $this->assertInstanceOf('Core\Element\Manager', $this->_getManager());
+    }
+
     /**
      * @expectedException \Core\Element\Exception\ElementException
      */
