@@ -13,6 +13,8 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
+use Core\Cms;
+use Core\Plugin;
 use Cake\Core\Configure;
 
 /**
@@ -36,3 +38,5 @@ Configure::write('Cache.defaultConfig', [
     'path'      => CACHE . 'queries' . DS,
     'prefix'    => 'un_',
 ]);
+
+Cms::mergeConfig('App.paths.elements', Plugin::path('Core') . 'elements/');
