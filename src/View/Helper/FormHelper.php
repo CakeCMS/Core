@@ -15,9 +15,15 @@
 
 namespace Core\View\Helper;
 
+use Cake\Form\Form;
 use Cake\View\View;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
+use Core\View\Form\FormContext;
+use Cake\Collection\Collection;
+use Core\View\Form\ArrayContext;
+use Core\View\Form\EntityContext;
+use Cake\Datasource\EntityInterface;
 use Core\View\Helper\Traits\HelperTrait;
 use Cake\View\Helper\FormHelper as CakeFormHelper;
 
@@ -136,5 +142,73 @@ class FormHelper extends CakeFormHelper
         }
 
         return parent::end($secureAttributes);
+    }
+
+    /**
+     * Add the default suite of context providers provided.
+     *
+     * @return void
+     */
+    protected function _addDefaultContextProviders()
+    {
+        $this->addContextProvider('orm', function ($request, $data) {
+            if (is_array($data['entity']) || $data['entity'] instanceof \Traversable) {
+                $pass = (new Collection($data['entity']))->first() !== null;
+                if ($pass) {
+                    return new EntityContext($request, $data);
+                }
+            }
+
+            return $this->_addEntityContent($request, $data);
+        });
+
+        $this->_addFormContextProvider();
+        $this->_addFormArrayProvider();
+    }
+
+    /**
+     * Add the entity suite of context providers provided.
+     *
+     * @param $request
+     * @param $data
+     * @return EntityContext
+     */
+    protected function _addEntityContent($request, $data)
+    {
+        if ($data['entity'] instanceof EntityInterface) {
+            return new EntityContext($request, $data);
+        }
+
+        if (is_array($data['entity']) && empty($data['entity']['schema'])) {
+            return new EntityContext($request, $data);
+        }
+    }
+
+    /**
+     * Add the form suite of context providers provided.
+     *
+     * @return void
+     */
+    protected function _addFormContextProvider()
+    {
+        $this->addContextProvider('form', function ($request, $data) {
+            if ($data['entity'] instanceof Form) {
+                return new FormContext($request, $data);
+            }
+        });
+    }
+
+    /**
+     * Add the array suite of context providers provided.
+     *
+     * @return void
+     */
+    protected function _addFormArrayProvider()
+    {
+        $this->addContextProvider('array', function ($request, $data) {
+            if (is_array($data['entity']) && isset($data['entity']['schema'])) {
+                return new ArrayContext($request, $data['entity']);
+            }
+        });
     }
 }

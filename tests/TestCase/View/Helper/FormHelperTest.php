@@ -16,10 +16,13 @@
 namespace Core\Test\TestCase\View\Helper;
 
 use Core\Plugin;
+use Core\ORM\Table;
 use Cake\Cache\Cache;
 use Core\View\AppView;
 use Cake\Core\Configure;
 use Cake\Network\Request;
+use Cake\ORM\TableRegistry;
+use Core\ORM\Entity\Entity;
 use Core\View\Helper\FormHelper;
 
 /**
@@ -130,5 +133,115 @@ class FormHelperTest extends HelperTestCase
                 'Test',
             '/button',
         ], $this->_helper()->button('Test', ['icon' => 'home']));
+    }
+
+    public function testInputValueByEntityContext()
+    {
+        $helper = $this->_helper();
+        $entity = new Entity([
+            'name' => 'Test title',
+            'email' => 'test@google.com',
+            'params' => [
+                'name' => 'Test param'
+            ]
+        ]);
+
+        TableRegistry::get('Forms', [
+            'className' => __NAMESPACE__ . '\FormsTable'
+        ]);
+
+        $helper->create($entity, ['context' => ['table' => 'Forms']]);
+
+        $this->assertHtml([
+            'div' => ['class' => 'input email'],
+                'label' => ['for' => 'email'],
+                    'Email',
+                '/label',
+                'input' => [
+                    'type' => 'email',
+                    'name' => 'email',
+                    'maxlength' => 255,
+                    'id' => 'email',
+                    'value' => 'test@google.com'
+                ],
+            '/div'
+        ], $helper->input('email'));
+
+        $this->assertHtml([
+            'div' => ['class' => 'input text'],
+                'label' => ['for' => 'name'],
+                    'Name',
+                '/label',
+                'input' => [
+                    'type' => 'text',
+                    'name' => 'name',
+                    'maxlength' => 255,
+                    'id' => 'name',
+                    'value' => 'Test title'
+                ],
+            '/div'
+        ], $helper->input('name'));
+
+        $this->assertHtml([
+            'div' => ['class' => 'input text'],
+                'label' => ['for' => 'test'],
+                    'Test',
+                '/label',
+                'input' => ['type' => 'text', 'name' => 'test', 'id' => 'test'],
+            '/div'
+        ], $helper->input('test'));
+
+        $this->assertHtml([
+            'div' => ['class' => 'input text'],
+                'label' => ['for' => 'params-name'],
+                    'Name',
+                '/label',
+                'input' => [
+                    'type' => 'text',
+                    'name' => 'params[name]',
+                    'maxlength' => 255,
+                    'id' => 'params-name',
+                    'value' => 'Test param'
+                ],
+            '/div'
+        ], $helper->input('params.name'));
+    }
+}
+
+/**
+ * Class FormsTable
+ *
+ * @package Core\Test\TestCase\View\Helper
+ */
+class FormsTable extends Table
+{
+
+    /**
+     * Default schema
+     *
+     * @var array
+     */
+    protected $_schema = [
+        'id' => ['type' => 'integer', 'null' => '', 'default' => '', 'length' => '8'],
+        'name' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+        'email' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+        'phone' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+        'password' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+        'params' => ['type' => 'text', 'null' => '', 'default' => ''],
+        'published' => ['type' => 'date', 'null' => true, 'default' => null, 'length' => null],
+        'created' => ['type' => 'date', 'null' => '1', 'default' => '', 'length' => ''],
+        'updated' => ['type' => 'datetime', 'null' => '1', 'default' => '', 'length' => null],
+        'age' => ['type' => 'integer', 'null' => '', 'default' => '', 'length' => null],
+        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+    ];
+
+    /**
+     * Initializes the schema.
+     *
+     * @param array $config
+     */
+    public function initialize(array $config)
+    {
+        $this->schema($this->_schema);
     }
 }

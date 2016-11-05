@@ -13,29 +13,15 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\ORM\Entity;
+namespace Core\View\Form;
 
-use JBZoo\Data\Data;
-use JBZoo\Data\JSON;
-use Cake\ORM\Entity as CakeEntity;
+use Cake\View\Form\FormContext as CakeFormContext;
 
 /**
- * Class Entity
+ * Class FormContext
  *
- * @package Core\ORM\Entity
- * @property Data $params
+ * @package Core\View
  */
-class Entity extends CakeEntity
+class FormContext extends CakeFormContext
 {
-
-    /**
-     * Create new current params field.
-     *
-     * @param $params
-     * @return JSON
-     */
-    protected function _getParams($params)
-    {
-        return new JSON($params);
-    }
 }
