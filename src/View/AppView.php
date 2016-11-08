@@ -16,6 +16,7 @@
 namespace Core\View;
 
 use Core\Plugin;
+use Cake\Core\App;
 use Cake\View\View;
 use JBZoo\Utils\FS;
 
@@ -34,6 +35,15 @@ use JBZoo\Utils\FS;
  */
 class AppView extends View
 {
+
+    const VIEW_FORM = 'form';
+
+    /**
+     * Controller form actions.
+     *
+     * @var array
+     */
+    protected $_formActions = ['edit', 'add'];
 
     /**
      * Initialization hook method.
@@ -67,6 +77,65 @@ class AppView extends View
         }
 
         return null;
+    }
+
+    /**
+     * Renders view for given template file and layout.
+     *
+     * @param null|string $view
+     * @param null|string $layout
+     * @return null|string
+     */
+    public function render($view = null, $layout = null)
+    {
+        $view = $this->_getFormView($view);
+        return parent::render($view, $layout);
+    }
+
+    /**
+     * Find form view by request.
+     *
+     * @return string|null
+     */
+    protected function _findViewByRequest()
+    {
+        $paths = App::path('Template', $this->plugin);
+
+        $action      = (string) $this->request->param('action');
+        $controller  = $this->request->param('controller');
+        $viewFile    = $action . $this->_ext;
+        $viewSubPath = $this->_getSubPaths($controller);
+
+        foreach ($paths as $path) {
+            foreach ($viewSubPath as $subPath) {
+                $full = $path . $subPath . DS . $viewFile;
+                if (FS::isFile($full)) {
+                    return $action;
+                }
+
+                $formView = $path . $subPath . DS . self::VIEW_FORM . $this->_ext;
+                if (FS::isFile($formView)) {
+                    return self::VIEW_FORM;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Get current form view.
+     *
+     * @param null|string $view
+     * @return null
+     */
+    protected function _getFormView($view = null)
+    {
+        if (is_null($view) && in_array($this->request->param('action'), $this->_formActions)) {
+            $view = $this->_findViewByRequest();
+        }
+
+        return $view;
     }
 
     /**

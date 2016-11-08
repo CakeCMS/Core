@@ -18,7 +18,9 @@ namespace Core\Test\TestCase;
 use Core\Plugin;
 use Core\View\AppView;
 use Core\View\AjaxView;
+use Cake\Network\Request;
 use Core\TestSuite\TestCase;
+use Test\App\Controller\FormsController;
 
 /**
  * Class ViewTest
@@ -72,5 +74,58 @@ class ViewTest extends TestCase
         $this->assertSame('Plugin partial', $actual);
 
         $this->assertNull($this->View->partial('no-found'));
+    }
+
+    public function testRenderFormViewByActionIfFind()
+    {
+        $request = new Request([
+            'params' => [
+                'controller' => 'Forms',
+                'action'     => 'edit',
+                'pass'       => [],
+            ]
+        ]);
+
+        $controller = new FormsController($request);
+        $view = $controller->createView('Test\App\View\AppView');
+        $view->templatePath('Forms');
+        $actual = $view->render();
+        $this->assertRegExp('/Edit template/', $actual);
+    }
+
+    public function testRenderFormViewByActionNotFind()
+    {
+        $request = new Request([
+            'params' => [
+                'controller' => 'Forms',
+                'action'     => 'add',
+                'pass'       => [],
+            ]
+        ]);
+
+        $controller = new FormsController($request);
+        $view = $controller->createView('Test\App\View\AppView');
+        $view->templatePath('Forms');
+        $actual = $view->render();
+        $this->assertRegExp('/Form template/', $actual);
+    }
+
+    /**
+     * @expectedException \Cake\View\Exception\MissingTemplateException
+     */
+    public function testRenderFormViewNotFindTemplate()
+    {
+        $request = new Request([
+            'params' => [
+                'controller' => 'NoExist',
+                'action'     => 'add',
+                'pass'       => [],
+            ]
+        ]);
+
+        $controller = new FormsController($request);
+        $view = $controller->createView('Test\App\View\AppView');
+        $view->templatePath('NoExist');
+        $view->render(null);
     }
 }
