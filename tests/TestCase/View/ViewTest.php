@@ -126,6 +126,6 @@ class ViewTest extends TestCase
         $controller = new FormsController($request);
         $view = $controller->createView('Test\App\View\AppView');
         $view->templatePath('NoExist');
-        $view->render(false);
+        $view->render(' ');
     }
 }
