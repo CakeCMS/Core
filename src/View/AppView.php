@@ -131,7 +131,7 @@ class AppView extends View
      */
     protected function _getFormView($view = null)
     {
-        if (is_null($view) && in_array($this->request->param('action'), $this->_formActions)) {
+        if (empty($view) && in_array($this->request->param('action'), $this->_formActions)) {
             $view = $this->_findViewByRequest();
         }
 
