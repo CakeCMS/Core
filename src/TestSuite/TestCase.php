@@ -36,6 +36,13 @@ class TestCase extends CakeTestCase
     protected $_plugin = 'Core';
 
     /**
+     * Core plugin.
+     *
+     * @var string
+     */
+    private $_corePlugin = 'Core';
+
+    /**
      * Setup the test case, backup the static object values so they can be restored.
      * Specifically backs up the contents of Configure and paths in App if they have
      * not already been backed up.
@@ -46,19 +53,27 @@ class TestCase extends CakeTestCase
     {
         parent::setUp();
 
-        $options = [
-            'path' => ROOT . DS,
-            'bootstrap' => true,
-            'routes' => true,
-        ];
+        if (!Plugin::loaded($this->_corePlugin)) {
+            $loadParams = [
+                'bootstrap' => true,
+                'routes'    => true,
+                'path'      => ROOT . DS,
+            ];
 
-        if ($this->_plugin !== 'Core') {
-            unset($options['path']);
-            $options['autoload'] = true;
+            Plugin::load($this->_corePlugin, $loadParams);
+            Plugin::routes($this->_corePlugin);
         }
 
-        Plugin::load($this->_plugin, $options);
-        Plugin::routes($this->_plugin);
+        if ($this->_plugin !== $this->_corePlugin) {
+            $options = [
+                'bootstrap' => true,
+                'routes'    => true,
+                'autoload'  => true,
+            ];
+
+            Plugin::load($this->_plugin, $options);
+            Plugin::routes($this->_plugin);
+        }
     }
 
     /**
@@ -69,7 +84,10 @@ class TestCase extends CakeTestCase
     public function tearDown()
     {
         parent::tearDown();
-        Plugin::unload($this->_plugin);
+        Plugin::unload($this->_corePlugin);
+        if ($this->_plugin !== $this->_corePlugin) {
+            Plugin::unload($this->_plugin);
+        }
         Cache::drop('test_cached');
     }
 

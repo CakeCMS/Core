@@ -1,5 +1,6 @@
 /.idea
 vendor
+application
 build
 composer.lock
 tests/App/themes

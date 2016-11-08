@@ -60,23 +60,26 @@ coveralls:
 	@echo ""
 
 prepare-test-app:
+	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Clone CakeCMS/App \033[0m"
+	git clone --depth=50 --branch=master https://github.com/CakeCMS/App.git application
+
 	@echo -e "\033[0;33m>>> \033[0;30;46m Install application npm \033[0m"
-	cd ./vendor/cake-cms/app && npm install && cd ../../../
+	cd ./application && npm install && cd ../
 	@echo ""
 
 	@echo -e "\033[0;33m>>> \033[0;30;46m Install application bower \033[0m"
-	cd ./vendor/cake-cms/app && bower install && cd ../../../
+	cd ./application && bower install && cd ../
 	@echo ""
 
 	@echo -e "\033[0;33m>>> \033[0;30;46m Application gulp update \033[0m"
-	cd ./vendor/cake-cms/app && gulp update && cd ../../../
+	cd ./application && gulp update && cd ../
 	@echo ""
 
 	@echo -e "\033[0;33m>>> \033[0;30;46m Prepare app css libs \033[0m"
 	mkdir -p ./tests/App/webroot/css/libs
-	cp ./vendor/cake-cms/app/webroot/css/libs/* ./tests/App/webroot/css/libs
+	cp ./application/webroot/css/libs/* ./tests/App/webroot/css/libs
 	@echo ""
 
 	@echo -e "\033[0;33m>>> \033[0;30;46m Prepare app css libs \033[0m"
 	mkdir -p ./tests/App/webroot/js/libs
-	cp ./vendor/cake-cms/app/webroot/js/libs/* ./tests/App/webroot/js/libs
+	cp ./application/webroot/js/libs/* ./tests/App/webroot/js/libs

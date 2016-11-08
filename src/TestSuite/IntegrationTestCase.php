@@ -36,6 +36,13 @@ class IntegrationTestCase extends CakeIntegrationTestCase
     protected $_plugin = 'Core';
 
     /**
+     * Core plugin.
+     *
+     * @var string
+     */
+    private $_corePlugin = 'Core';
+
+    /**
      * Default url.
      *
      * @var array
@@ -56,18 +63,30 @@ class IntegrationTestCase extends CakeIntegrationTestCase
     public function setUp()
     {
         parent::setUp();
-        Plugin::load('Core', [
-            'path'      => ROOT . DS,
-            'bootstrap' => true,
-            'routes'    => true,
-        ]);
 
-        Plugin::routes('Core');
+        if (!Plugin::loaded($this->_corePlugin)) {
+            $loadParams = [
+                'bootstrap' => true,
+                'routes'    => true,
+                'path'      => ROOT . DS,
+            ];
 
-        Plugin::loadList([$this->_plugin]);
-        Plugin::routes($this->_plugin);
+            Plugin::load($this->_corePlugin, $loadParams);
+            Plugin::routes($this->_corePlugin);
+        }
 
-        $this->_url['plugin'] = $this->_plugin;
+        if ($this->_plugin !== $this->_corePlugin) {
+            $options = [
+                'bootstrap' => true,
+                'routes'    => true,
+                'autoload'  => true,
+            ];
+
+            Plugin::load($this->_plugin, $options);
+            Plugin::routes($this->_plugin);
+
+            $this->_url['plugin'] = $this->_plugin;
+        }
     }
 
     /**
@@ -78,8 +97,12 @@ class IntegrationTestCase extends CakeIntegrationTestCase
     public function tearDown()
     {
         parent::tearDown();
-        Plugin::unload('Core');
-        Plugin::unload($this->_plugin);
+
+        Plugin::unload($this->_corePlugin);
+        if ($this->_plugin !== $this->_corePlugin) {
+            Plugin::unload($this->_plugin);
+        }
+
         Cache::drop('test_cached');
         unset($this->_url);
     }

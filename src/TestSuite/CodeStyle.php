@@ -74,6 +74,7 @@ class CodeStyle extends JBCodeStyle
         '.git',
         '.idea',
         'bin',
+        'application',
         'bower_components',
         'build',
         'fonts',
