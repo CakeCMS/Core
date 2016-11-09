@@ -30,8 +30,12 @@ return [
     ],
 
     'Controller.initialize' => function (Controller $controller) {
+        $controller->loadComponent('Core.App');
+        $controller->loadComponent('Core.Move');
         $controller->loadComponent('RequestHandler');
-        $controller->loadComponent('Flash');
+        $controller->loadComponent('Flash', [
+            'className' => 'Core.Flash',
+        ]);
     },
 
     'View.initialize' => function (AppView $view) {

@@ -13,7 +13,7 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Test\TestCase;
+namespace Core\Test\TestCase\Controller\Admin;
 
 use Core\TestSuite\IntegrationTestCase;
 
