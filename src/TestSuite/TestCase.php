@@ -40,7 +40,7 @@ class TestCase extends CakeTestCase
      *
      * @var string
      */
-    private $_corePlugin = 'Core';
+    protected $_corePlugin = 'Core';
 
     /**
      * Setup the test case, backup the static object values so they can be restored.

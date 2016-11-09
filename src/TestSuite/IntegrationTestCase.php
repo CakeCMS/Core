@@ -40,7 +40,7 @@ class IntegrationTestCase extends CakeIntegrationTestCase
      *
      * @var string
      */
-    private $_corePlugin = 'Core';
+    protected $_corePlugin = 'Core';
 
     /**
      * Default url.
