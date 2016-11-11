@@ -39,4 +39,4 @@ Configure::write('Cache.defaultConfig', [
     'prefix'    => 'un_',
 ]);
 
-Cms::mergeConfig('App.paths.elements', Plugin::path('Core') . 'elements/');
+Cms::mergeConfig('App.paths.elements', Plugin::path('Core') . 'webroot/elements/');
