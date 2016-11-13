@@ -67,44 +67,46 @@ class MoveComponent extends AppComponent
      * Move down record in tree.
      *
      * @param Table $table
-     * @param EntityInterface $entity
+     * @param int $id
      * @param int $step
      * @return \Cake\Network\Response|null
      */
-    public function down(Table $table, EntityInterface $entity, $step = 1)
+    public function down(Table $table, $id, $step = 1)
     {
-        return $this->_move($table, $entity, $step, self::TYPE_DOWN);
+        return $this->_move($table, $id, $step, self::TYPE_DOWN);
     }
 
     /**
      * Move up record in tree.
      *
      * @param Table $table
-     * @param EntityInterface $entity
+     * @param int $id
      * @param int $step
      * @return \Cake\Network\Response|null
      * @SuppressWarnings(PHPMD.ShortMethodName)
      */
-    public function up(Table $table, EntityInterface $entity, $step = 1)
+    public function up(Table $table, $id, $step = 1)
     {
-        return $this->_move($table, $entity, $step);
+        return $this->_move($table, $id, $step);
     }
 
     /**
      * Move object in tree table.
      *
      * @param Table $table
-     * @param EntityInterface $entity
      * @param string $type
+     * @param int $id
      * @param int $step
      * @return \Cake\Network\Response|null
      */
-    protected function _move(Table $table, EntityInterface $entity, $step = 1, $type = self::TYPE_UP)
+    protected function _move(Table $table, $id, $step = 1, $type = self::TYPE_UP)
     {
         $behaviors = $table->behaviors();
         if (!Arr::in('Tree', $behaviors->loaded())) {
             $behaviors->load('Tree');
         }
+
+        $entity = $table->get($id);
 
         /** @var TreeBehavior $treeBehavior */
         $treeBehavior = $behaviors->get('Tree');

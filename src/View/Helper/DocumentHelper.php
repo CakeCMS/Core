@@ -68,6 +68,32 @@ class DocumentHelper extends AppHelper
     }
 
     /**
+     * Get body classes by view data.
+     *
+     * @return string
+     */
+    public function getBodyClasses()
+    {
+        $prefix = ($this->request->param('prefix')) ? 'prefix-' . $this->request->param('prefix') : 'prefix-site';
+
+        $classes = [
+            $prefix,
+            'theme-'    . Str::low($this->_View->theme),
+            'plugin-'   . Str::low($this->_View->plugin),
+            'view-'     . Str::low($this->_View->name),
+            'tmpl-'     . Str::low($this->_View->template),
+            'layout-'   . Str::low($this->_View->layout),
+        ];
+
+        $pass = (array) $this->request->param('pass');
+        if (count($pass)) {
+            $classes[] = 'item-id-' . array_shift($pass);
+        }
+
+        return implode(' ', $classes);
+    }
+
+    /**
      * Create head for layout.
      *
      * @return string

@@ -15,8 +15,8 @@
 
 namespace Core\Test\TestCase\View\Helper;
 
+use App\View\AppView;
 use Cake\Core\Configure;
-use Core\Plugin;
 use Core\View\Helper\DocumentHelper;
 use Core\TestSuite\IntegrationTestCase;
 
@@ -203,5 +203,33 @@ class DocumentHelperTestIntegration extends IntegrationTestCase
         $this->get($this->_url);
         $this->assertResponseOk();
         $this->assertResponseContains('test/js/widget/metadata-form.js');
+    }
+
+    public function testGetBodyClasses()
+    {
+        $this->_url['controller'] = 'Metadata';
+        $this->_url['action'] = 'form';
+
+        $this->get($this->_url);
+        /** @var AppView $view */
+        $view = $this->_controller->viewBuilder()->build();
+        $this->assertSame(
+            'prefix-site theme- plugin-test view-metadata tmpl-form layout-default',
+            $view->Document->getBodyClasses()
+        );
+
+        $passUrl = $this->_getUrl([
+            'controller' => 'Metadata',
+            'action' => 'form',
+            10
+        ]);
+
+        $this->get($passUrl);
+        /** @var AppView $view */
+        $view = $this->_controller->viewBuilder()->build();
+        $this->assertSame(
+            'prefix-site theme- plugin-test view-metadata tmpl-form layout-default item-id-10',
+            $view->Document->getBodyClasses()
+        );
     }
 }

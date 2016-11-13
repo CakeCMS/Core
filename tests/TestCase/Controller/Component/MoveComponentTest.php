@@ -66,7 +66,6 @@ class MoveComponentTest extends TestCase
 
     public function testUpFail()
     {
-
         $request = $this->_request;
         $controller = new MovesController($request);
 
@@ -221,9 +220,7 @@ class MovesController extends AppController
      */
     public function up($id = null, $step = 1)
     {
-        /** @var \Cake\ORM\Entity $entity */
-        $entity = $this->Moves->get($id);
-        return $this->Move->up($this->Moves, $entity, $step);
+        return $this->Move->up($this->Moves, $id, $step);
     }
 
     /**
@@ -235,8 +232,6 @@ class MovesController extends AppController
      */
     public function down($id = null, $step = 1)
     {
-        /** @var \Cake\ORM\Entity $entity */
-        $entity = $this->Moves->get($id);
-        return $this->Move->down($this->Moves, $entity, $step);
+        return $this->Move->down($this->Moves, $id, $step);
     }
 }
