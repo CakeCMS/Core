@@ -213,4 +213,19 @@ class AssetsHelperTest extends HelperTestCase
         $this->assertArrayHasKey('jquery', $scripts);
         $this->assertArrayHasKey('uikit', $scripts);
     }
+
+    public function testTableCheckAll()
+    {
+        $this->_helper()->tableCheckAll();
+        $expected = [
+            'jquery' => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
+            'tablecheckall' => ['script' => ['src' => 'http://localhost/js/libs/jquery-check-all.min.js']], '/script',
+        ];
+
+        $jquery = $this->_helper()->getAssets('script.jquery.output');
+        $tableCheckAll = $this->_helper()->getAssets('script.tablecheckall.output');
+
+        $this->assertHtml($expected['jquery'], $jquery);
+        $this->assertHtml($expected['tablecheckall'], $tableCheckAll);
+    }
 }

@@ -60,8 +60,11 @@ coveralls:
 	@echo ""
 
 prepare-test-app:
-	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Clone CakeCMS/App \033[0m"
+	@echo -e "\033[0;33m>>> >>> >>> >>> >>> >>> >>> >>> \033[0;30;46m Clone CakeCMS Application \033[0m"
 	git clone --depth=50 --branch=master https://github.com/CakeCMS/App.git application
+
+	cd ./application && bin/app-jquery-table.sh && cd ../
+	@echo ""
 
 	@echo -e "\033[0;33m>>> \033[0;30;46m Install application npm \033[0m"
 	cd ./application && npm install && cd ../

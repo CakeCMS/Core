@@ -201,6 +201,23 @@ class AssetsHelper extends AppHelper
     }
 
     /**
+     * Include jquery table check all.
+     *
+     * @return $this
+     */
+    public function tableCheckAll()
+    {
+        $this->jquery();
+
+        $this->Html->script(['libs/jquery-check-all.min.js'], $this->_setOptions([
+            'weight' => 2,
+            'alias'  => __FUNCTION__,
+        ]));
+
+        return $this;
+    }
+
+    /**
      * Include ui kit framework.
      *
      * @return $this
