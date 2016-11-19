@@ -88,6 +88,16 @@ class FormHelper extends CakeFormHelper
     }
 
     /**
+     * Input check all.
+     *
+     * @return string
+     */
+    public function checkAll()
+    {
+        return $this->input('check-all', ['type' => 'checkbox', 'class' => 'jsCheckAll']);
+    }
+
+    /**
      * Create html form.
      *
      * @param mixed $model
@@ -145,6 +155,18 @@ class FormHelper extends CakeFormHelper
     }
 
     /**
+     * Table row process checkbox.
+     *
+     * @param string $name
+     * @param string $type
+     * @return string
+     */
+    public function processCheck($type, $name)
+    {
+        return $this->input($type . '.id.' . $name, ['type' => 'checkbox']);
+    }
+
+    /**
      * Add the default suite of context providers provided.
      *
      * @return void
@@ -185,20 +207,6 @@ class FormHelper extends CakeFormHelper
     }
 
     /**
-     * Add the form suite of context providers provided.
-     *
-     * @return void
-     */
-    protected function _addFormContextProvider()
-    {
-        $this->addContextProvider('form', function ($request, $data) {
-            if ($data['entity'] instanceof Form) {
-                return new FormContext($request, $data);
-            }
-        });
-    }
-
-    /**
      * Add the array suite of context providers provided.
      *
      * @return void
@@ -208,6 +216,20 @@ class FormHelper extends CakeFormHelper
         $this->addContextProvider('array', function ($request, $data) {
             if (is_array($data['entity']) && isset($data['entity']['schema'])) {
                 return new ArrayContext($request, $data['entity']);
+            }
+        });
+    }
+
+    /**
+     * Add the form suite of context providers provided.
+     *
+     * @return void
+     */
+    protected function _addFormContextProvider()
+    {
+        $this->addContextProvider('form', function ($request, $data) {
+            if ($data['entity'] instanceof Form) {
+                return new FormContext($request, $data);
             }
         });
     }

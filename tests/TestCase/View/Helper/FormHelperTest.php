@@ -139,8 +139,8 @@ class FormHelperTest extends HelperTestCase
     {
         $helper = $this->_helper();
         $entity = new Entity([
-            'name' => 'Test title',
-            'email' => 'test@google.com',
+            'name'   => 'Test title',
+            'email'  => 'test@google.com',
             'params' => [
                 'name' => 'Test param'
             ]
@@ -158,11 +158,11 @@ class FormHelperTest extends HelperTestCase
                     'Email',
                 '/label',
                 'input' => [
-                    'type' => 'email',
-                    'name' => 'email',
+                    'type'      => 'email',
+                    'name'      => 'email',
                     'maxlength' => 255,
-                    'id' => 'email',
-                    'value' => 'test@google.com'
+                    'id'        => 'email',
+                    'value'     => 'test@google.com'
                 ],
             '/div'
         ], $helper->input('email'));
@@ -173,11 +173,11 @@ class FormHelperTest extends HelperTestCase
                     'Name',
                 '/label',
                 'input' => [
-                    'type' => 'text',
-                    'name' => 'name',
+                    'type'      => 'text',
+                    'name'      => 'name',
                     'maxlength' => 255,
-                    'id' => 'name',
-                    'value' => 'Test title'
+                    'id'        => 'name',
+                    'value'     => 'Test title'
                 ],
             '/div'
         ], $helper->input('name'));
@@ -197,14 +197,51 @@ class FormHelperTest extends HelperTestCase
                     'Name',
                 '/label',
                 'input' => [
-                    'type' => 'text',
-                    'name' => 'params[name]',
+                    'type'      => 'text',
+                    'name'      => 'params[name]',
                     'maxlength' => 255,
-                    'id' => 'params-name',
-                    'value' => 'Test param'
+                    'id'        => 'params-name',
+                    'value'     => 'Test param'
                 ],
             '/div'
         ], $helper->input('params.name'));
+    }
+
+    public function testCheckAll()
+    {
+        $this->assertHtml([
+            'div' => ['class' => 'input checkbox'],
+                'input' => ['type' => 'hidden', 'name' => 'check-all', 'value' => 0],
+                'label' => ['for' => 'check-all'],
+                    ['input' => [
+                        'type'  => 'checkbox',
+                        'name'  => 'check-all',
+                        'value' => 1,
+                        'class' => 'jsCheckAll',
+                        'id'    => 'check-all'
+                    ]],
+                    'Check All',
+                '/label',
+            '/div'
+        ], $this->_helper()->checkAll());
+    }
+
+    public function testProcessCheck()
+    {
+        $this->assertHtml([
+            'div' => ['class' => 'input checkbox'],
+                'input' => ['type' => 'hidden', 'name' => 'test[id][9]', 'value' => 0],
+                'label' => ['for' => 'test-id-9'],
+                    ['input' => [
+                        'type'  => 'checkbox',
+                        'name'  => 'test[id][9]',
+                        'value' => 1,
+                        'id'    => 'test-id-9'
+                    ]],
+                    '9',
+                '/label',
+            '/div'
+        ], $this->_helper()->processCheck('test', 9));
     }
 }
 
@@ -222,16 +259,16 @@ class FormsTable extends Table
      * @var array
      */
     protected $_schema = [
-        'id' => ['type' => 'integer', 'null' => '', 'default' => '', 'length' => '8'],
-        'name' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
-        'email' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
-        'phone' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
-        'password' => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
-        'params' => ['type' => 'text', 'null' => '', 'default' => ''],
+        'id'        => ['type' => 'integer', 'null' => '', 'default' => '', 'length' => '8'],
+        'name'      => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+        'email'     => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+        'phone'     => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+        'password'  => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
+        'params'    => ['type' => 'text', 'null' => '', 'default' => ''],
         'published' => ['type' => 'date', 'null' => true, 'default' => null, 'length' => null],
-        'created' => ['type' => 'date', 'null' => '1', 'default' => '', 'length' => ''],
-        'updated' => ['type' => 'datetime', 'null' => '1', 'default' => '', 'length' => null],
-        'age' => ['type' => 'integer', 'null' => '', 'default' => '', 'length' => null],
+        'created'   => ['type' => 'date', 'null' => '1', 'default' => '', 'length' => ''],
+        'updated'   => ['type' => 'datetime', 'null' => '1', 'default' => '', 'length' => null],
+        'age'       => ['type' => 'integer', 'null' => '', 'default' => '', 'length' => null],
         '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
     ];
 
