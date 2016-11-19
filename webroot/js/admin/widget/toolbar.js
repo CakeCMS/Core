@@ -27,9 +27,31 @@ JBZoo.widget('JBZoo.Toolbar', {
         var action  = element.data('action');
 
         if (action !== '' && confirm($this.options.deleteMessage)) {
-            $($this.options.formInput).val(action);
-            $($this.options.formInput).closest('.jsForm').submit();
+            $this._submitForm($this, action);
         }
-    }
+    },
 
+    /**
+     * Form save action.
+     *
+     * @param e
+     * @param $this
+     */
+    'click .jsFormAdd' : function (e, $this) {
+        var element = $(this);
+        var action  = element.data('action');
+        $this._submitForm($this, action);
+    },
+
+    /**
+     * Submit form.
+     *
+     * @param $this
+     * @param action
+     * @private
+     */
+    _submitForm : function ($this, action) {
+        $($this.options.formInput).val(action);
+        $($this.options.formInput).closest('.jsForm').submit();
+    }
 });

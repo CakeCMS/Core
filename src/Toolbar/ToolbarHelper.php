@@ -25,6 +25,7 @@ use Core\Utility\Toolbar;
 class ToolbarHelper
 {
 
+    const ACTION_SAVE = 'save';
     const ACTION_DELETE = 'delete';
 
     /**
@@ -55,7 +56,7 @@ class ToolbarHelper
     {
         $toolbar = Toolbar::getInstance(self::$_toolbar);
         $options += [
-            'icon'   => 'link',
+            'icon' => 'link',
             'button' => 'grey lighten-3'
         ];
 
@@ -74,8 +75,8 @@ class ToolbarHelper
     {
         $toolbar = Toolbar::getInstance(self::$_toolbar);
         $options += [
-            'icon'      => $icon,
-            'button'    => 'green lighten-2'
+            'icon' => $icon,
+            'button' => 'green lighten-2'
         ];
 
         $toolbar->appendButton('Core.link', $title, $url, $options);
@@ -85,12 +86,28 @@ class ToolbarHelper
      * Delete for process form.
      *
      * @param string|null $title
-     * @param string $action
      */
-    public static function delete($title = null, $action = self::ACTION_DELETE)
+    public static function delete($title = null)
     {
         $toolbar = Toolbar::getInstance(self::$_toolbar);
-        $title = (empty($title)) ? __d('core', 'Delete') : $title;
-        $toolbar->appendButton('Core.delete', $title, $action);
+        $title   = (empty($title)) ? __d('core', 'Delete') : $title;
+        $toolbar->appendButton('Core.action', $title, self::ACTION_DELETE, []);
+    }
+
+    /**
+     * Save form button.
+     *
+     * @param null $title
+     */
+    public static function save($title = null)
+    {
+        $toolbar = Toolbar::getInstance(self::$_toolbar);
+        $title   = (empty($title)) ? __d('core', 'Save') : $title;
+
+        $toolbar->appendButton('Core.action', $title, self::ACTION_SAVE, [
+            'button' => 'green lighten-2',
+            'icon'   => 'check',
+            'class'  => 'jsFormAdd'
+        ]);
     }
 }

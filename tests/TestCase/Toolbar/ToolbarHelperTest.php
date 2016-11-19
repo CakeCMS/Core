@@ -81,7 +81,7 @@ class ToolbarHelperTest extends TestCase
         $toolbar = Toolbar::getInstance(__FUNCTION__);
 
         $this->assertHtml([
-            ['div' => ['id' => 'test-delete-core-delete', 'class' => 'item-wrapper tb-item-1 first last']],
+            ['div' => ['id' => 'test-delete-core-action', 'class' => 'item-wrapper tb-item-1 first last']],
                 'button' => [
                     'class' => 'jsProcessDelete ck-button waves-effect waves-light btn red lighten-2',
                     'data-action' => 'delete',
@@ -91,6 +91,27 @@ class ToolbarHelperTest extends TestCase
                     'Delete',
                 '/button',
             '/div',
+        ], $toolbar->render());
+    }
+
+    public function testSave()
+    {
+        ToolbarHelper::setToolbar(__FUNCTION__);
+        ToolbarHelper::save();
+
+        $toolbar = Toolbar::getInstance(__FUNCTION__);
+
+        $this->assertHtml([
+            'div' => ['id' => 'test-save-core-action', 'class' => 'item-wrapper tb-item-1 first last'],
+                'button' => [
+                    'type' => 'submit',
+                    'data-action' => 'save',
+                    'class' => 'jsFormAdd ck-button waves-effect waves-light btn green lighten-2'
+                ],
+                    'i' => ['class' => 'ck-icon fa fa-check'], '/i',
+                    'Save',
+                '/button',
+            '/div'
         ], $toolbar->render());
     }
 }

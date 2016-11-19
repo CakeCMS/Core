@@ -15,12 +15,14 @@
 
 namespace Core\Toolbar;
 
+use Cake\Utility\Hash;
+
 /**
- * Class ToolbarItemDelete
+ * Class ToolbarItemAction
  *
  * @package Core\Toolbar
  */
-class ToolbarItemDelete extends ToolbarItem
+class ToolbarItemAction extends ToolbarItem
 {
 
     /**
@@ -31,13 +33,13 @@ class ToolbarItemDelete extends ToolbarItem
      */
     public function fetchItem()
     {
-        list ($source, $title, $action) = func_get_args();
+        list ($source, $title, $action, $options) = func_get_args();
 
-        return $this->_view->Form->button($title, [
-            'button' => 'red lighten-2',
-            'icon'   => 'trash',
-            'class'  => 'jsProcessDelete',
+        return $this->_view->Form->button($title,  Hash::merge([
+            'icon'        => 'trash',
             'data-action' => $action,
-        ]);
+            'button'      => 'red lighten-2',
+            'class'       => 'jsProcessDelete',
+        ], (array) $options));
     }
 }
