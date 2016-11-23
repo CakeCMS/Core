@@ -54,13 +54,6 @@ abstract class ToolbarItem
     }
 
     /**
-     * Get the item output.
-     *
-     * @return string
-     */
-    abstract public function fetchItem();
-
-    /**
      * Fetch button id.
      *
      * @param string $type
@@ -72,6 +65,13 @@ abstract class ToolbarItem
     {
         return Inflector::dasherize($this->_parent->getName()) . '-' . Str::slug($type);
     }
+
+    /**
+     * Get the item output.
+     *
+     * @return string
+     */
+    abstract public function fetchItem();
 
     /**
      * Render toolbar html.

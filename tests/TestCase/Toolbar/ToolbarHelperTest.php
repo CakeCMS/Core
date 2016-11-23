@@ -27,29 +27,6 @@ use Core\Toolbar\ToolbarHelper;
 class ToolbarHelperTest extends TestCase
 {
 
-    public function testLink()
-    {
-        ToolbarHelper::setToolbar(__FUNCTION__);
-        ToolbarHelper::link('Link title', 'http://google.com');
-
-        $toolbar = Toolbar::getInstance(__FUNCTION__);
-
-        $this->assertHtml([
-            ['div' => ['id' => 'test-link-core-link', 'class' => 'item-wrapper tb-item-1 first last']],
-                'a' => [
-                    'href' => 'http://google.com',
-                    'class' => 'ck-link btn btn-grey lighten-3',
-                    'title' => 'Link title'
-                ],
-                    ['i' => ['class' => 'ck-icon fa fa-link']], '/i',
-                    'span' => ['class' => 'ck-link-title'],
-                        'Link title',
-                    '/span',
-                '/a',
-            '/div',
-        ], $toolbar->render());
-    }
-
     public function testAdd()
     {
         ToolbarHelper::setToolbar(__FUNCTION__);
@@ -59,17 +36,51 @@ class ToolbarHelperTest extends TestCase
 
         $this->assertHtml([
             ['div' => ['id' => 'test-add-core-link', 'class' => 'item-wrapper tb-item-1 first last']],
-                'a' => [
-                    'href' => '/add',
-                    'class' => 'ck-link btn btn-green lighten-2',
-                    'title' => 'Add link'
-                ],
-                    ['i' => ['class' => 'ck-icon fa fa-plus']], '/i',
-                    'span' => ['class' => 'ck-link-title'],
-                        'Add link',
-                    '/span',
-                '/a',
+            'a' => [
+                'href'  => '/add',
+                'class' => 'ck-link btn btn-green lighten-2',
+                'title' => 'Add link'
+            ],
+            ['i' => ['class' => 'ck-icon fa fa-plus']], '/i',
+            'span' => ['class' => 'ck-link-title'],
+            'Add link',
+            '/span',
+            '/a',
             '/div',
+        ], $toolbar->render());
+    }
+
+    public function testCancel()
+    {
+        ToolbarHelper::setToolbar(__FUNCTION__);
+        ToolbarHelper::cancel(null, '/index');
+
+        $toolbar = Toolbar::getInstance(__FUNCTION__);
+
+        $this->assertHtml([
+            'div' => ['id' => 'test-cancel-core-link', 'class' => 'item-wrapper tb-item-1 first last'],
+            'a' => ['href' => '/index', 'class' => 'ck-link btn btn-grey lighten-3', 'title' => 'Cancel'],
+            'i' => ['class' => 'ckTextRed ck-icon fa fa-close'], '/i',
+            'span' => ['class' => 'ck-link-title'],
+            'Cancel',
+            '/span',
+            '/a',
+            '/div'
+        ], $toolbar->render());
+
+        ToolbarHelper::setToolbar('cancelTestTitle');
+        ToolbarHelper::cancel('Custom title', '/index');
+
+        $toolbar = Toolbar::getInstance('cancelTestTitle');
+        $this->assertHtml([
+            'div' => ['id' => 'cancel-test-title-core-link', 'class' => 'item-wrapper tb-item-1 first last'],
+            'a' => ['href' => '/index', 'class' => 'ck-link btn btn-grey lighten-3', 'title' => 'Custom title'],
+            'i' => ['class' => 'ckTextRed ck-icon fa fa-close'], '/i',
+            'span' => ['class' => 'ck-link-title'],
+            'Custom title',
+            '/span',
+            '/a',
+            '/div'
         ], $toolbar->render());
     }
 
@@ -82,14 +93,37 @@ class ToolbarHelperTest extends TestCase
 
         $this->assertHtml([
             ['div' => ['id' => 'test-delete-core-action', 'class' => 'item-wrapper tb-item-1 first last']],
-                'button' => [
-                    'class' => 'jsProcessDelete ck-button waves-effect waves-light btn red lighten-2',
-                    'data-action' => 'delete',
-                    'type' => 'submit',
+            'button' => [
+                'class'       => 'jsProcessDelete ck-button waves-effect waves-light btn red lighten-2',
+                'data-action' => 'delete',
+                'type'        => 'submit',
+            ],
+            ['i' => ['class' => 'ck-icon fa fa-trash']], '/i',
+            'Delete',
+            '/button',
+            '/div',
+        ], $toolbar->render());
+    }
+
+    public function testLink()
+    {
+        ToolbarHelper::setToolbar(__FUNCTION__);
+        ToolbarHelper::link('Link title', 'http://google.com');
+
+        $toolbar = Toolbar::getInstance(__FUNCTION__);
+
+        $this->assertHtml([
+            ['div' => ['id' => 'test-link-core-link', 'class' => 'item-wrapper tb-item-1 first last']],
+                'a' => [
+                    'href'  => 'http://google.com',
+                    'class' => 'ck-link btn btn-grey lighten-3',
+                    'title' => 'Link title'
                 ],
-                    ['i' => ['class' => 'ck-icon fa fa-trash']], '/i',
-                    'Delete',
-                '/button',
+                    ['i' => ['class' => 'ck-icon fa fa-link']], '/i',
+                    'span' => ['class' => 'ck-link-title'],
+                        'Link title',
+                    '/span',
+                '/a',
             '/div',
         ], $toolbar->render());
     }
@@ -104,9 +138,9 @@ class ToolbarHelperTest extends TestCase
         $this->assertHtml([
             'div' => ['id' => 'test-save-core-action', 'class' => 'item-wrapper tb-item-1 first last'],
                 'button' => [
-                    'type' => 'submit',
+                    'type'        => 'submit',
                     'data-action' => 'save',
-                    'class' => 'jsFormAdd ck-button waves-effect waves-light btn green lighten-2'
+                    'class'       => 'jsFormAdd ck-button waves-effect waves-light btn green lighten-2'
                 ],
                     'i' => ['class' => 'ck-icon fa fa-check'], '/i',
                     'Save',

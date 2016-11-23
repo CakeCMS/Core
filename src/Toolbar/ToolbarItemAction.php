@@ -35,7 +35,7 @@ class ToolbarItemAction extends ToolbarItem
     {
         list ($source, $title, $action, $options) = func_get_args();
 
-        return $this->_view->Form->button($title,  Hash::merge([
+        return $this->_view->Form->button($title, Hash::merge([
             'icon'        => 'trash',
             'data-action' => $action,
             'button'      => 'red lighten-2',
