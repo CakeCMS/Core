@@ -15,17 +15,24 @@
 
 namespace Core\Controller;
 
-use Core\Theme;
 use Core\Plugin;
 use Cake\Event\Event;
 use Cake\Network\Response;
 use Core\Event\EventManager;
+use Core\Controller\Component\AppComponent;
+use Core\Controller\Component\FlashComponent;
+use Core\Controller\Component\MoveComponent;
 use Cake\Controller\Controller as CakeController;
+use Cake\Controller\Component\RequestHandlerComponent;
 
 /**
  * Class AppController
  *
  * @package Core\Controller
+ * @property AppComponent $App
+ * @property MoveComponent $Move
+ * @property RequestHandlerComponent $RequestHandler
+ * @property FlashComponent $Flash
  */
 class AppController extends CakeController
 {
