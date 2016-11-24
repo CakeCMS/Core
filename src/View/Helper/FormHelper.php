@@ -163,7 +163,7 @@ class FormHelper extends CakeFormHelper
      */
     public function processCheck($type, $name)
     {
-        return $this->input($type . '.id.' . $name, ['type' => 'checkbox']);
+        return $this->input($type . '.' . $name . '.id', ['type' => 'checkbox']);
     }
 
     /**

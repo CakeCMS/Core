@@ -230,15 +230,15 @@ class FormHelperTest extends HelperTestCase
     {
         $this->assertHtml([
             'div' => ['class' => 'input checkbox'],
-                'input' => ['type' => 'hidden', 'name' => 'test[id][9]', 'value' => 0],
-                'label' => ['for' => 'test-id-9'],
+                'input' => ['type' => 'hidden', 'name' => 'test[9][id]', 'value' => 0],
+                'label' => ['for' => 'test-9-id'],
                     ['input' => [
                         'type'  => 'checkbox',
-                        'name'  => 'test[id][9]',
+                        'name'  => 'test[9][id]',
                         'value' => 1,
-                        'id'    => 'test-id-9'
+                        'id'    => 'test-9-id'
                     ]],
-                    '9',
+                    'Id',
                 '/label',
             '/div'
         ], $this->_helper()->processCheck('test', 9));

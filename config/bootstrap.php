@@ -40,3 +40,11 @@ Configure::write('Cache.defaultConfig', [
 ]);
 
 Cms::mergeConfig('App.paths.elements', Plugin::path('Core') . 'webroot/elements/');
+
+if (!defined('STATUS_PUBLISH')) {
+    define('STATUS_PUBLISH', 1);
+}
+
+if (!defined('STATUS_UN_PUBLISH')) {
+    define('STATUS_UN_PUBLISH', 0);
+}

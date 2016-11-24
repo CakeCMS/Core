@@ -17,7 +17,6 @@ namespace Core\Event;
 
 use Core\Plugin;
 use Cake\Core\App;
-use Cake\Event\Event;
 use Cake\Event\EventManager as CakeEventManager;
 
 /**

@@ -17,7 +17,6 @@ namespace Core\Event;
 
 use Core\Plugin;
 use JBZoo\Utils\FS;
-use Cake\Event\Event;
 use Core\Controller\AppController;
 use Cake\Event\EventListenerInterface;
 

@@ -20,8 +20,9 @@ use Cake\Event\Event;
 use Cake\Network\Response;
 use Core\Event\EventManager;
 use Core\Controller\Component\AppComponent;
-use Core\Controller\Component\FlashComponent;
 use Core\Controller\Component\MoveComponent;
+use Core\Controller\Component\FlashComponent;
+use Core\Controller\Component\ProcessComponent;
 use Cake\Controller\Controller as CakeController;
 use Cake\Controller\Component\RequestHandlerComponent;
 
@@ -33,6 +34,7 @@ use Cake\Controller\Component\RequestHandlerComponent;
  * @property MoveComponent $Move
  * @property RequestHandlerComponent $RequestHandler
  * @property FlashComponent $Flash
+ * @property ProcessComponent $Process
  */
 class AppController extends CakeController
 {

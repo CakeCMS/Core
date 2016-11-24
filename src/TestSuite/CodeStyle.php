@@ -15,6 +15,7 @@
 
 namespace Core\TestSuite;
 
+use JBZoo\PHPUnit\Exception;
 use Symfony\Component\Finder\Finder;
 use JBZoo\PHPUnit\Codestyle as JBCodeStyle;
 
@@ -89,6 +90,57 @@ class CodeStyle extends JBCodeStyle
     );
 
     /**
+     * Valid header for PO gettext files.
+     *
+     * @var array
+     */
+    protected $_validHeaderPO = array(
+        '#',
+        '# _VENDOR_ _PACKAGE_',
+        '#',
+        '# _DESCRIPTION_PO_',
+        '#',
+        '# @package   _PACKAGE_',
+        '# @license   _LICENSE_',
+        '# @copyright _COPYRIGHTS_',
+        '# @link      _LINK_',
+    );
+
+    /**
+     * @throws \Exception
+     */
+    public function setUp()
+    {
+        parent::setUp();
+
+        //@codeCoverageIgnoreStart
+        if (!$this->_packageName) {
+            throw new Exception('$this->_packageName is undefined!');
+        }
+        //@codeCoverageIgnoreEnd
+
+        $this->_replace = array(
+            '_LINK_'                 => $this->_packageLink,
+            '_NAMESPACE_'            => '_VENDOR_\_PACKAGE_',
+            '_COPYRIGHTS_'           => $this->_packageCopyright,
+            '_PACKAGE_'              => $this->_packageName,
+            '_LICENSE_'              => $this->_packageLicense,
+            '_AUTHOR_'               => $this->_packageAuthor,
+            '_VENDOR_'               => $this->_packageVendor,
+            '_DESCRIPTION_PHP_'      => implode($this->_le . ' * ', $this->_packageDesc),
+            '_DESCRIPTION_JS_'       => implode($this->_le . ' * ', $this->_packageDesc),
+            '_DESCRIPTION_CSS_'      => implode($this->_le . ' * ', $this->_packageDesc),
+            '_DESCRIPTION_LESS_'     => implode($this->_le . '// ', $this->_packageDesc),
+            '_DESCRIPTION_XML_'      => implode($this->_le . '    ', $this->_packageDesc),
+            '_DESCRIPTION_INI_'      => implode($this->_le . '; ', $this->_packageDesc),
+            '_DESCRIPTION_SH_'       => implode($this->_le . '# ', $this->_packageDesc),
+            '_DESCRIPTION_PO_'       => implode($this->_le . '# ', $this->_packageDesc),
+            '_DESCRIPTION_SQL_'      => implode($this->_le . '-- ', $this->_packageDesc),
+            '_DESCRIPTION_HTACCESS_' => implode($this->_le . '# ', $this->_packageDesc),
+        );
+    }
+
+    /**
      * Try to find cyrilic symbols in the code.
      *
      * @return void
@@ -103,6 +155,7 @@ class CodeStyle extends JBCodeStyle
             ->exclude('tests')
             ->notPath(basename(__FILE__))
             ->notName('/\.md$/')
+            ->notName('/\.po$/')
             ->notName('/empty/')
             ->notName('/\.min\.(js|css)$/')
             ->notName('/\.min\.(js|css)\.map$/');
@@ -116,6 +169,29 @@ class CodeStyle extends JBCodeStyle
             } else {
                 \JBZoo\PHPUnit\success();
             }
+        }
+    }
+
+    /**
+     * Test copyright headers of PO files.
+     *
+     * @return void
+     */
+    public function testHeadersPO()
+    {
+        $valid = $this->_prepareTemplate(implode($this->_validHeaderPO, $this->_le));
+
+        $finder = new Finder();
+        $finder
+            ->files()
+            ->in(PROJECT_ROOT)
+            ->exclude($this->_excludePaths)
+            ->name('*.po');
+
+        /** @var \SplFileInfo $file */
+        foreach ($finder as $file) {
+            $content = \JBZoo\PHPUnit\openFile($file->getPathname());
+            \JBZoo\PHPUnit\isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
     }
 }
