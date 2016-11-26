@@ -37,7 +37,7 @@ JBZoo.widget('JBZoo.Toolbar', {
      * @param e
      * @param $this
      */
-    'click .jsFormAdd' : function (e, $this) {
+    'click .jsFormButton' : function (e, $this) {
         var element = $(this);
         var action  = element.data('action');
         $this._submitForm($this, action);

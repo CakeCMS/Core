@@ -27,6 +27,7 @@ class ToolbarHelper
 
     const ACTION_DELETE = 'delete';
     const ACTION_SAVE   = 'save';
+    const ACTION_APPLY  = 'apply';
 
     /**
      * Toolbar instance name.
@@ -53,6 +54,24 @@ class ToolbarHelper
         ];
 
         $toolbar->appendButton('Core.link', $title, $url, $options);
+    }
+
+    /**
+     * Apply form button.
+     *
+     * @param null|string $title
+     * @return void
+     */
+    public static function apply($title = null)
+    {
+        $toolbar = Toolbar::getInstance(self::$_toolbar);
+        $title   = (empty($title)) ? __d('core', 'Apply') : $title;
+
+        $toolbar->appendButton('Core.action', $title, self::ACTION_APPLY, [
+            'class'  => 'jsFormButton',
+            'icon'   => 'check-square-o',
+            'button' => 'green lighten-2',
+        ]);
     }
 
     /**
@@ -125,9 +144,10 @@ class ToolbarHelper
         $title   = (empty($title)) ? __d('core', 'Save') : $title;
 
         $toolbar->appendButton('Core.action', $title, self::ACTION_SAVE, [
-            'icon'   => 'check',
-            'class'  => 'jsFormAdd',
-            'button' => 'green lighten-2',
+            'icon'      => 'check',
+            'class'     => 'jsFormButton',
+            'iconClass' => 'ckTextGreen',
+            'button'    => 'grey lighten-3',
         ]);
     }
 

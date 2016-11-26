@@ -140,10 +140,31 @@ class ToolbarHelperTest extends TestCase
                 'button' => [
                     'type'        => 'submit',
                     'data-action' => 'save',
-                    'class'       => 'jsFormAdd ck-button waves-effect waves-light btn green lighten-2'
+                    'class'       => 'jsFormButton ck-button waves-effect waves-light btn grey lighten-3'
                 ],
-                    'i' => ['class' => 'ck-icon fa fa-check'], '/i',
+                    'i' => ['class' => 'ckTextGreen ck-icon fa fa-check'], '/i',
                     'Save',
+                '/button',
+            '/div'
+        ], $toolbar->render());
+    }
+
+    public function testApply()
+    {
+        ToolbarHelper::setToolbar(__FUNCTION__);
+        ToolbarHelper::apply();
+
+        $toolbar = Toolbar::getInstance(__FUNCTION__);
+
+        $this->assertHtml([
+            'div' => ['id' => 'test-apply-core-action', 'class' => 'item-wrapper tb-item-1 first last'],
+                'button' => [
+                    'type'        => 'submit',
+                    'data-action' => 'apply',
+                    'class'       => 'jsFormButton ck-button waves-effect waves-light btn green lighten-2'
+                ],
+                    'i' => ['class' => 'ck-icon fa fa-check-square-o'], '/i',
+                    'Apply',
                 '/button',
             '/div'
         ], $toolbar->render());
