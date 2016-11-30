@@ -53,17 +53,6 @@ class TestCase extends CakeTestCase
     {
         parent::setUp();
 
-        if (!Plugin::loaded($this->_corePlugin)) {
-            $loadParams = [
-                'bootstrap' => true,
-                'routes'    => true,
-                'path'      => ROOT . DS,
-            ];
-
-            Plugin::load($this->_corePlugin, $loadParams);
-            Plugin::routes($this->_corePlugin);
-        }
-
         if ($this->_plugin !== $this->_corePlugin) {
             $options = [
                 'bootstrap' => true,
@@ -73,6 +62,17 @@ class TestCase extends CakeTestCase
 
             Plugin::load($this->_plugin, $options);
             Plugin::routes($this->_plugin);
+        }
+
+        if (!Plugin::loaded($this->_corePlugin)) {
+            $loadParams = [
+                'bootstrap' => true,
+                'routes'    => true,
+                'path'      => ROOT . DS,
+            ];
+
+            Plugin::load($this->_corePlugin, $loadParams);
+            Plugin::routes($this->_corePlugin);
         }
     }
 
