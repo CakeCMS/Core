@@ -26,10 +26,10 @@ if (empty($model)) {
 
 $filterBtn  = [];
 if (!empty($formFields)) : ?>
-    <div class="un-filter un-placeholder">
+    <div class="ck-filter">
         <?php
         echo $this->Form->create($model, [
-            'class' => 'un-form-inline form-inline',
+            'class' => 'ck-form-inline form-inline',
         ]);
 
         foreach ($formFields as $field => $fieldOptions) {
@@ -63,9 +63,9 @@ if (!empty($formFields)) : ?>
         ]);
 
         $btnClasses = [
-            'cms-input',
+            'ck-input',
             'form-group',
-            'cms-filter-action',
+            'ck-filter-action',
         ];
 
         if (!empty($this->request->query)) {

@@ -11,10 +11,21 @@
 // @link       https://github.com/CakeCMS/Core
 //
 
-//  Init framework styles.
-@import "misc/variables";
-@import "misc/mixins";
-@import "misc/aliases";
-@import "general/form";
-@import "general/colors";
-@import "general/placeholder";
+.ck-form {
+
+    &-inline {
+
+        .input-field,
+        .ck-filter-action {
+            display: inline-block;
+            margin-right: 30px;
+
+            &:last-child {
+                margin-right: 0;
+            }
+
+        }
+
+    }
+
+}

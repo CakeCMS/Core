@@ -25,7 +25,7 @@ use Cake\Utility\Hash;
 class FilterHelper extends AppHelper
 {
 
-    const DEFAULT_ELEMENT = 'filter';
+    const DEFAULT_ELEMENT = 'Core.filter';
 
     /**
      * Render filter element.
