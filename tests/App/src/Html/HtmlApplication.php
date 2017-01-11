@@ -26,7 +26,7 @@ class HtmlApplication
     /**
      * @return string
      */
-    public function getFunctionName()
+    public static function getFunctionName()
     {
         return __FUNCTION__;
     }
