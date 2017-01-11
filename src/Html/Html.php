@@ -169,7 +169,7 @@ class Html
      * @param string $className
      * @return bool
      */
-    protected function _classExists($className)
+    protected static function _classExists($className)
     {
         $namespaces = self::$_namespaces;
         array_push($namespaces, __NAMESPACE__);
