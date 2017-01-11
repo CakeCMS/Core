@@ -92,6 +92,16 @@ class TestCase extends CakeTestCase
     }
 
     /**
+     * Assert check is empty array.
+     *
+     * @param array $array
+     */
+    public function assertIsEmptyArray(array $array)
+    {
+        $this->assertSame([], $array);
+    }
+
+    /**
      * @param string $string
      * @return array
      */
