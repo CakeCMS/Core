@@ -16,9 +16,9 @@
 namespace Core\View\Helper;
 
 use Core\Plugin;
+use Core\Less\Less;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Str;
-use Core\Lib\Less\Less;
 use Cake\Routing\Router;
 use Cake\Core\Configure;
 use Cake\Filesystem\File;

@@ -13,7 +13,7 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Lib\Less;
+namespace Core\Less;
 
 use JBZoo\Utils\FS;
 use JBZoo\Less\Exception;

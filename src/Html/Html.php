@@ -43,6 +43,7 @@ class Html
     /**
      * Class loader method.
      *
+     * @throws \InvalidArgumentException
      * @param string $key The name of helper method to load, (prefix).(class).function.
      * @return mixed Result of JHtml::call($function, $args)
      */
@@ -135,7 +136,7 @@ class Html
     public static function unRegister($key)
     {
         list($key) = static::_extract($key);
-        if (isset(static::$_registry[$key])) {
+        if (Arr::key($key, static::$_registry)) {
             unset(static::$_registry[$key]);
             return true;
         }
@@ -195,8 +196,8 @@ class Html
         $key = preg_replace('#[^A-Z0-9_\.]#i', '', $key);
         $details = explode('.', $key);
 
-        $prefix = (count($details) == 3 ? array_shift($details) : 'Html');
-        $file   = (count($details) == 2 ? array_shift($details) : '');
+        $prefix = (count($details) === 3 ? array_shift($details) : 'Html');
+        $file   = (count($details) === 2 ? array_shift($details) : '');
         $func   = array_shift($details);
 
         return [Str::low($prefix . '.' . $file . '.' . $func), $prefix, $file, $func];

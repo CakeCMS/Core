@@ -42,6 +42,7 @@ class Manager
      * @param array $config
      * @param EntityElement|null $entity
      * @return Element
+     * @throws ElementException|\JBZoo\Utils\Exception
      */
     public function create($type, $group = self::DEFAULT_GROUP, array $config = [], EntityElement $entity = null)
     {

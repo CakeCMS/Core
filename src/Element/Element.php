@@ -92,6 +92,7 @@ abstract class Element
      * @param mixed $default
      * @param mixed $filter
      * @return mixed
+     * @throws \JBZoo\Utils\Exception
      */
     public function getMetaData($key, $default = null, $filter = null)
     {
@@ -102,6 +103,7 @@ abstract class Element
      * Get element name.
      *
      * @return null|string
+     * @throws \JBZoo\Utils\Exception
      */
     public function getName()
     {
@@ -141,6 +143,7 @@ abstract class Element
      * Check is core element.
      *
      * @return bool
+     * @throws \JBZoo\Utils\Exception
      */
     public function isCore()
     {

@@ -13,7 +13,7 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Lib\Less;
+namespace Core\Less;
 
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Str;
@@ -29,6 +29,8 @@ class Cache extends JCache
 {
 
     /**
+     * Get result full file path.
+     *
      * @return string
      */
     protected function _getResultFile()
