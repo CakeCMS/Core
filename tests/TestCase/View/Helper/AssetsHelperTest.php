@@ -163,32 +163,6 @@ class AssetsHelperTest extends HelperTestCase
         $this->assertHtml($expected, $this->_helper()->getAssets('css.sweetalert.output'));
     }
 
-    public function testUIKit()
-    {
-        $object = $this->_helper()->uikit();
-        $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
-
-        $expected = [
-            'jquery' => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
-            'uikit' => ['script' => ['src' => 'http://localhost/js/libs/uikit.min.js']], '/script',
-        ];
-
-        $jquery = $this->_helper()->getAssets('script.jquery.output');
-        $uikit  = $this->_helper()->getAssets('script.uikit.output');
-
-        $this->assertHtml($expected['jquery'], $jquery);
-        $this->assertHtml($expected['uikit'], $uikit);
-
-        $expected = [
-            'link' => [
-                'rel'  => 'stylesheet',
-                'href' => 'http://localhost/css/libs/uikit.min.css',
-            ]
-        ];
-
-        $this->assertHtml($expected, $this->_helper()->getAssets('css.uikit.output'));
-    }
-
     public function testFontAwesome()
     {
         $object = $this->_helper()->fontAwesome();
@@ -206,12 +180,12 @@ class AssetsHelperTest extends HelperTestCase
 
     public function testGetAssets()
     {
-        $this->_helper()->fontAwesome()->uikit();
+        $this->_helper()->fontAwesome()->materialize();
         $scripts = $this->_helper()->getAssets('script');
 
         $this->assertTrue(is_array($scripts));
         $this->assertArrayHasKey('jquery', $scripts);
-        $this->assertArrayHasKey('uikit', $scripts);
+        $this->assertArrayHasKey('materialize', $scripts);
     }
 
     public function testTableCheckAll()

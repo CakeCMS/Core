@@ -14,8 +14,8 @@
         }
     ],
     "require": {
-        "php": ">=5.5.10",
-        "cakephp/cakephp": "~3.2",
+        "php": ">=5.6.0",
+        "cakephp/cakephp": "~3.4",
         "cakephp/migrations": "~1.0",
         "cakephp/debug_kit": "~3.2",
         "jbzoo/utils": "^1.0",

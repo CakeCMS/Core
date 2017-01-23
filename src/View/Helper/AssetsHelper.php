@@ -218,28 +218,6 @@ class AssetsHelper extends AppHelper
     }
 
     /**
-     * Include ui kit framework.
-     *
-     * @return $this
-     */
-    public function uikit()
-    {
-        $this->jquery();
-
-        $this->Html->script('libs/uikit.min.js', $this->_setOptions([
-            'weight' => 2,
-            'alias'  => __FUNCTION__,
-        ]));
-
-        $this->Html->css('libs/uikit.min.css', $this->_setOptions([
-            'weight' => 1,
-            'alias'  => __FUNCTION__,
-        ]));
-
-        return $this;
-    }
-
-    /**
      * Autoload plugin assets.
      *
      * @return void
