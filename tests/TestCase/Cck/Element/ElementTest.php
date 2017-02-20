@@ -13,12 +13,12 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Test\TestCase\Element;
+namespace Core\Test\TestCase\Cck\Element;
 
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Str;
 use Cake\Core\Configure;
-use Core\Element\Element;
+use Core\Cck\Element\Element;
 use Core\TestSuite\TestCase;
 use Core\ORM\Entity\Element as ElementEntity;
 
@@ -33,7 +33,7 @@ class ElementTest extends TestCase
     public function testClassName()
     {
         $element = new TestElement('Title', 'Item');
-        $this->assertInstanceOf('Core\Test\TestCase\Element\TestElement', $element);
+        self::assertInstanceOf('Core\Test\TestCase\Cck\Element\TestElement', $element);
     }
 
     public function testGetPath()
@@ -41,13 +41,13 @@ class ElementTest extends TestCase
         $element = new TestElement('Title', 'Item');
         $path = $element->getPath();
 
-        $this->assertNotFalse($path);
+        self::assertNotFalse($path);
 
         $expected = FS::clean(WWW_ROOT . 'elements/Item/Title', '/');
-        $this->assertSame($expected, $path);
+        self::assertSame($expected, $path);
 
         $element = new TestElement('Title', 'NotFound');
-        $this->assertFalse($element->getPath());
+        self::assertFalse($element->getPath());
 
         // TODO add custom element path to test
     }
@@ -57,59 +57,59 @@ class ElementTest extends TestCase
         $element = new TestElement('Title', 'Item');
         $meta = $element->loadMeta();
 
-        $this->assertInstanceOf('JBZoo\Data\PHPArray', $meta);
-        $this->assertSame('Item Title', $meta->find('meta.name'));
-        $this->assertTrue($meta->find('meta.core'));
+        self::assertInstanceOf('JBZoo\Data\PHPArray', $meta);
+        self::assertSame('Item Title', $meta->find('meta.name'));
+        self::assertTrue($meta->find('meta.core'));
     }
 
     public function testGetMetaData()
     {
         $element = new TestElement('Title', 'Item');
-        $this->assertSame('Item Title', $element->getMetaData('name'));
-        $this->assertTrue($element->getMetaData('core'));
-        $this->assertNull($element->getMetaData('not-found'));
-        $this->assertFalse($element->getMetaData('not-found', false));
+        self::assertSame('Item Title', $element->getMetaData('name'));
+        self::assertTrue($element->getMetaData('core'));
+        self::assertNull($element->getMetaData('not-found'));
+        self::assertFalse($element->getMetaData('not-found', false));
     }
 
     public function testIsCore()
     {
         $element = new TestElement('Title', 'Item');
-        $this->assertTrue($element->isCore());
+        self::assertTrue($element->isCore());
 
         $element = new TestElement('Custom', 'Item');
-        $this->assertFalse($element->isCore());
+        self::assertFalse($element->isCore());
     }
 
     public function testSetConfig()
     {
         $element = new TestElement('Title', 'Item');
-        $this->assertNull($element->config);
+        self::assertNull($element->config);
         $element->setConfig([
-            'id' => '_' . Str::low('Title'),
             'description' => '',
-            'name' => $element->getName(),
+            'name'        => $element->getName(),
+            'id'          => '_' . Str::low('Title'),
         ]);
 
-        $this->assertInstanceOf('JBZoo\Data\JSON', $element->config);
-        $this->assertSame('_title', $element->config->get('id'));
-        $this->assertSame('', $element->config->get('description'));
-        $this->assertSame('Item Title', $element->config->get('name'));
+        self::assertInstanceOf('JBZoo\Data\JSON', $element->config);
+        self::assertSame('_title', $element->config->get('id'));
+        self::assertSame('', $element->config->get('description'));
+        self::assertSame('Item Title', $element->config->get('name'));
     }
 
     public function testSetEntity()
     {
         $element = new TestElement('Title', 'Item');
-        $this->assertNull($element->getEntity());
+        self::assertNull($element->getEntity());
 
         $element->setEntity(new TestEntity());
-        $this->assertInstanceOf('Core\Test\TestCase\Element\TestEntity', $element->getEntity());
+        self::assertInstanceOf('Core\Test\TestCase\Cck\Element\TestEntity', $element->getEntity());
     }
 }
 
 /**
  * Class TestElement
  *
- * @package Core\Test\TestCase\Element
+ * @package Core\Test\TestCase\Cck\Element
  */
 class TestElement extends Element
 {
@@ -118,7 +118,7 @@ class TestElement extends Element
 /**
  * Class TestEntity
  *
- * @package Core\Test\TestCase\Element
+ * @package Core\Test\TestCase\Cck\Element
  */
 class TestEntity extends ElementEntity
 {

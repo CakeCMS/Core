@@ -13,7 +13,7 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Element;
+namespace Core\Cck\Element;
 
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Str;

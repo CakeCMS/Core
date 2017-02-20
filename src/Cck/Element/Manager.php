@@ -13,7 +13,7 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Element;
+namespace Core\Cck\Element;
 
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Str;
@@ -22,7 +22,7 @@ use Cake\Utility\Text;
 use Cake\Core\Configure;
 use Cake\Core\ClassLoader;
 use Core\ORM\Entity\Element as EntityElement;
-use Core\Element\Exception\ElementException;
+use Core\Cck\Element\Exception\ElementException;
 
 /**
  * Class Manager

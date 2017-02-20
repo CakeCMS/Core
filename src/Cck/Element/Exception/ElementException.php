@@ -13,7 +13,7 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Element\Exception;
+namespace Core\Cck\Element\Exception;
 
 use Cake\Core\Exception\Exception;
 

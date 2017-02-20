@@ -13,9 +13,9 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core\Test\TestCase\Element;
+namespace Core\Test\TestCase\Cck\Element;
 
-use Core\Element\Manager;
+use Core\Cck\Element\Manager;
 use Core\TestSuite\TestCase;
 use Core\ORM\Entity\Element as ElementEntity;
 
@@ -29,11 +29,11 @@ class ManagerTest extends TestCase
 
     public function testClassName()
     {
-        $this->assertInstanceOf('Core\Element\Manager', $this->_getManager());
+        self::assertInstanceOf('Core\Cck\Element\Manager', $this->_getManager());
     }
 
     /**
-     * @expectedException \Core\Element\Exception\ElementException
+     * @expectedException \Core\Cck\Element\Exception\ElementException
      */
     public function testCreateTypeIsEmpty()
     {
@@ -41,7 +41,7 @@ class ManagerTest extends TestCase
     }
 
     /**
-     * @expectedException \Core\Element\Exception\ElementException
+     * @expectedException \Core\Cck\Element\Exception\ElementException
      */
     public function testCreateGroupIsEmpty()
     {
@@ -49,7 +49,7 @@ class ManagerTest extends TestCase
     }
 
     /**
-     * @expectedException \Core\Element\Exception\ElementException
+     * @expectedException \Core\Cck\Element\Exception\ElementException
      */
     public function testNotFoundElementClass()
     {
@@ -60,15 +60,15 @@ class ManagerTest extends TestCase
     {
         $element = $this->_getManager()->create('Title', 'Item', [], new CustomEntity());
 
-        $this->assertSame('_title', $element->id);
-        $this->assertSame('Item', $element->config->get('group'));
-        $this->assertSame('Title', $element->config->get('type'));
-        $this->assertSame('Item Title', $element->config->get('name'));
+        self::assertSame('_title', $element->id);
+        self::assertSame('Item', $element->config->get('group'));
+        self::assertSame('Title', $element->config->get('type'));
+        self::assertSame('Item Title', $element->config->get('name'));
 
-        $this->assertInstanceOf('JBZoo\Data\JSON', $element->config);
-        $this->assertInstanceOf('Elements\Item\TitleElement', $element);
-        $this->assertInstanceOf('JBZoo\Data\PHPArray', $element->loadMeta());
-        $this->assertInstanceOf('Core\Test\TestCase\Element\CustomEntity', $element->getEntity());
+        self::assertInstanceOf('JBZoo\Data\JSON', $element->config);
+        self::assertInstanceOf('Elements\Item\TitleElement', $element);
+        self::assertInstanceOf('JBZoo\Data\PHPArray', $element->loadMeta());
+        self::assertInstanceOf('Core\Test\TestCase\Cck\Element\CustomEntity', $element->getEntity());
     }
 
     /**

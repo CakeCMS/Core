@@ -15,7 +15,7 @@
 
 namespace Elements\Item;
 
-use Core\Element\Element;
+use Core\Cck\Element\Element;
 
 /**
  * Class TitleElement
