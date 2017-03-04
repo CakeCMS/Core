@@ -5,8 +5,8 @@ php:
   - 7.0
 
 before_script:
-  - sudo apt-get install nodejs
-  - sudo apt-get install npm
+  - nvm install 6
+  - npm install
 
 matrix:
   fast_finish: true
