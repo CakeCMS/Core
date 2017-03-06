@@ -16,12 +16,14 @@
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 
+ini_set('intl.default_locale', 'ru_RU');
+
 //  Write test application config.
 Configure::write('debug', true);
 Configure::write('App', [
     'namespace'     => 'Test\App',
-    'encoding'      => env('APP_ENCODING', 'UTF-8'),
-    'defaultLocale' => env('APP_DEFAULT_LOCALE', 'ru_RU'),
+    'encoding'      => 'UTF-8',
+    'defaultLocale' => 'ru_RU',
     'base'          => false,
     'dir'           => 'src',
     'cacheDir'      => 'cache',
@@ -78,7 +80,7 @@ Configure::write('Theme', [
 
 Configure::write('Session', ['defaults' => 'php']);
 
-Cache::config([
+Cache::setConfig([
     '_cake_core_' => [
         'engine'    => 'File',
         'prefix'    => 'cms_core_',

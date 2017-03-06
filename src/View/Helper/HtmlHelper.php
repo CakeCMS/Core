@@ -16,6 +16,7 @@
 namespace Core\View\Helper;
 
 use Cake\View\View;
+use JBZoo\Utils\Arr;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
 use Core\View\Helper\Traits\HelperTrait;
@@ -138,7 +139,7 @@ class HtmlHelper extends CakeHtmlHelper
     {
         $cssPath = [];
 
-        if (!isset($options['force'])) {
+        if (!Arr::key('force', $options)) {
             $options['force'] = false;
         }
 
@@ -227,7 +228,7 @@ class HtmlHelper extends CakeHtmlHelper
      */
     protected function _setTitleAttr($title, array $options = [])
     {
-        if (!isset($options['title'])) {
+        if (!Arr::key('title', $options)) {
             $options['title'] = strip_tags($title);
         }
 

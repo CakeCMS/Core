@@ -71,7 +71,7 @@ class CodeStyle extends JBCodeStyle
      *
      * @var array
      */
-    protected $_excludePaths = array(
+    protected $_excludePaths = [
         '.git',
         '.idea',
         'bin',
@@ -87,14 +87,14 @@ class CodeStyle extends JBCodeStyle
         'temp',
         'tmp',
         'webroot/css/cache'
-    );
+    ];
 
     /**
      * Valid header for PO gettext files.
      *
      * @var array
      */
-    protected $_validHeaderPO = array(
+    protected $_validHeaderPO = [
         '#',
         '# _VENDOR_ _PACKAGE_',
         '#',
@@ -104,7 +104,7 @@ class CodeStyle extends JBCodeStyle
         '# @license   _LICENSE_',
         '# @copyright _COPYRIGHTS_',
         '# @link      _LINK_',
-    );
+    ];
 
     /**
      * @throws \Exception
@@ -119,7 +119,7 @@ class CodeStyle extends JBCodeStyle
         }
         //@codeCoverageIgnoreEnd
 
-        $this->_replace = array(
+        $this->_replace = [
             '_LINK_'                 => $this->_packageLink,
             '_NAMESPACE_'            => '_VENDOR_\_PACKAGE_',
             '_COPYRIGHTS_'           => $this->_packageCopyright,
@@ -137,7 +137,7 @@ class CodeStyle extends JBCodeStyle
             '_DESCRIPTION_PO_'       => implode($this->_le . '# ', $this->_packageDesc),
             '_DESCRIPTION_SQL_'      => implode($this->_le . '-- ', $this->_packageDesc),
             '_DESCRIPTION_HTACCESS_' => implode($this->_le . '# ', $this->_packageDesc),
-        );
+        ];
     }
 
     /**

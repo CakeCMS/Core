@@ -13,21 +13,13 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Test\App\Html;
+namespace Core\View\Helper;
 
 /**
- * Class HtmlApplication
+ * Class AdminHelper
  *
- * @package Test\App\Html
+ * @package Core\View\Helper
  */
-class HtmlApplication
+class AdminHelper extends AppHelper
 {
-
-    /**
-     * @return string
-     */
-    public static function getFunctionName()
-    {
-        return __FUNCTION__;
-    }
 }

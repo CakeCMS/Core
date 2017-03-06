@@ -49,7 +49,7 @@ class CachedBehavior extends Behavior
     public function initialize(array $config)
     {
         $config = Hash::merge($this->_defaultConfig, $config);
-        $this->config($config);
+        $this->setConfig($config);
     }
 
     /**
@@ -85,9 +85,9 @@ class CachedBehavior extends Behavior
      */
     protected function _clearCacheGroup()
     {
-        $cacheGroups = $this->config('groups');
+        $cacheGroups = (array) $this->getConfig('groups');
         foreach ($cacheGroups as $group) {
-            Cache::clearGroup($group, $this->config('config'));
+            Cache::clearGroup($group, $this->getConfig('config'));
         }
     }
 }

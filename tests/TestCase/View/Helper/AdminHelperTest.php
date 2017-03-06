@@ -12,3 +12,23 @@
  * @link      https://github.com/CakeCMS/Core".
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
+
+namespace Core\Test\TestCase\View\Helper;
+
+/**
+ * Class AdminHelperTest
+ *
+ * @package Core\Test\TestCase\View\Helper
+ * @method \Core\View\Helper\AdminHelper _helper()
+ */
+class AdminHelperTest extends HelperTestCase
+{
+
+    protected $_name = 'Admin';
+    protected $_plugin = 'Core';
+
+    public function testClassName()
+    {
+        self::assertInstanceOf('Core\View\Helper\AdminHelper', $this->_helper());
+    }
+}

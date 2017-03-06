@@ -38,7 +38,7 @@ class Macros
     /**
      * Macros constructor.
      *
-     * @param array $list
+     * @param mixed $list
      */
     public function __construct($list = [])
     {

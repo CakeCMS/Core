@@ -94,7 +94,7 @@ class FormHelper extends CakeFormHelper
      */
     public function checkAll()
     {
-        return $this->input('check-all', ['type' => 'checkbox', 'class' => 'jsCheckAll']);
+        return $this->control('check-all', ['type' => 'checkbox', 'class' => 'jsCheckAll']);
     }
 
     /**
@@ -111,11 +111,11 @@ class FormHelper extends CakeFormHelper
 
         $isProcess = $options['process'];
 
-        if ($isProcess != false) {
+        if ($isProcess !== false) {
             $_options = [
                 'url' => [
-                    'plugin'     => $this->request->param('plugin'),
-                    'controller' => $this->request->param('controller'),
+                    'plugin'     => $this->request->getParam('plugin'),
+                    'controller' => $this->request->getParam('controller'),
                     'action'     => 'process'
                 ]
             ];
@@ -130,8 +130,7 @@ class FormHelper extends CakeFormHelper
             $options = $this->addClass($options, 'jsForm');
         }
 
-        unset($options['process']);
-        unset($options['jsForm']);
+        unset($options['process'], $options['jsForm']);
 
         return parent::create($model, $options);
     }
@@ -163,7 +162,7 @@ class FormHelper extends CakeFormHelper
      */
     public function processCheck($type, $name)
     {
-        return $this->input($type . '.' . $name . '.id', ['type' => 'checkbox']);
+        return $this->control($type . '.' . $name . '.id', ['type' => 'checkbox']);
     }
 
     /**

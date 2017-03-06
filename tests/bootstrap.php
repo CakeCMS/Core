@@ -48,13 +48,13 @@ if (!getenv('db_dsn')) {
     putenv('db_dsn=sqlite:///:memory:');
 }
 
-ConnectionManager::config('test', [
+ConnectionManager::setConfig('test', [
     'timezone' => 'UTC',
     'url'      => getenv('db_dsn'),
 ]);
 
-Email::config(Configure::consume('Email'));
-Email::configTransport(Configure::consume('EmailTransport'));
+Email::setConfig(Configure::consume('Email'));
+Email::setConfigTransport(Configure::consume('EmailTransport'));
 
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');

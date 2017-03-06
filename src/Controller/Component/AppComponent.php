@@ -15,10 +15,12 @@
 
 namespace Core\Controller\Component;
 
+use JBZoo\Utils\Arr;
+use JBZoo\Utils\Str;
+use Cake\Utility\Hash;
+use Cake\Http\ServerRequest;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
-use Cake\Utility\Hash;
-use JBZoo\Utils\Str;
 
 /**
  * Class AppComponent
@@ -36,6 +38,13 @@ class AppComponent extends Component
     protected $_controller;
 
     /**
+     * Hold controller request (Server request).
+     *
+     * @var ServerRequest
+     */
+    protected $_request;
+
+    /**
      * Constructor hook method.
      *
      * @param array $config
@@ -43,20 +52,22 @@ class AppComponent extends Component
      */
     public function initialize(array $config)
     {
-        parent::initialize($config);
         $this->_controller = $this->_registry->getController();
+        $this->_request    = $this->_controller->request;
+
+        parent::initialize($config);
     }
 
     /**
      * Redirect by request data.
      *
      * @param array $options
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function redirect(array $options = [])
     {
-        $plugin     = $this->request->param('plugin');
-        $controller = $this->request->param('controller');
+        $plugin     = $this->_request->getParam('plugin');
+        $controller = $this->_request->getParam('controller');
 
         $_options = [
             'apply'   => [],
@@ -75,10 +86,10 @@ class AppComponent extends Component
         $options = Hash::merge($_options, $options);
 
         $url = $options['save'];
-        if ($rAction = $this->request->data('action')) {
+        if ($rAction = $this->_request->getData('action')) {
             list(, $action) = pluginSplit($rAction);
             $action = Str::low($action);
-            if (isset($options[$action])) {
+            if (Arr::key($action, $options)) {
                 $url = $options[$action];
             }
         }

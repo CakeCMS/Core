@@ -60,7 +60,8 @@ class AppComponentTest extends TestCase
         $controller = new ComponentAppController($request);
 
         $this->assertSame([
-            'Location' => 'http://localhost/component-app',
+            'Content-Type' => 'text/html; charset=UTF-8',
+            'Location'     => 'http://localhost/component-app',
         ], $controller->form()->header());
 
         $request = $this->_request;
@@ -71,7 +72,8 @@ class AppComponentTest extends TestCase
         $controller = new ComponentAppController($request);
 
         $this->assertSame([
-            'Location' => 'http://localhost/component-app/add'
+            'Content-Type' => 'text/html; charset=UTF-8',
+            'Location'     => 'http://localhost/component-app/add'
         ], $controller->edit()->header());
     }
 }

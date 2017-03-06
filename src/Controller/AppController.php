@@ -17,7 +17,7 @@ namespace Core\Controller;
 
 use Core\Plugin;
 use Cake\Event\Event;
-use Cake\Network\Response;
+use Cake\Http\Response;
 use Core\Event\EventManager;
 use Core\Controller\Component\AppComponent;
 use Core\Controller\Component\MoveComponent;
@@ -30,6 +30,7 @@ use Cake\Controller\Component\RequestHandlerComponent;
  * Class AppController
  *
  * @package Core\Controller
+ * @property \Cake\Http\Response $response
  * @property AppComponent $App
  * @property MoveComponent $Move
  * @property RequestHandlerComponent $RequestHandler
@@ -115,8 +116,8 @@ class AppController extends CakeController
     protected function _setTheme()
     {
         if ($this->request->is('theme')) {
-            $theme = $this->request->param('theme');
-            $this->viewBuilder()->theme($theme);
+            $theme = $this->request->getParam('theme');
+            $this->viewBuilder()->setTheme($theme);
         }
     }
 }

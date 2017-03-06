@@ -17,8 +17,6 @@ namespace Core\Event;
 
 use Cake\Event\Event as CakeEvent;
 
-use JBZoo\Data\Data;
-
 /**
  * Class Event
  *
@@ -26,34 +24,4 @@ use JBZoo\Data\Data;
  */
 class Event extends CakeEvent
 {
-
-    /**
-     * Custom data for the method that receives the event
-     *
-     * @var Data
-     */
-    public $data;
-
-    /**
-     * Event constructor.
-     *
-     * @param string $name
-     * @param null|string $subject
-     * @param null|array $data
-     */
-    public function __construct($name, $subject = null, $data = null)
-    {
-        parent::__construct($name, $subject, $data);
-        $this->data = new Data($data);
-    }
-
-    /**
-     * Access the event data/payload.
-     *
-     * @return array
-     */
-    public function data()
-    {
-        return $this->data->getArrayCopy();
-    }
 }

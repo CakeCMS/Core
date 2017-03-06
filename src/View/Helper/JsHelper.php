@@ -15,6 +15,7 @@
 
 namespace Core\View\Helper;
 
+use JBZoo\Utils\Arr;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
 use Cake\Routing\Router;
@@ -70,7 +71,7 @@ class JsHelper extends AppHelper
         $docEol  = $this->Document->eol;
         $options = Hash::merge(['safe' => true], $options);
 
-        if (isset($options['block'])) {
+        if (Arr::key('block', $options)) {
             unset($options['block']);
         }
 
@@ -122,10 +123,9 @@ class JsHelper extends AppHelper
 
         $hash = $jSelector . ' /// ' . $widgetName;
 
-        if (!isset($included[$hash])) {
+        if (!Arr::key($hash, $included)) {
             $included[$hash] = true;
             $widgetName = str_replace('.', '', $widgetName);
-
             $initScript = '$("' . $jSelector . '").' . $widgetName . '(' . json_encode($params) . ');';
 
             if ($return) {
@@ -154,12 +154,18 @@ class JsHelper extends AppHelper
                 'sure'   => __d('alert', 'Are you sure?'),
             ],
             'request' => [
-                'params' => $request->params,
-                'query'  => $request->query,
-                'data'   => $request->data,
                 'url'    => $request->url,
-                'base'   => $request->base,
-                'here'   => $request->here,
+                'params' => [
+                    'pass'       => $request->getParam('pass'),
+                    'theme'      => $request->getParam('theme'),
+                    'action'     => $request->getParam('action'),
+                    'prefix'     => $request->getParam('prefix'),
+                    'plugin'     => $request->getParam('plugin'),
+                    'controller' => $request->getParam('controller'),
+                ],
+                'query'  => $this->request->getQueryParams(),
+                'base'   => $request->getAttribute('base'),
+                'here'   => $request->getRequestTarget(),
             ]
         ];
 

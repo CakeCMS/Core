@@ -16,6 +16,7 @@
 namespace Core\View\Helper;
 
 use Core\Plugin;
+use JBZoo\Utils\Arr;
 use JBZoo\Utils\Str;
 use Cake\Event\Event;
 use Cake\Core\Configure;
@@ -74,7 +75,7 @@ class DocumentHelper extends AppHelper
      */
     public function getBodyClasses()
     {
-        $prefix = ($this->request->param('prefix')) ? 'prefix-' . $this->request->param('prefix') : 'prefix-site';
+        $prefix = ($this->request->getParam('prefix')) ? 'prefix-' . $this->request->getParam('prefix') : 'prefix-site';
 
         $classes = [
             $prefix,
@@ -85,7 +86,7 @@ class DocumentHelper extends AppHelper
             'layout-'   . Str::low($this->_View->layout),
         ];
 
-        $pass = (array) $this->request->param('pass');
+        $pass = (array) $this->request->getParam('pass');
         if (count($pass)) {
             $classes[] = 'item-id-' . array_shift($pass);
         }
@@ -286,7 +287,7 @@ class DocumentHelper extends AppHelper
      */
     protected function _assignMeta($key)
     {
-        if (isset($this->_View->viewVars[$key])) {
+        if (Arr::key($key, $this->_View->viewVars)) {
             $this->_View->assign($key, $this->_View->viewVars[$key]);
         }
 

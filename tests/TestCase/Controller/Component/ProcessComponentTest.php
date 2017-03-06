@@ -50,12 +50,13 @@ class ProcessComponentTest extends TestCase
         parent::setUp();
 
         Router::scope('/', function ($routes) {
+            /** @var \Cake\Routing\RouteBuilder $routes */
             $routes->fallbacks(DashedRoute::class);
         });
 
         $this->_controller = new AppController();
         $componentRegistry = new ComponentRegistry($this->_controller);
-        $this->_process    = new ProcessComponent($componentRegistry);
+        $this->_process    = new ProcessComponent($componentRegistry, []);
     }
 
     public function tearDown()
@@ -66,7 +67,9 @@ class ProcessComponentTest extends TestCase
 
     public function testGetRequestVars()
     {
-        $this->_process->request->data = [
+        $controller = $this->_process->getController();
+
+        $controller->request->data = [
             'action' => 'test',
             'user' => [
                 1 => [
@@ -86,8 +89,8 @@ class ProcessComponentTest extends TestCase
 
         list ($action, $ids) = $this->_process->getRequestVars('users');
 
-        $this->assertSame('test', $action);
-        $this->assertSame([
+        self::assertSame('test', $action);
+        self::assertSame([
             1 => 1,
             4 => 4,
             8 => 8,
@@ -107,8 +110,8 @@ class ProcessComponentTest extends TestCase
         ];
 
         list ($action, $ids) = $this->_process->getRequestVars('users');
-        $this->assertSame('new-action', $action);
-        $this->assertSame([4 => 4], $ids);
+        self::assertSame('new-action', $action);
+        self::assertSame([4 => 4], $ids);
     }
 
     public function testMakeNotFoundAction()
@@ -124,10 +127,9 @@ class ProcessComponentTest extends TestCase
 
         $session = $this->_controller->request->session()->read('Flash.flash');
 
-        $this->assertInstanceOf('Cake\Network\Response', $result);
-        $this->assertTrue(is_array($result->header()));
-        $this->assertSame(['Location' => 'http://localhost/'], $result->header());
-        $this->assertSame(__d('core', 'Action not found.'), $session[0]['message']);
+        self::assertInstanceOf('Cake\Http\Response', $result);
+        self::assertSame(['http://localhost/'], $result->getHeader('Location'));
+        self::assertSame(__d('core', 'Action not found.'), $session[0]['message']);
     }
 
     public function testMakeNoChooseItems()
@@ -136,10 +138,9 @@ class ProcessComponentTest extends TestCase
         $result  = $this->_process->make($table, 'delete', []);
         $session = $this->_controller->request->session()->read('Flash.flash');
 
-        $this->assertInstanceOf('Cake\Network\Response', $result);
-        $this->assertTrue(is_array($result->header()));
-        $this->assertSame(['Location' => 'http://localhost/'], $result->header());
-        $this->assertSame(__d('core', 'Please choose only one item.'), $session[0]['message']);
+        self::assertInstanceOf('Cake\Http\Response', $result);
+        self::assertSame(['http://localhost/'], $result->getHeader('Location'));
+        self::assertSame(__d('core', 'Please choose only one item.'), $session[0]['message']);
     }
 
     public function testMakeSuccess()
@@ -157,10 +158,9 @@ class ProcessComponentTest extends TestCase
 
         $session = $this->_controller->request->session()->read('Flash.flash');
 
-        $this->assertInstanceOf('Cake\Network\Response', $result);
-        $this->assertTrue(is_array($result->header()));
-        $this->assertSame(['Location' => 'http://localhost/'], $result->header());
-        $this->assertSame('<strong>2</strong> records success removed', $session[0]['message']);
+        self::assertInstanceOf('Cake\Http\Response', $result);
+        self::assertSame(['http://localhost/'], $result->getHeader('Location'));
+        self::assertSame('<strong>2</strong> records success removed', $session[0]['message']);
     }
 
     public function testMakeFail()
@@ -169,9 +169,8 @@ class ProcessComponentTest extends TestCase
         $result  = $this->_process->make($table, 'delete', [9 => 9]);
         $session = $this->_controller->request->session()->read('Flash.flash');
 
-        $this->assertTrue(is_array($result->header()));
-        $this->assertSame(['Location' => 'http://localhost/'], $result->header());
-        $this->assertSame(__d('core', 'An error has occurred. Please try again.'), $session[0]['message']);
+        self::assertSame(['http://localhost/'], $result->getHeader('Location'));
+        self::assertSame(__d('core', 'An error has occurred. Please try again.'), $session[0]['message']);
     }
 
     /**
@@ -198,11 +197,11 @@ class ProcessComponentTest extends TestCase
 class RowsTable extends Table
 {
     /**
-     * Default schema
+     * Default table schema
      *
      * @var array
      */
-    protected $_schema = [
+    protected static $_tableSchema = [
         'id'           => ['type' => 'integer'],
         'title'        => ['type' => 'string'],
         'alias'        => ['type' => 'string'],
@@ -217,7 +216,7 @@ class RowsTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->schema($this->_schema);
-        $this->table('process_behavior');
+        $this->setSchema(self::$_tableSchema);
+        $this->setTable('process_behavior');
     }
 }

@@ -15,6 +15,7 @@
 
 namespace Core\ORM\Behavior;
 
+use JBZoo\Utils\Arr;
 use Cake\ORM\Behavior;
 
 /**
@@ -47,8 +48,9 @@ class ProcessBehavior extends Behavior
      */
     public function process($name, array $ids = [])
     {
-        $allowActions = $this->config('actions');
-        if (!isset($allowActions[$name])) {
+        $allowActions = $this->getConfig('actions');
+
+        if (!Arr::key($name, $allowActions)) {
             throw new \InvalidArgumentException(__d('core', 'Invalid action to perform'));
         }
 
@@ -57,7 +59,7 @@ class ProcessBehavior extends Behavior
             throw new \InvalidArgumentException(__d('core', 'Action "{0}" is disabled', $name));
         }
 
-        if (in_array($action, get_class_methods($this->_table))) {
+        if (Arr::in($action, get_class_methods($this->_table))) {
             return $this->_table->{$action}($ids);
         }
 
@@ -73,7 +75,7 @@ class ProcessBehavior extends Behavior
     public function processDelete(array $ids)
     {
         return $this->_table->deleteAll([
-            $this->_table->primaryKey() . ' IN (' . implode(',', $ids) . ')'
+            $this->_table->getPrimaryKey() . ' IN (' . implode(',', $ids) . ')'
         ]);
     }
 
@@ -111,7 +113,7 @@ class ProcessBehavior extends Behavior
         return $this->_table->updateAll([
             $this->_configRead('field') => $value,
         ], [
-            $this->_table->primaryKey() . ' IN (' . implode(',', $ids) . ')'
+            $this->_table->getPrimaryKey() . ' IN (' . implode(',', $ids) . ')'
         ]);
     }
 }

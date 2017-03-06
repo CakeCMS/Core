@@ -18,7 +18,6 @@ namespace Core\Controller\Component;
 use Cake\ORM\Table;
 use JBZoo\Utils\Arr;
 use Cake\Controller\Component;
-use Cake\Datasource\EntityInterface;
 use Cake\ORM\Behavior\TreeBehavior;
 
 /**
@@ -43,14 +42,28 @@ class MoveComponent extends AppComponent
     ];
 
     /**
-     * Reading the whole config.
+     * Move down record in tree.
      *
-     * @param null|string $key
-     * @param null|string $value
+     * @param Table $table
+     * @param int $id
+     * @param int $step
+     * @return \Cake\Http\Response|null
+     */
+    public function down(Table $table, $id, $step = 1)
+    {
+        return $this->_move($table, $id, $step, self::TYPE_DOWN);
+    }
+
+    /**
+     * Sets the config.
+     *
+     * @param array|string $key
+     * @param null|mixed $value
      * @param bool $merge
      * @return mixed
+     * @throws \Cake\Core\Exception\Exception When trying to set a key that is invalid.
      */
-    public function config($key = null, $value = null, $merge = true)
+    public function setConfig($key, $value = null, $merge = true)
     {
         $this->_defaultConfig = [
             'messages' => [
@@ -60,20 +73,7 @@ class MoveComponent extends AppComponent
             'action' => 'index',
         ];
 
-        return parent::config($key, $value, $merge);
-    }
-
-    /**
-     * Move down record in tree.
-     *
-     * @param Table $table
-     * @param int $id
-     * @param int $step
-     * @return \Cake\Network\Response|null
-     */
-    public function down(Table $table, $id, $step = 1)
-    {
-        return $this->_move($table, $id, $step, self::TYPE_DOWN);
+        return parent::setConfig($key, $value, $merge);
     }
 
     /**
@@ -82,7 +82,7 @@ class MoveComponent extends AppComponent
      * @param Table $table
      * @param int $id
      * @param int $step
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      * @SuppressWarnings(PHPMD.ShortMethodName)
      */
     public function up(Table $table, $id, $step = 1)
@@ -97,7 +97,7 @@ class MoveComponent extends AppComponent
      * @param string $type
      * @param int $id
      * @param int $step
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     protected function _move(Table $table, $id, $step = 1, $type = self::TYPE_UP)
     {
@@ -110,7 +110,7 @@ class MoveComponent extends AppComponent
 
         /** @var TreeBehavior $treeBehavior */
         $treeBehavior = $behaviors->get('Tree');
-        $treeBehavior->config('scope', $entity->get('id'));
+        $treeBehavior->setConfig('scope', $entity->get('id'));
 
         if ($table->{$type}($entity, $step)) {
             $this->Flash->success($this->_configRead('messages.success'));
@@ -124,15 +124,16 @@ class MoveComponent extends AppComponent
     /**
      * Process redirect.
      *
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     protected function _redirect()
     {
+        $request = $this->_controller->request;
         return $this->_controller->redirect([
-            'prefix'     => $this->request->param('prefix'),
-            'plugin'     => $this->request->param('plugin'),
-            'controller' => $this->request->param('controller'),
-            'action'     => $this->_configRead('action'),
+            'prefix'     => $request->getParam('prefix'),
+            'plugin'     => $request->getParam('plugin'),
+            'controller' => $request->getParam('controller'),
+            'action'     => $this->getConfig('action'),
         ]);
     }
 }

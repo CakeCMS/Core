@@ -14,6 +14,7 @@
  */
 
 namespace Core\Test\TestCase\View\Helper;
+
 use Core\TestSuite\IntegrationTestCase;
 
 /**
@@ -29,8 +30,8 @@ class JsHelperTest extends HelperTestCase
 
     public function testBufferScript()
     {
-        $this->assertNull($this->_helper()->getBuffer());
-        $this->assertNull($this->_helper()->getBuffer(['block' => 'buffer']));
+        self::assertNull($this->_helper()->getBuffer());
+        self::assertNull($this->_helper()->getBuffer(['block' => 'buffer']));
 
         $helper = $this->_helper();
         $helper->setBuffer('alert("Hello world");');
@@ -48,7 +49,7 @@ class JsHelperTest extends HelperTestCase
             '',
         ];
 
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
 
         $helper->setBuffer('alert("Hello world 2");');
         $actual = $this->_getStrArray($helper->getBuffer());
@@ -64,7 +65,7 @@ class JsHelperTest extends HelperTestCase
             '',
         ];
 
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
 
         $helper->setBuffer('alert("On top");', true);
         $actual = $this->_getStrArray($helper->getBuffer());
@@ -81,7 +82,7 @@ class JsHelperTest extends HelperTestCase
             '',
         ];
 
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
 
         $expected = [
             '<script>',
@@ -95,7 +96,7 @@ class JsHelperTest extends HelperTestCase
         ];
 
         $actual = $this->_getStrArray($helper->getBuffer(['safe' => false]));
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 
     public function testWidget()
@@ -105,7 +106,7 @@ class JsHelperTest extends HelperTestCase
             'option-1' => 'value-1',
         ]);
 
-        $this->assertNull($result);
+        self::assertNull($result);
         $actual = $this->_getStrArray($helper->getBuffer());
         $expected = [
             '<script>',
@@ -118,14 +119,14 @@ class JsHelperTest extends HelperTestCase
             '',
         ];
 
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
 
         $helper->widget('.selector', 'WidgetName', [
             'option-1' => 'value-1',
         ]);
 
         $actual = $this->_getStrArray($helper->getBuffer());
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
 
         $result = $helper->widget('.selector', 'WidgetNameNew', [
             'option-1' => 'value-1',
@@ -133,14 +134,12 @@ class JsHelperTest extends HelperTestCase
 
         $actual = $this->_getStrArray($result);
         $expected = [
-            '<script>',
-                '//<![CDATA[',
-                    'jQuery(function($){$(".selector").WidgetNameNew({"option-1":"value-1"});});',
-                '//]]>',
+            '<script>' .
+                "\t" . 'jQuery(function($){$(".selector").WidgetNameNew({"option-1":"value-1"});});' .
             '</script>',
         ];
 
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 }
 
@@ -160,13 +159,15 @@ class JsHelperTestIntegration extends IntegrationTestCase
             'action'     => 'dashboard',
         ]));
 
+        /** @var \Cake\TestSuite\Stub\Response $response */
+        $response = $this->_controller->response;
+
         $this->assertResponseOk();
         $this->assertResponseContains('<title>Dashboard</title>');
-        $this->assertRegExp(
-            '/"(baseUrl|alert|request|query|data)":"((\\"|[^"])*)"/i',
-            $this->_controller->response->body()
-        );
 
-        echo $this->_controller->response->body();
+        $response->getBody()->rewind();
+        $output = $response->getBody()->getContents();
+
+        self::assertRegExp('/"(baseUrl|alert|request|query)":"((\\"|[^"])*)"/i', $output);
     }
 }

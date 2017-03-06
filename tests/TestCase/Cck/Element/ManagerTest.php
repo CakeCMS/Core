@@ -15,6 +15,7 @@
 
 namespace Core\Test\TestCase\Cck\Element;
 
+use Cake\I18n\I18n;
 use Core\Cck\Element\Manager;
 use Core\TestSuite\TestCase;
 use Core\ORM\Entity\Element as ElementEntity;
@@ -26,6 +27,12 @@ use Core\ORM\Entity\Element as ElementEntity;
  */
 class ManagerTest extends TestCase
 {
+
+    public function tearDown()
+    {
+        parent::tearDown();
+        I18n::clear();
+    }
 
     public function testClassName()
     {

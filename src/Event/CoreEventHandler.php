@@ -46,8 +46,8 @@ class CoreEventHandler implements EventListenerInterface
     public function onControllerSetup(Event $event)
     {
         /** @var AppController $controller */
-        $controller = $event->subject();
-        if ($controller->request->param('prefix') == 'admin') {
+        $controller = $event->getSubject();
+        if ($controller->request->getParam('prefix') === 'admin') {
             $this->_onSetupAdmin($controller);
         }
     }

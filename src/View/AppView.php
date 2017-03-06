@@ -18,6 +18,7 @@ namespace Core\View;
 use Core\Plugin;
 use Cake\Core\App;
 use Cake\View\View;
+use JBZoo\Utils\Arr;
 use JBZoo\Utils\FS;
 
 /**
@@ -101,8 +102,8 @@ class AppView extends View
     {
         $paths = App::path('Template', $this->plugin);
 
-        $action      = (string) $this->request->param('action');
-        $controller  = $this->request->param('controller');
+        $action      = (string) $this->request->getParam('action');
+        $controller  = $this->request->getParam('controller');
         $viewFile    = $action . $this->_ext;
         $viewSubPath = $this->_getSubPaths($controller);
 
@@ -131,7 +132,7 @@ class AppView extends View
      */
     protected function _getFormView($view = null)
     {
-        if (empty($view) && in_array($this->request->param('action'), $this->_formActions)) {
+        if (empty($view) && Arr::in($this->request->getParam('action'), $this->_formActions)) {
             $view = $this->_findViewByRequest();
         }
 

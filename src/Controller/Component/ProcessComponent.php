@@ -55,10 +55,10 @@ class ProcessComponent extends AppComponent
      */
     public function getRequestVars($name, $primaryKey = self::PRIMARY_KEY)
     {
-        $name = Str::low(Inflector::singularize($name));
-        $requestIds = (array) $this->request->data($name);
-        $action = $this->request->data('action');
-        $ids = $this->_getIds($requestIds, $primaryKey);
+        $name       = Str::low(Inflector::singularize($name));
+        $requestIds = (array) $this->_request->getData($name);
+        $action     = $this->_request->getData('action');
+        $ids        = $this->_getIds($requestIds, $primaryKey);
 
         return [$action, $ids];
     }
@@ -71,13 +71,15 @@ class ProcessComponent extends AppComponent
      */
     public function initialize(array $config)
     {
+        parent::initialize($config);
+
         $_config = [
             'context'  => __d('core', 'record'),
             'redirect' => [
                 'action'     => 'index',
-                'prefix'     => $this->request->param('prefix'),
-                'plugin'     => $this->request->param('plugin'),
-                'controller' => $this->request->param('controller'),
+                'prefix'     => $this->_request->getParam('prefix'),
+                'plugin'     => $this->_request->getParam('plugin'),
+                'controller' => $this->_request->getParam('controller'),
             ],
             'messages' => [
                 'no_action' => __d('core', 'Action not found.'),
@@ -86,9 +88,7 @@ class ProcessComponent extends AppComponent
         ];
 
         $config = Hash::merge($_config, $config);
-        $this->config($config);
-
-        parent::initialize($config);
+        $this->setConfig($config);
     }
 
     /**
@@ -98,7 +98,7 @@ class ProcessComponent extends AppComponent
      * @param string $action
      * @param array $ids
      * @param array $options
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function make(Table $table, $action, array $ids = [], array $options = [])
     {
@@ -108,7 +108,7 @@ class ProcessComponent extends AppComponent
         $messages    = new JSON($options['messages']);
 
         $event = EventManager::trigger($this->_getEventName($action), $this->_controller, ['ids' => $ids]);
-        $ids   = $event->data->get('ids', $ids);
+        $ids   = (array) $event->getData('ids');
         $count = count($ids);
 
         if (!$action) {
@@ -176,7 +176,7 @@ class ProcessComponent extends AppComponent
     protected function _getEventName($action, $event = self::EVENT_NAME_BEFORE)
     {
         $details = [];
-        if ($prefix = $this->request->param('prefix')) {
+        if ($prefix = $this->_request->getParam('prefix')) {
             $details[] = ucfirst($prefix);
         }
 
@@ -242,7 +242,7 @@ class ProcessComponent extends AppComponent
      * @param Data $messages
      * @param array $redirect
      * @param array $ids
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     protected function _process($action, Data $messages, array $redirect, array $ids)
     {

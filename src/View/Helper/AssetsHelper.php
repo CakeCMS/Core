@@ -224,11 +224,11 @@ class AssetsHelper extends AppHelper
      */
     public function loadPluginAssets()
     {
-        $plugin = (string) $this->request->param('plugin');
-        $prefix = ($this->request->param('prefix')) ? $this->request->param('prefix') . '/' : null;
-        $action = (string) $this->request->param('action');
+        $plugin = (string) $this->request->getParam('plugin');
+        $prefix = ($this->request->getParam('prefix')) ? $this->request->getParam('prefix') . '/' : null;
+        $action = (string) $this->request->getParam('action');
 
-        $controller = (string) $this->request->param('controller');
+        $controller = (string) $this->request->getParam('controller');
         $widgetName = Str::slug($controller . '-' . $action) . '.js';
         $cssOptions = ['block' => 'css_bottom', 'fullBase' => true];
 

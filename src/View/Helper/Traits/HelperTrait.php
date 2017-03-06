@@ -15,6 +15,7 @@
 
 namespace Core\View\Helper\Traits;
 
+use JBZoo\Utils\Arr;
 use JBZoo\Utils\Str;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
@@ -38,7 +39,7 @@ trait HelperTrait
      */
     protected function _addClass(array $options = [], $class = null, $key = 'class')
     {
-        if (isset($options[$key]) && Str::trim($options[$key])) {
+        if (Arr::key($key, $options) && Str::trim($options[$key])) {
             $options[$key] .= ' ' . $class;
         } else {
             $options[$key] = $class;
@@ -68,13 +69,14 @@ trait HelperTrait
     protected function _createIcon(HtmlHelper $html, $title, array $options = [])
     {
         list($options, $iconOptions) = $this->_createIconAttr($options);
-        if (isset($iconOptions['createIcon'])) {
+
+        if (Arr::key('createIcon', $iconOptions)) {
             unset($iconOptions['createIcon']);
             $title = $html->icon($options['icon'], $iconOptions) . PHP_EOL . $title;
             unset($options['icon']);
         }
 
-        if (isset($options['iconInline'])) {
+        if (Arr::key('iconInline', $options)) {
             unset($options['iconInline']);
         }
 
@@ -90,8 +92,9 @@ trait HelperTrait
     protected function _createIconAttr(array $options = [])
     {
         $iconOptions = ['class' => ''];
-        if (isset($options['icon'])) {
-            if (isset($options['iconClass'])) {
+
+        if (Arr::key('icon', $options)) {
+            if (Arr::key('iconClass', $options)) {
                 $iconOptions = $this->_addClass($iconOptions, $options['iconClass']);
                 unset($options['iconClass']);
             }
@@ -110,13 +113,12 @@ trait HelperTrait
      */
     protected function _getBtnClass(array $options = [])
     {
-        if (isset($options['button'])) {
-
+        if (Arr::key('button', $options)) {
             $button = $options['button'];
             unset($options['button']);
 
-            if (is_callable($this->config('prepareBtnClass'))) {
-                return (array) call_user_func($this->config('prepareBtnClass'), $this, $options, $button);
+            if (is_callable($this->getConfig('prepareBtnClass'))) {
+                return (array) call_user_func($this->getConfig('prepareBtnClass'), $this, $options, $button);
             }
 
             $options = $this->_setBtnClass($button, $options);
@@ -134,13 +136,12 @@ trait HelperTrait
      */
     protected function _getToolTipAttr(array $options = [], $toggle = 'tooltip')
     {
-        if (isset($options['tooltip'])) {
-
+        if (Arr::key('tooltip', $options)) {
             $tooltip = $options['tooltip'];
             unset($options['tooltip']);
 
-            if (is_callable($this->config('prepareTooltip'))) {
-                return (array) call_user_func($this->config('prepareTooltip'), $this, $options, $tooltip);
+            if (is_callable($this->getConfig('prepareTooltip'))) {
+                return (array) call_user_func($this->getConfig('prepareTooltip'), $this, $options, $tooltip);
             }
 
             $_options = [
@@ -148,7 +149,7 @@ trait HelperTrait
                 'data-placement' => 'top',
             ];
 
-            if (isset($options['tooltipPos'])) {
+            if (Arr::key('tooltipPos', $options)) {
                 $_options['data-placement'] = (string) $options['tooltipPos'];
                 unset($options['tooltipPos']);
             }
@@ -191,7 +192,7 @@ trait HelperTrait
     protected function _setIconOptions(array $options = [], array $iconOptions = [])
     {
         $icon = $options['icon'];
-        if (isset($options['iconInline'])) {
+        if (Arr::key('iconInline', $options)) {
             $iconPrefix = $this->_configRead('iconPref');
             $options = $this->_addClass($options, implode(' ', [
                 $this->_class('icon'),
@@ -217,7 +218,7 @@ trait HelperTrait
      */
     protected function _setTooltipTitle($tooltip, array $options = [])
     {
-        if ($tooltip === true && !isset($options['title'])) {
+        if ($tooltip === true && !Arr::key('title', $options)) {
             $options['title'] = strip_tags($options['label']);
         }
 

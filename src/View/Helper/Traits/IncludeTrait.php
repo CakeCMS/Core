@@ -67,7 +67,7 @@ trait IncludeTrait
      */
     protected function _getAssetType($type = 'css')
     {
-        return ($type == 'script') ? 'js' : $type;
+        return ($type === 'script') ? 'js' : $type;
     }
 
     /**
@@ -154,7 +154,7 @@ trait IncludeTrait
     protected function _getTypeOutput(array $options, $url, $type)
     {
         $type = Str::low($type);
-        if ($type == 'css') {
+        if ($type === 'css') {
             return $this->_getCssOutput($options, $url);
         }
 

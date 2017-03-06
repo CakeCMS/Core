@@ -16,12 +16,13 @@
 namespace Core\Test\TestCase\Controller\Component;
 
 use Core\ORM\Table;
+use Cake\Http\Response;
 use Cake\Routing\Router;
-use Cake\Network\Request;
 use Cake\Network\Session;
+use Cake\Http\ServerRequest;
 use Core\TestSuite\TestCase;
-use Cake\Routing\Route\DashedRoute;
 use Core\Controller\AppController;
+use Cake\Routing\Route\DashedRoute;
 use Core\Controller\Component\MoveComponent;
 
 /**
@@ -35,7 +36,7 @@ class MoveComponentTest extends TestCase
     public $fixtures = ['plugin.core.moves'];
 
     /**
-     * @var Request
+     * @var ServerRequest
      */
     protected $_request;
 
@@ -44,10 +45,11 @@ class MoveComponentTest extends TestCase
         parent::setUp();
 
         Router::scope('/', function ($routes) {
+            /** @var $routes \Cake\Routing\RouteBuilder */
             $routes->fallbacks(DashedRoute::class);
         });
 
-        $this->_request = new Request([
+        $this->_request = new ServerRequest([
             'params' => [
                 'prefix'     => false,
                 'plugin'     => false,
@@ -64,65 +66,6 @@ class MoveComponentTest extends TestCase
         unset($this->_component);
     }
 
-    public function testUpFail()
-    {
-        $request = $this->_request;
-        $controller = new MovesController($request);
-
-        $entityId = 3;
-        $result = $controller->up($entityId, 'text');
-
-        $flashSession = $controller->request->session()->read('Flash.flash');
-        $expected = [[
-            'message' => __d('core', 'Object could not been moved'),
-            'key'     => 'flash',
-            'element' => 'Flash/error',
-            'params'  => [],
-        ]];
-
-        $this->assertSame($expected, $flashSession);
-        $this->assertSame(['Location' => 'http://localhost/moves'], $result->header());
-    }
-
-    public function testUpSuccess()
-    {
-        $request    = $this->_request;
-        $controller = new MovesController($request);
-
-        $entityId = 3;
-        $entity   = $controller->Moves->get($entityId);
-
-        $this->assertSame('Admin', $entity->get('name'));
-        $this->assertSame($entityId, $entity->get('id'));
-        $this->assertSame(1, $entity->get('parent_id'));
-        $this->assertSame(4, $entity->get('lft'));
-        $this->assertSame(5, $entity->get('rght'));
-
-        $this->assertSame([], $controller->response->header());
-
-        /** @var \Cake\Network\Response $result */
-        $result = $controller->up($entityId);
-        $entity = $controller->Moves->get($entityId);
-
-        $this->assertSame(['Location' => 'http://localhost/moves'], $result->header());
-
-        $this->assertSame('Admin', $entity->get('name'));
-        $this->assertSame($entityId, $entity->get('id'));
-        $this->assertSame(1, $entity->get('parent_id'));
-        $this->assertSame(2, $entity->get('lft'));
-        $this->assertSame(3, $entity->get('rght'));
-
-        $flashSession = $controller->request->session()->read('Flash.flash');
-        $expected = [[
-            'message' => __d('core', 'Object has been moved'),
-            'key'     => 'flash',
-            'element' => 'Flash/success',
-            'params'  => [],
-        ]];
-
-        $this->assertSame($expected, $flashSession);
-    }
-
     public function testDown()
     {
         $request    = $this->_request;
@@ -134,15 +77,17 @@ class MoveComponentTest extends TestCase
 
         $entityId = 2;
         $entity = $controller->Moves->get($entityId);
-        $this->assertSame($entityId, $entity->get('id'));
-        $this->assertSame(2, $entity->get('lft'));
-        $this->assertSame(3, $entity->get('rght'));
 
-        $result = $controller->down($entityId);
-        $entity = $controller->Moves->get($entityId);
-        $this->assertSame($entityId, $entity->get('id'));
-        $this->assertSame(4, $entity->get('lft'));
-        $this->assertSame(5, $entity->get('rght'));
+        self::assertSame($entityId, $entity->get('id'));
+        self::assertSame(2, $entity->get('lft'));
+        self::assertSame(3, $entity->get('rght'));
+
+        $response = $controller->down($entityId);
+        $entity   = $controller->Moves->get($entityId);
+
+        self::assertSame($entityId, $entity->get('id'));
+        self::assertSame(4, $entity->get('lft'));
+        self::assertSame(5, $entity->get('rght'));
 
         $flashSession = $controller->request->session()->read('Flash.flash');
         $expected = [[
@@ -152,43 +97,75 @@ class MoveComponentTest extends TestCase
             'params'  => [],
         ]];
 
-        $this->assertSame($expected, $flashSession);
-        $this->assertSame(['Location' => 'http://localhost/moves'], $result->header());
+        self::assertSame($expected, $flashSession);
+        self::_assertRedirect($response);
     }
-}
 
-/**
- * Class MovesTable
- *
- * @package Core\Test\TestCase\Controller\Component
- */
-class MovesTable extends Table
-{
-
-    /**
-     * Default schema
-     *
-     * @var array
-     */
-    protected $_schema = [
-        'id'           => ['type' => 'integer'],
-        'parent_id'    => ['type' => 'integer', 'null' => true],
-        'name'         => ['type' => 'string'],
-        'slug'         => ['type' => 'string'],
-        'params'       => 'text',
-        'lft'          => ['type' => 'integer'],
-        'rght'         => ['type' => 'integer'],
-        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
-    ];
-
-    /**
-     * @param array $config
-     */
-    public function initialize(array $config)
+    public function testUpFail()
     {
-        $this->schema($this->_schema);
-        parent::initialize($config);
-        $this->table('moves');
+        $request = $this->_request;
+        $controller = new MovesController($request);
+
+        $entityId = 3;
+        $response = $controller->up($entityId, 'text');
+
+        $flashSession = $controller->request->session()->read('Flash.flash');
+        $expected = [[
+            'message' => __d('core', 'Object could not been moved'),
+            'key'     => 'flash',
+            'element' => 'Flash/error',
+            'params'  => [],
+        ]];
+
+        self::assertSame($expected, $flashSession);
+        self::_assertRedirect($response);
+    }
+
+    public function testUpSuccess()
+    {
+        $request    = $this->_request;
+        $controller = new MovesController($request);
+
+        $entityId = 3;
+        $entity   = $controller->Moves->get($entityId);
+
+        self::assertSame('Admin', $entity->get('name'));
+        self::assertSame($entityId, $entity->get('id'));
+        self::assertSame(1, $entity->get('parent_id'));
+        self::assertSame(4, $entity->get('lft'));
+        self::assertSame(5, $entity->get('rght'));
+
+        $response = $controller->up($entityId);
+        $entity   = $controller->Moves->get($entityId);
+
+        self::_assertRedirect($response);
+        self::assertSame('Admin', $entity->get('name'));
+        self::assertSame($entityId, $entity->get('id'));
+        self::assertSame(1, $entity->get('parent_id'));
+        self::assertSame(2, $entity->get('lft'));
+        self::assertSame(3, $entity->get('rght'));
+
+        $flashSession = $controller->request->session()->read('Flash.flash');
+        $expected = [[
+            'message' => __d('core', 'Object has been moved'),
+            'key'     => 'flash',
+            'element' => 'Flash/success',
+            'params'  => [],
+        ]];
+
+        self::assertSame($expected, $flashSession);
+    }
+
+    /**
+     * Check request.
+     *
+     * @param Response $response
+     * @return void
+     */
+    protected static function _assertRedirect(Response $response)
+    {
+        self::assertSame('http://localhost/moves', $response->getHeaderLine('Location'));
+        self::assertSame('text/html; charset=UTF-8', $response->getHeaderLine('Content-Type'));
     }
 }
 
@@ -212,26 +189,63 @@ class MovesController extends AppController
     ];
 
     /**
+     * Move down action.
+     *
+     * @param int|null $id
+     * @param int $step
+     * @return \Cake\Http\Response|null
+     */
+    public function down($id = null, $step = 1)
+    {
+        return $this->Move->down($this->Moves, $id, $step);
+    }
+
+    /**
      * Move up action.
      *
      * @param int|null $id
      * @param int $step
-     * @return \Cake\Network\Response|null
+     * @return \Cake\Http\Response|null
      */
     public function up($id = null, $step = 1)
     {
         return $this->Move->up($this->Moves, $id, $step);
     }
+}
+
+/**
+ * Class MovesTable
+ *
+ * @package Core\Test\TestCase\Controller\Component
+ */
+class MovesTable extends Table
+{
 
     /**
-     * Move down action.
+     * Default table schema.
      *
-     * @param int|null $id
-     * @param int $step
-     * @return \Cake\Network\Response|null
+     * @var array
      */
-    public function down($id = null, $step = 1)
+    protected static $_tableSchema = [
+        'id'           => ['type' => 'integer'],
+        'parent_id'    => ['type' => 'integer', 'null' => true],
+        'name'         => ['type' => 'string'],
+        'slug'         => ['type' => 'string'],
+        'params'       => 'text',
+        'lft'          => ['type' => 'integer'],
+        'rght'         => ['type' => 'integer'],
+        '_constraints' => ['primary' => ['type' => 'primary', 'columns' => ['id']]]
+    ];
+
+    /**
+     * Initialize a table instance. Called after the constructor.
+     *
+     * @param array $config
+     */
+    public function initialize(array $config)
     {
-        return $this->Move->down($this->Moves, $id, $step);
+        $this->setSchema(self::$_tableSchema);
+        parent::initialize($config);
+        $this->setTable('moves');
     }
 }
