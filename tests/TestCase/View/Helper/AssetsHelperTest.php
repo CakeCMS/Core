@@ -98,6 +98,10 @@ class AssetsHelperTest extends HelperTestCase
         $jquery   = $this->_helper()->getAssets('script.jquery.output');
         $fancybox = $this->_helper()->getAssets('script.fancybox.output');
 
+        dump($jquery);
+dump($fancybox);
+dump($this->_helper()->getAssets('script'));
+
         $this->assertHtml($expected['jquery'], $jquery);
         $this->assertHtml($expected['fancybox'], $fancybox);
 
