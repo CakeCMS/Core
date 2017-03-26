@@ -101,6 +101,8 @@ class AssetsHelperTest extends HelperTestCase
         dump($jquery);
 dump($fancybox);
 dump($this->_helper()->getAssets('script'));
+dump(scandir(WWW_ROOT . 'js/libs'));
+dump(scandir(WWW_ROOT . 'css/libs'));
 
         $this->assertHtml($expected['jquery'], $jquery);
         $this->assertHtml($expected['fancybox'], $fancybox);
