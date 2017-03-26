@@ -36,7 +36,7 @@ class AssetsHelperTest extends HelperTestCase
 
         $actual = $this->_helper()->getAssets('script.jquery.output');
         $this->assertHtml($expected, $actual);
-        $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
+        self::assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
     }
 
     public function testJQueryFactory()
@@ -56,13 +56,13 @@ class AssetsHelperTest extends HelperTestCase
         $this->assertHtml($expected['jquery'],  $jquery);
         $this->assertHtml($expected['factory'], $factory);
 
-        $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
+        self::assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
     }
 
     public function testBootstrap()
     {
         $object = $this->_helper()->bootstrap();
-        $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
+        self::assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
         
         $expected = [
             'jquery'    => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
@@ -88,7 +88,7 @@ class AssetsHelperTest extends HelperTestCase
     public function testFancyBox()
     {
         $object = $this->_helper()->fancyBox();
-        $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
+        self::assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
             'jquery'   => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
@@ -114,7 +114,7 @@ class AssetsHelperTest extends HelperTestCase
     public function testMaterialize()
     {
         $object = $this->_helper()->materialize();
-        $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
+        self::assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
             'jquery' => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
@@ -140,7 +140,7 @@ class AssetsHelperTest extends HelperTestCase
     public function testSweetAlert()
     {
         $object = $this->_helper()->sweetAlert();
-        $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
+        self::assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
             'jquery' => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
@@ -166,7 +166,7 @@ class AssetsHelperTest extends HelperTestCase
     public function testFontAwesome()
     {
         $object = $this->_helper()->fontAwesome();
-        $this->assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
+        self::assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
 
         $expected = [
             'link' => [
@@ -183,9 +183,9 @@ class AssetsHelperTest extends HelperTestCase
         $this->_helper()->fontAwesome()->materialize();
         $scripts = $this->_helper()->getAssets('script');
 
-        $this->assertTrue(is_array($scripts));
-        $this->assertArrayHasKey('jquery', $scripts);
-        $this->assertArrayHasKey('materialize', $scripts);
+        self::assertTrue(is_array($scripts));
+        self::assertArrayHasKey('jquery', $scripts);
+        self::assertArrayHasKey('materialize', $scripts);
     }
 
     public function testTableCheckAll()

@@ -31,25 +31,25 @@ class MacrosTest extends TestCase
     public function testSetGet()
     {
         $macros = new Macros();
-        $this->assertSame(['base_url' => Router::fullBaseUrl()], $macros->get());
+        self::assertSame(['base_url' => Router::fullBaseUrl()], $macros->get());
 
         $macros
             ->set('test_1', 'Test 1')
             ->set('test_2', 'Test 2')
             ->set('test_3', 'Test 3');
 
-        $this->assertSame([
+        self::assertSame([
             'test_3' => 'Test 3',
             'test_2' => 'Test 2',
             'test_1' => 'Test 1',
             'base_url' => Router::fullBaseUrl()
         ], $macros->get());
 
-        $this->assertSame('Test 3', $macros->get('test_3'));
+        self::assertSame('Test 3', $macros->get('test_3'));
 
         $entity = new Entity(['status' => 'Publish']);
         $macros = new Macros($entity);
-        $this->assertSame([
+        self::assertSame([
             'base_url' => 'http://localhost',
             'status'   => 'Publish',
         ], $macros->get());
@@ -64,6 +64,6 @@ class MacrosTest extends TestCase
 
         $expected = 'Hi, i\'m Sergey and me 26 years';
         $actual   = $macros->text('Hi, i\'m {name} and me {age} years');
-        $this->assertSame($expected, $actual);
+        self::assertSame($expected, $actual);
     }
 }

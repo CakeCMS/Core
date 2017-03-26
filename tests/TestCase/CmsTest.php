@@ -33,22 +33,22 @@ class CmsTest extends TestCase
 
         Cms::mergeConfig('Test.key', 'value-2');
         $expected = ['value-1', 'value-2'];
-        $this->assertSame($expected, Configure::read('Test.key'));
+        self::assertSame($expected, Configure::read('Test.key'));
 
         Cms::mergeConfig('Test.key', 'config_value');
         $expected = ['value-1', 'value-2', 'config_value'];
-        $this->assertSame($expected, Configure::read('Test.key'));
+        self::assertSame($expected, Configure::read('Test.key'));
 
         Cms::mergeConfig('Test.key', true);
         $expected = ['value-1', 'value-2', 'config_value', true];
-        $this->assertSame($expected, Configure::read('Test.key'));
+        self::assertSame($expected, Configure::read('Test.key'));
 
         Cms::mergeConfig('Test.key', false);
         $expected = ['value-1', 'value-2', 'config_value', true, false];
-        $this->assertSame($expected, Configure::read('Test.key'));
+        self::assertSame($expected, Configure::read('Test.key'));
 
         Cms::mergeConfig('Test.key', ['array-value-1', 'array-value-2']);
         $expected = ['value-1', 'value-2', 'config_value', true, false, 'array-value-1', 'array-value-2'];
-        $this->assertSame($expected, Configure::read('Test.key'));
+        self::assertSame($expected, Configure::read('Test.key'));
     }
 }

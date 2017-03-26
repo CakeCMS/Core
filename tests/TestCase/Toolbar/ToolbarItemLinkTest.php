@@ -43,13 +43,13 @@ class ToolbarItemLinkTest extends TestCase
 
         $toolbar = Toolbar::getInstance('toolbar-2');
         $toolbar->appendButton('Core.link', 'My title', [
-            'prefix' => 'admin',
-            'plugin' => 'Core',
+            'prefix'     => 'admin',
+            'plugin'     => 'Core',
             'controller' => 'Root',
-            'action' => 'Dashboard',
+            'action'     => 'Dashboard',
         ], [
-            'class' => 'custom',
-            'icon'  => 'home',
+            'class'     => 'custom',
+            'icon'      => 'home',
             'iconClass' => 'red'
         ]);
 

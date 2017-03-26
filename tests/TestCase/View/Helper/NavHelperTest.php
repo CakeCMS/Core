@@ -17,7 +17,7 @@ namespace Core\Test\TestCase\View\Helper;
 
 use Core\Nav;
 use Core\View\AppView;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Core\TestSuite\TestCase;
 use Core\View\Helper\NavHelper;
 
@@ -54,7 +54,7 @@ class NavHelperTest extends TestCase
 
     public function testClassName()
     {
-        $this->assertInstanceOf('Core\View\Helper\NavHelper', $this->Nav);
+        self::assertInstanceOf('Core\View\Helper\NavHelper', $this->Nav);
     }
 
     public function testRender()
@@ -246,13 +246,13 @@ class NavHelperTest extends TestCase
 
     public function testActiveItemClass()
     {
-        $request = new Request([
+        $request = new ServerRequest([
             'params' => [
-                'prefix' => 'admin',
-                'plugin' => 'Core',
+                'prefix'     => 'admin',
+                'plugin'     => 'Core',
                 'controller' => 'Root',
-                'action' => 'dashboard',
-                'pass' => []
+                'action'     => 'dashboard',
+                'pass'       => []
             ]
         ]);
 

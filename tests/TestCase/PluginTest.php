@@ -49,31 +49,31 @@ class PluginTest extends TestCase
     public function testGetManifestPath()
     {
         $actual = Plugin::getManifestPath('Core');
-        $this->assertSame(Plugin::path('Core') . 'plugin.manifest.php', $actual);
+        self::assertSame(Plugin::path('Core') . 'plugin.manifest.php', $actual);
 
         $actual = Plugin::getManifestPath('Test');
-        $this->assertSame(Plugin::path('Test') . 'plugin.manifest.php', $actual);
+        self::assertSame(Plugin::path('Test') . 'plugin.manifest.php', $actual);
 
         $actual = Plugin::getManifestPath('Site');
-        $this->assertNull($actual);
+        self::assertNull($actual);
 
         $actual = Plugin::getManifestPath('NoExist');
-        $this->assertNull($actual);
+        self::assertNull($actual);
     }
 
     public function testGetData()
     {
         $data = Plugin::getData('Test');
-        $this->assertInstanceOf('JBZoo\Data\Data', $data);
-        $this->assertTrue(is_array($data->get('meta')));
+        self::assertInstanceOf('JBZoo\Data\Data', $data);
+        self::assertTrue(is_array($data->get('meta')));
 
         $data = Plugin::getData('Test', 'meta');
-        $this->assertInstanceOf('JBZoo\Data\Data', $data);
-        $this->assertSame('Test', $data->get('name'));
+        self::assertInstanceOf('JBZoo\Data\Data', $data);
+        self::assertSame('Test', $data->get('name'));
 
         $data = Plugin::getData('NoExist');
-        $this->assertInstanceOf('JBZoo\Data\Data', $data);
-        $this->assertNull($data->get('name'));
+        self::assertInstanceOf('JBZoo\Data\Data', $data);
+        self::assertNull($data->get('name'));
     }
 
     public function testLoad()
@@ -81,17 +81,17 @@ class PluginTest extends TestCase
         Plugin::unload('Test');
         Plugin::load('Test', ['autoload' => true]);
 
-        $this->assertTrue(Plugin::loaded('Test'));
+        self::assertTrue(Plugin::loaded('Test'));
         $locales = Configure::read('App.paths.locales');
 
         $before = count($locales);
-        $this->assertTrue(in_array(Plugin::getLocalePath('Test'), $locales));
+        self::assertTrue(in_array(Plugin::getLocalePath('Test'), $locales));
 
         Plugin::unload('Test');
         $locales = Configure::read('App.paths.locales');
         $after   = count($locales);
 
-        $this->assertFalse(($before == $after));
+        self::assertFalse(($before == $after));
         Plugin::load('Test', ['autoload' => true]);
     }
 
@@ -126,12 +126,12 @@ class PluginTest extends TestCase
             'DebugKit',
         ]);
 
-        $this->assertTrue(Plugin::loaded('NoBootstrap'));
-        $this->assertTrue(Plugin::loaded('PluginTest'));
-        $this->assertTrue(Plugin::loaded('NoRoutes'));
-        $this->assertTrue(Plugin::loaded('NoConfig'));
-        $this->assertTrue(Plugin::loaded('DebugKit'));
-        $this->assertTrue(Plugin::loaded('Migrations'));
+        self::assertTrue(Plugin::loaded('NoBootstrap'));
+        self::assertTrue(Plugin::loaded('PluginTest'));
+        self::assertTrue(Plugin::loaded('NoRoutes'));
+        self::assertTrue(Plugin::loaded('NoConfig'));
+        self::assertTrue(Plugin::loaded('DebugKit'));
+        self::assertTrue(Plugin::loaded('Migrations'));
 
         $Folder->delete($TestPlgPath);
         $Folder->delete($NoRoutesPlgPath);
@@ -151,16 +151,16 @@ class PluginTest extends TestCase
         $view = new AppView();
         $helpers = $view->helpers()->loaded();
 
-        $this->assertTrue(is_array($view->viewVars));
-        $this->assertSame('View initialize', $view->viewVars['fromManifest']);
+        self::assertTrue(is_array($view->viewVars));
+        self::assertSame('View initialize', $view->viewVars['fromManifest']);
 
-        $this->assertTrue(!empty($helpers));
-        $this->assertTrue(is_array($helpers));
-        $this->assertTrue(in_array('Url', $helpers));
-        $this->assertTrue(in_array('Html', $helpers));
-        $this->assertTrue(in_array('Form', $helpers));
-        $this->assertTrue(in_array('Flash', $helpers));
-        $this->assertTrue(in_array('Paginator', $helpers));
+        self::assertTrue(!empty($helpers));
+        self::assertTrue(is_array($helpers));
+        self::assertTrue(in_array('Url', $helpers));
+        self::assertTrue(in_array('Html', $helpers));
+        self::assertTrue(in_array('Form', $helpers));
+        self::assertTrue(in_array('Flash', $helpers));
+        self::assertTrue(in_array('Paginator', $helpers));
     }
     
     public function testManifestControllerBeforeRender()
@@ -171,9 +171,9 @@ class PluginTest extends TestCase
         $controller->beforeRender($event);
         $viewVars = $controller->viewVars;
 
-        $this->assertTrue(is_array($viewVars));
-        $this->assertSame('Controller.beforeRender', $viewVars['eventName']);
-        $this->assertSame('App', $viewVars['controllerName']);
+        self::assertTrue(is_array($viewVars));
+        self::assertSame('Controller.beforeRender', $viewVars['eventName']);
+        self::assertSame('App', $viewVars['controllerName']);
 
         $request  = new Request();
         $response = new Response(['type' => 'application/json']);
@@ -182,7 +182,7 @@ class PluginTest extends TestCase
         $controller->beforeRender($event);
         $viewVars = $controller->viewVars;
 
-        $this->assertSame(true, $viewVars['_serialize']);
+        self::assertSame(true, $viewVars['_serialize']);
     }
 
     public function testManifestControllerBeforeFilter()
@@ -193,9 +193,9 @@ class PluginTest extends TestCase
         $controller->beforeFilter($event);
         $viewVars = $controller->viewVars;
 
-        $this->assertTrue(is_array($viewVars));
-        $this->assertSame('Controller.beforeFilter', $viewVars['eventName']);
-        $this->assertSame('App', $viewVars['controllerName']);
+        self::assertTrue(is_array($viewVars));
+        self::assertSame('Controller.beforeFilter', $viewVars['eventName']);
+        self::assertSame('App', $viewVars['controllerName']);
     }
 
     public function testManifestControllerBeforeRedirect()
@@ -209,11 +209,11 @@ class PluginTest extends TestCase
         $controller->beforeRedirect($event, $url, $response);
         $viewVars = $controller->viewVars;
 
-        $this->assertTrue(is_array($viewVars));
-        $this->assertSame($url, $viewVars['url']);
-        $this->assertSame('App', $viewVars['controllerName']);
-        $this->assertSame('application/json', $viewVars['responseType']);
-        $this->assertSame('Controller.beforeRedirect', $viewVars['eventName']);
+        self::assertTrue(is_array($viewVars));
+        self::assertSame($url, $viewVars['url']);
+        self::assertSame('App', $viewVars['controllerName']);
+        self::assertSame('application/json', $viewVars['responseType']);
+        self::assertSame('Controller.beforeRedirect', $viewVars['eventName']);
     }
 
     public function testManifestEventControllerInitialize()
@@ -221,10 +221,10 @@ class PluginTest extends TestCase
         $controller = new AppController();
         $components = $controller->components()->loaded();
 
-        $this->assertTrue(is_array($components));
-        $this->assertTrue(!empty($components));
-        $this->assertTrue(in_array('Flash', $components));
-        $this->assertTrue(in_array('RequestHandler', $components));
+        self::assertTrue(is_array($components));
+        self::assertTrue(!empty($components));
+        self::assertTrue(in_array('Flash', $components));
+        self::assertTrue(in_array('RequestHandler', $components));
     }
 
     public function testManifestEventControllerAfterFilter()
@@ -234,8 +234,8 @@ class PluginTest extends TestCase
         $controller->afterFilter($event);
         $viewVars = $controller->viewVars;
 
-        $this->assertSame('Controller.afterFilter', $viewVars['eventName']);
-        $this->assertSame('App', $viewVars['controllerName']);
+        self::assertSame('Controller.afterFilter', $viewVars['eventName']);
+        self::assertSame('App', $viewVars['controllerName']);
     }
 
     public function testManifestBeforeRenderFile()
@@ -246,9 +246,9 @@ class PluginTest extends TestCase
         $view->Document->beforeRenderFile($event, $file);
         $viewVars = $view->viewVars;
 
-        $this->assertTrue(is_array($viewVars));
-        $this->assertSame('View.beforeRenderFile', $viewVars['eventName']);
-        $this->assertSame($file, $viewVars['file']);
+        self::assertTrue(is_array($viewVars));
+        self::assertSame('View.beforeRenderFile', $viewVars['eventName']);
+        self::assertSame($file, $viewVars['file']);
     }
     
     public function testManifestAfterRenderFile()
@@ -260,10 +260,10 @@ class PluginTest extends TestCase
         $view->Document->afterRenderFile($event, $file, $content);
         $viewVars = $view->viewVars;
 
-        $this->assertTrue(is_array($viewVars));
-        $this->assertSame('View.afterRenderFile', $viewVars['eventName']);
-        $this->assertSame($file, $viewVars['file']);
-        $this->assertSame($content, $viewVars['content']);
+        self::assertTrue(is_array($viewVars));
+        self::assertSame('View.afterRenderFile', $viewVars['eventName']);
+        self::assertSame($file, $viewVars['file']);
+        self::assertSame($content, $viewVars['content']);
     }
 
     public function testManifestBeforeRender()
@@ -274,9 +274,9 @@ class PluginTest extends TestCase
         $view->Document->beforeRender($event, $file);
         $viewVars = $view->viewVars;
 
-        $this->assertTrue(is_array($viewVars));
-        $this->assertSame('View.beforeRender', $viewVars['eventName']);
-        $this->assertSame($file, $viewVars['file']);
+        self::assertTrue(is_array($viewVars));
+        self::assertSame('View.beforeRender', $viewVars['eventName']);
+        self::assertSame($file, $viewVars['file']);
     }
 
     public function testManifestAfterRender()
@@ -287,9 +287,9 @@ class PluginTest extends TestCase
         $view->Document->afterRender($event, $file);
         $viewVars = $view->viewVars;
 
-        $this->assertTrue(is_array($viewVars));
-        $this->assertSame('View.afterRender', $viewVars['eventName']);
-        $this->assertSame($file, $viewVars['file']);
+        self::assertTrue(is_array($viewVars));
+        self::assertSame('View.afterRender', $viewVars['eventName']);
+        self::assertSame($file, $viewVars['file']);
     }
 
     public function testManifestBeforeLayout()
@@ -300,9 +300,9 @@ class PluginTest extends TestCase
         $view->Document->beforeLayout($event, $file);
         $viewVars = $view->viewVars;
 
-        $this->assertTrue(is_array($viewVars));
-        $this->assertSame('View.beforeLayout', $viewVars['eventName']);
-        $this->assertSame($file, $viewVars['file']);
+        self::assertTrue(is_array($viewVars));
+        self::assertSame('View.beforeLayout', $viewVars['eventName']);
+        self::assertSame($file, $viewVars['file']);
     }
 
     public function testManifestAfterLayout()
@@ -313,9 +313,9 @@ class PluginTest extends TestCase
         $view->Document->afterLayout($event, $file);
         $viewVars = $view->viewVars;
 
-        $this->assertTrue(is_array($viewVars));
-        $this->assertSame('View.afterLayout', $viewVars['eventName']);
-        $this->assertSame($file, $viewVars['file']);
+        self::assertTrue(is_array($viewVars));
+        self::assertSame('View.afterLayout', $viewVars['eventName']);
+        self::assertSame($file, $viewVars['file']);
     }
 
     /**

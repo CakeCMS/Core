@@ -42,13 +42,13 @@ class ToolbarTest extends TestCase
     public function testClassName()
     {
         $object = Toolbar::getInstance(__FUNCTION__);
-        $this->assertInstanceOf('Core\Utility\Toolbar', $object);
+        self::assertInstanceOf('Core\Utility\Toolbar', $object);
     }
 
     public function testGetName()
     {
         $object = Toolbar::getInstance(__FUNCTION__);
-        $this->assertSame(__FUNCTION__, $object->getName());
+        self::assertSame(__FUNCTION__, $object->getName());
     }
 
     public function testAppendButton()
@@ -57,25 +57,25 @@ class ToolbarTest extends TestCase
         $result = $object->appendButton('test', 'value', 'key');
         $toolbarItems = $object->getItems();
 
-        $this->assertTrue($result);
-        $this->assertTrue(is_array($toolbarItems));
-        $this->assertSame(3, count($toolbarItems[0]));
+        self::assertTrue($result);
+        self::assertTrue(is_array($toolbarItems));
+        self::assertSame(3, count($toolbarItems[0]));
     }
 
     public function testPrependButton()
     {
         $object = Toolbar::getInstance(__FUNCTION__);
         $result = $object->appendButton('append', 'value', 'key');
-        $this->assertTrue($result);
+        self::assertTrue($result);
 
         $result = $object->prependButton('prepend', 'value', 'key');
-        $this->assertTrue($result);
+        self::assertTrue($result);
 
         $toolbarItems = $object->getItems();
-        $this->assertTrue(is_array($toolbarItems));
-        $this->assertSame(2, count($toolbarItems));
+        self::assertTrue(is_array($toolbarItems));
+        self::assertSame(2, count($toolbarItems));
         
-        $this->assertSame([
+        self::assertSame([
             0 => [
                 0 => 'prepend',
                 1 => 'value',
@@ -94,14 +94,14 @@ class ToolbarTest extends TestCase
         $object = Toolbar::getInstance(__FUNCTION__);
         $result = $object->loadItemType('Test.simple');
 
-        $this->assertInstanceOf('Test\Toolbar\ToolbarItemSimple', $result);
+        self::assertInstanceOf('Test\Toolbar\ToolbarItemSimple', $result);
     }
 
     public function testLoadButtonTypeNotFindClass()
     {
         $object = Toolbar::getInstance(__FUNCTION__);
-        $this->assertFalse($object->loadItemType('simple'));
-        $this->assertFalse($object->loadItemType('Test.no-exist'));
+        self::assertFalse($object->loadItemType('simple'));
+        self::assertFalse($object->loadItemType('Test.no-exist'));
     }
 
     public function testLoadButtonTypeFromApp()
@@ -109,7 +109,7 @@ class ToolbarTest extends TestCase
         $object = Toolbar::getInstance(__FUNCTION__);
         $result = $object->loadItemType('view');
 
-        $this->assertInstanceOf('Test\App\Toolbar\ToolbarItemView', $result);
+        self::assertInstanceOf('Test\App\Toolbar\ToolbarItemView', $result);
     }
 
     public function testRenderButton()
@@ -138,6 +138,6 @@ class ToolbarTest extends TestCase
         $object->appendButton('Test.renderer', 'home', 'value');
 
         $output = $object->render();
-        $this->assertEmpty($output);
+        self::assertEmpty($output);
     }
 }

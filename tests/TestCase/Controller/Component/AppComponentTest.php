@@ -15,8 +15,8 @@
 
 namespace Core\Test\TestCase\Controller\Component;
 
-use Cake\Network\Request;
 use Cake\Routing\Router;
+use Cake\Http\ServerRequest;
 use Core\TestSuite\TestCase;
 use Core\Controller\AppController;
 use Cake\Routing\Route\DashedRoute;
@@ -31,7 +31,7 @@ class AppComponentTest extends TestCase
 {
 
     /**
-     * @var Request
+     * @var ServerRequest
      */
     protected $_request;
 
@@ -40,10 +40,11 @@ class AppComponentTest extends TestCase
         parent::setUp();
 
         Router::scope('/', function ($routes) {
+            /** @var $routes \Cake\Routing\RouteBuilder */
             $routes->fallbacks(DashedRoute::class);
         });
 
-        $this->_request = new Request([
+        $this->_request = new ServerRequest([
             'params' => [
                 'prefix'     => false,
                 'plugin'     => false,
@@ -56,25 +57,23 @@ class AppComponentTest extends TestCase
 
     public function testRedirect()
     {
-        $request = $this->_request;
+        $request    = $this->_request;
         $controller = new ComponentAppController($request);
 
-        $this->assertSame([
-            'Content-Type' => 'text/html; charset=UTF-8',
-            'Location'     => 'http://localhost/component-app',
-        ], $controller->form()->header());
+        self::assertSame('http://localhost/component-app', $controller->form()->getHeaderLine('Location'));
+        self::assertSame('text/html; charset=UTF-8', $controller->form()->getHeaderLine('Content-Type'));
 
         $request = $this->_request;
         $request->addParams([
             'action' => 'edit'
         ]);
+
         $request->data = ['action' => 'saveNew'];
+
         $controller = new ComponentAppController($request);
 
-        $this->assertSame([
-            'Content-Type' => 'text/html; charset=UTF-8',
-            'Location'     => 'http://localhost/component-app/add'
-        ], $controller->edit()->header());
+        self::assertSame('http://localhost/component-app/add', $controller->edit()->getHeaderLine('Location'));
+        self::assertSame('text/html; charset=UTF-8', $controller->edit()->getHeaderLine('Content-Type'));
     }
 }
 
@@ -98,7 +97,7 @@ class ComponentAppController extends AppController
     {
         return $this->App->redirect([
             'saveNew' => [
-                'action' => 'add',
+                'action'     => 'add',
                 'controller' => 'ComponentApp',
             ]
         ]);

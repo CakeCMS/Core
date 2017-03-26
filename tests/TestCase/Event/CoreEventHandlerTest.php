@@ -31,7 +31,7 @@ class CoreEventHandlerTest extends IntegrationTestCase
     {
         EventManager::loadListeners();
 
-        $this->assertSame([], Nav::items('sidebar'));
+        self::assertSame([], Nav::items('sidebar'));
 
         $url = $this->_getUrl([
             'prefix'     => 'admin',
@@ -42,8 +42,8 @@ class CoreEventHandlerTest extends IntegrationTestCase
         $this->get($url);
 
         $nav = Nav::items('sidebar');
-        $this->assertTrue(!empty($nav));
-        $this->assertArrayHasKey('dashboard', $nav);
-        $this->assertInstanceOf('Core\Controller\Admin\RootController', $this->_controller);
+        self::assertTrue(!empty($nav));
+        self::assertArrayHasKey('dashboard', $nav);
+        self::assertInstanceOf('Core\Controller\Admin\RootController', $this->_controller);
     }
 }

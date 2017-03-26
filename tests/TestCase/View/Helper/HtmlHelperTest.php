@@ -47,7 +47,7 @@ class HtmlHelperTest extends HelperTestCase
 
     public function testClassName()
     {
-        $this->assertInstanceOf('Core\View\Helper\HtmlHelper', $this->_helper());
+        self::assertInstanceOf('Core\View\Helper\HtmlHelper', $this->_helper());
     }
 
     public function testIcon()
@@ -272,7 +272,7 @@ class HtmlHelperTest extends HelperTestCase
         ]));
 
         $helper = $this->_helper();
-        $helper->config('prepareBtnClass', function (HtmlHelper $html, array $options) {
+        $helper->setConfig('prepareBtnClass', function (HtmlHelper $html, array $options) {
             $options = $html->addClass($options, 'from-callback');
             unset($options['button']);
             return $options;
@@ -280,7 +280,7 @@ class HtmlHelperTest extends HelperTestCase
 
         $expected = [
             'a' => [
-                'href' => 'http://google.com',
+                'href'  => 'http://google.com',
                 'class' => 'ck-link from-callback',
                 'title' => 'Custom'
             ],
@@ -292,7 +292,7 @@ class HtmlHelperTest extends HelperTestCase
 
         $this->assertHtml($expected, $helper->link('Custom', 'http://google.com', ['button' => 'red']));
 
-        $helper->config('prepareTooltip', function (HtmlHelper $html, array $options) {
+        $helper->setConfig('prepareTooltip', function (HtmlHelper $html, array $options) {
             $options = $html->addClass($options, 'from-callback');
             $options['tooltip'] = 'bottom';
             return $options;
@@ -300,10 +300,10 @@ class HtmlHelperTest extends HelperTestCase
 
         $expected = [
             'a' => [
-                'href' => 'http://google.com',
-                'class' => 'ck-link from-callback',
+                'href'    => 'http://google.com',
+                'class'   => 'ck-link from-callback',
                 'tooltip' => 'bottom',
-                'title' => 'Custom'
+                'title'   => 'Custom'
             ],
                 'span' => ['class' => 'ck-link-title'],
                     'Custom',
@@ -351,17 +351,17 @@ class HtmlHelperTest extends HelperTestCase
 
         $this->assertHtml(['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/styles.css']], $actual);
 
-        $this->assertNull($this->_helper()->css('no-exist.css'));
+        self::assertNull($this->_helper()->css('no-exist.css'));
 
         $googleJQuery = 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js';
         $actual = $this->_helper()->css($googleJQuery);
         $this->assertHtml(['link' => ['rel' => 'stylesheet', 'href' => $googleJQuery]], $actual);
 
         $actual = $this->_helper()->css([], ['block' => __METHOD__]);
-        $this->assertNull($actual);
+        self::assertNull($actual);
 
         $actual = $this->_helper()->css('styles.css', ['rel' => 'import']);
-        $this->assertSame('<style>@import url(http://localhost/css/styles.css);</style>', $actual);
+        self::assertSame('<style>@import url(http://localhost/css/styles.css);</style>', $actual);
 
         $this->_helper()->css('styles.css', ['block' => true]);
         $this->assertHtml(
@@ -393,7 +393,7 @@ class HtmlHelperTest extends HelperTestCase
         $this->assertHtml(['script' => ['src' => $googleJQuery], '/script'], $actual);
 
         $actual = $this->_helper()->script([], ['block' => __METHOD__]);
-        $this->assertNull($actual);
+        self::assertNull($actual);
 
         $this->_helper()->script('scripts.js', ['block' => true]);
         $this->assertHtml(

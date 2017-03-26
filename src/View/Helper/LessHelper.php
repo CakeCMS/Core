@@ -52,11 +52,12 @@ class LessHelper extends AppHelper
         $corePath  = Plugin::path('Core') . Configure::read('App.webroot') . '/' . Configure::read('App.lessBaseUrl');
         $cachePath = WWW_ROOT . Configure::read('App.cssBaseUrl') . Configure::read('App.cacheDir');
 
-        $this->config('root_path', APP_ROOT);
-        $this->config('cache_path', $cachePath);
-        $this->config('root_url', Router::fullBaseUrl());
-        $this->config('debug', Configure::read('debug'));
-        $this->config('import_paths', [realpath($corePath) => realpath($corePath)]);
+        $this
+            ->setConfig('root_path', APP_ROOT)
+            ->setConfig('cache_path', $cachePath)
+            ->setConfig('root_url', Router::fullBaseUrl())
+            ->setConfig('debug', Configure::read('debug'))
+            ->setConfig('import_paths', [realpath($corePath) => realpath($corePath)]);
 
         parent::initialize($config);
     }
@@ -279,7 +280,7 @@ class LessHelper extends AppHelper
     protected function _setForce($force = false)
     {
         if ($force) {
-            $this->config('force', true);
+            $this->setConfig('force', true);
         }
     }
 

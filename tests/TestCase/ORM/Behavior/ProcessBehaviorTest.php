@@ -34,15 +34,15 @@ class ProcessBehaviorTest extends TestCase
     public function testClassName()
     {
         $table = $this->_table();
-        $this->assertInstanceOf('Core\Test\TestCase\ORM\Behavior\RowsTable', $table);
-        $this->assertTrue(in_array('Process', $table->behaviors()->loaded()));
+        self::assertInstanceOf('Core\Test\TestCase\ORM\Behavior\RowsTable', $table);
+        self::assertTrue(in_array('Process', $table->behaviors()->loaded()));
     }
 
     public function testCustomModelProcessMethod()
     {
         $ids = [2 => 2, 8 => 8];
         $result = $this->_table()->process('drug', $ids);
-        $this->assertSame($ids, $result);
+        self::assertSame($ids, $result);
     }
 
     /**
@@ -67,7 +67,7 @@ class ProcessBehaviorTest extends TestCase
     {
         $ids = [2 => 2, 8 => 8];
         $result = $this->_table()->process('delete', $ids);
-        $this->assertSame(1, $result);
+        self::assertSame(1, $result);
     }
 
     public function testProcessDelete()
@@ -76,10 +76,10 @@ class ProcessBehaviorTest extends TestCase
         /** @var Entity $entity */
         $entity = $table->get(1);
 
-        $this->assertSame(1, $entity->id);
+        self::assertSame(1, $entity->id);
 
         $result = $table->processDelete([1, 2]);
-        $this->assertSame(2, $result);
+        self::assertSame(2, $result);
     }
 
     public function testProcessPublish()
@@ -87,19 +87,19 @@ class ProcessBehaviorTest extends TestCase
         $table = $this->_table();
         /** @var Entity $entity */
         $entity = $table->get(2);
-        $this->assertSame(0, $entity->get('status'));
+        self::assertSame(0, $entity->get('status'));
 
         $entity = $table->get(4);
-        $this->assertSame(0, $entity->get('status'));
+        self::assertSame(0, $entity->get('status'));
 
         $result = $table->processPublish([1, 2, 4]);
-        $this->assertSame(3, $result);
+        self::assertSame(3, $result);
 
         $entity = $table->get(2);
-        $this->assertSame(1, $entity->get('status'));
+        self::assertSame(1, $entity->get('status'));
 
         $entity = $table->get(4);
-        $this->assertSame(1, $entity->get('status'));
+        self::assertSame(1, $entity->get('status'));
     }
 
     public function testProcessUnPublish()
@@ -107,19 +107,19 @@ class ProcessBehaviorTest extends TestCase
         $table  = $this->_table();
         /** @var Entity $entity */
         $entity = $table->get(1);
-        $this->assertSame(1, $entity->get('status'));
+        self::assertSame(1, $entity->get('status'));
 
         $entity = $table->get(3);
-        $this->assertSame(1, $entity->get('status'));
+        self::assertSame(1, $entity->get('status'));
 
         $result = $table->processUnPublish([1, 3]);
-        $this->assertSame(2, $result);
+        self::assertSame(2, $result);
 
         $entity = $table->get(1);
-        $this->assertSame(0, $entity->get('status'));
+        self::assertSame(0, $entity->get('status'));
 
         $entity = $table->get(3);
-        $this->assertSame(0, $entity->get('status'));
+        self::assertSame(0, $entity->get('status'));
     }
 
     /**
@@ -150,7 +150,7 @@ class RowsTable extends Table
      *
      * @var array
      */
-    protected $_schema = [
+    protected static $_tableSchema = [
         'id'           => ['type' => 'integer'],
         'title'        => ['type' => 'string'],
         'alias'        => ['type' => 'string'],
@@ -165,8 +165,8 @@ class RowsTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->schema($this->_schema);
-        $this->table('process_behavior');
+        $this->setSchema(self::$_tableSchema);
+        $this->setTable('process_behavior');
         $this->addBehavior('Core.Process', [
             'actions' => [
                 'advert' => false,

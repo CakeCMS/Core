@@ -29,13 +29,13 @@ class EntityTest extends TestCase
     public function testClassName()
     {
         $entity = new Entity();
-        $this->assertInstanceOf('Core\ORM\Entity\Entity', $entity);
+        self::assertInstanceOf('Core\ORM\Entity\Entity', $entity);
     }
 
     public function testParamsProperty()
     {
         $entity = new Entity();
-        $this->assertInstanceOf('JBZoo\Data\JSON', $entity->params);
+        self::assertInstanceOf('JBZoo\Data\JSON', $entity->params);
 
         $entity = new Entity([
             'params' => [
@@ -44,9 +44,9 @@ class EntityTest extends TestCase
             ]
         ]);
 
-        $this->assertInstanceOf('JBZoo\Data\JSON', $entity->params);
-        $this->assertInstanceOf('JBZoo\Data\JSON', $entity->get('params'));
-        $this->assertSame('value-1', $entity->params->get('key-1'));
-        $this->assertSame('is test', $entity->params->get('custom'));
+        self::assertInstanceOf('JBZoo\Data\JSON', $entity->params);
+        self::assertInstanceOf('JBZoo\Data\JSON', $entity->get('params'));
+        self::assertSame('value-1', $entity->params->get('key-1'));
+        self::assertSame('is test', $entity->params->get('custom'));
     }
 }

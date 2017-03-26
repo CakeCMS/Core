@@ -34,8 +34,8 @@ class ManagerTest extends TestCase
         $manager   = EventManager::instance();
         $listeners = $manager->listeners('Controller.setup');
 
-        $this->assertTrue(is_array($listeners));
-        $this->assertTrue(!empty($listeners));
+        self::assertTrue(is_array($listeners));
+        self::assertTrue(!empty($listeners));
     }
 
     public function testTrigger()
@@ -44,8 +44,8 @@ class ManagerTest extends TestCase
         EventManager::loadListeners();
 
         $controller = new EventController();
-        $this->assertSame('Event.Controller.index', $controller->index());
-        $this->assertSame('Event.Controller.view', $controller->view());
+        self::assertSame('Event.Controller.index', $controller->index());
+        self::assertSame('Event.Controller.view', $controller->view());
         
         Plugin::unload('Test');
     }

@@ -15,7 +15,7 @@
 
 namespace Core\Test\TestCase\View\Form;
 
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Core\ORM\Entity\Entity;
 use Core\TestSuite\TestCase;
 use Core\View\Form\EntityContext;
@@ -38,15 +38,15 @@ class EntityContextTest extends TestCase
             ],
         ]);
 
-        $context = new EntityContext(new Request(), [
+        $context = new EntityContext(new ServerRequest(), [
             'entity' => $entity,
         ]);
 
         $value = $context->val('params');
-        $this->assertInstanceOf('JBZoo\Data\JSON', $value);
+        self::assertInstanceOf('JBZoo\Data\JSON', $value);
 
         $value = $context->val('params.test');
-        $this->assertSame('Test value', $value);
+        self::assertSame('Test value', $value);
     }
 }
 

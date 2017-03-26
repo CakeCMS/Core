@@ -42,28 +42,28 @@ class UrlHelperTest extends HelperTestCase
 
     public function testClassName()
     {
-        $this->assertInstanceOf('Core\View\Helper\UrlHelper', $this->_helper());
+        self::assertInstanceOf('Core\View\Helper\UrlHelper', $this->_helper());
     }
 
     public function testAssetPath()
     {
-        $this->assertNotFalse($this->_helper()->assetPath('styles.css'));
-        $this->assertNotFalse($this->_helper()->assetPath('styles.css', 'css'));
+        self::assertNotFalse($this->_helper()->assetPath('styles.css'));
+        self::assertNotFalse($this->_helper()->assetPath('styles.css', 'css'));
 
-        $this->assertNotFalse($this->_helper()->assetPath('scripts.js'));
-        $this->assertNotFalse($this->_helper()->assetPath('scripts.js', 'js'));
+        self::assertNotFalse($this->_helper()->assetPath('scripts.js'));
+        self::assertNotFalse($this->_helper()->assetPath('scripts.js', 'js'));
 
-        $this->assertNotFalse($this->_helper()->assetPath('error.less'));
-        $this->assertNotFalse($this->_helper()->assetPath('error.less', 'less'));
+        self::assertNotFalse($this->_helper()->assetPath('error.less'));
+        self::assertNotFalse($this->_helper()->assetPath('error.less', 'less'));
 
-        $this->assertNotFalse($this->_helper()->assetPath('cake.png', 'img'));
-        $this->assertNotFalse($this->_helper()->assetPath('cake-big.jpg', 'img'));
+        self::assertNotFalse($this->_helper()->assetPath('cake.png', 'img'));
+        self::assertNotFalse($this->_helper()->assetPath('cake-big.jpg', 'img'));
 
-        $this->assertFalse($this->_helper()->assetPath('styles.css', 'js'));
+        self::assertFalse($this->_helper()->assetPath('styles.css', 'js'));
 
-        $this->assertNotFalse($this->_helper()->assetPath('Test.custom.less'));
-        $this->assertNotFalse($this->_helper()->assetPath('Test.custom.less', 'less'));
+        self::assertNotFalse($this->_helper()->assetPath('Test.custom.less'));
+        self::assertNotFalse($this->_helper()->assetPath('Test.custom.less', 'less'));
 
-        $this->assertNotFalse($this->_helper()->assetPath('Test.cake.png', 'img'));
+        self::assertNotFalse($this->_helper()->assetPath('Test.cake.png', 'img'));
     }
 }

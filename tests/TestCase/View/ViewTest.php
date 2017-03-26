@@ -18,7 +18,7 @@ namespace Core\Test\TestCase;
 use Core\Plugin;
 use Core\View\AppView;
 use Core\View\AjaxView;
-use Cake\Network\Request;
+use Cake\Http\ServerRequest;
 use Core\TestSuite\TestCase;
 use Test\App\Controller\FormsController;
 
@@ -62,23 +62,23 @@ class ViewTest extends TestCase
     public function testAjaxViewType()
     {
         $view = new AjaxView();
-        $this->assertSame('ajax', $view->layout);
+        self::assertSame('ajax', $view->layout);
     }
     
     public function testPartial()
     {
         $actual = $this->View->partial('frontend');
-        $this->assertSame('Frontend partial', $actual);
+        self::assertSame('Frontend partial', $actual);
 
         $actual = $this->View->partial('Test.plugin');
-        $this->assertSame('Plugin partial', $actual);
+        self::assertSame('Plugin partial', $actual);
 
-        $this->assertNull($this->View->partial('no-found'));
+        self::assertNull($this->View->partial('no-found'));
     }
 
     public function testRenderFormViewByActionIfFind()
     {
-        $request = new Request([
+        $request = new ServerRequest([
             'params' => [
                 'controller' => 'Forms',
                 'action'     => 'edit',
@@ -90,12 +90,12 @@ class ViewTest extends TestCase
         $view = $controller->createView('Test\App\View\AppView');
         $view->templatePath('Forms');
         $actual = $view->render();
-        $this->assertRegExp('/Edit template/', $actual);
+        self::assertRegExp('/Edit template/', $actual);
     }
 
     public function testRenderFormViewByActionNotFind()
     {
-        $request = new Request([
+        $request = new ServerRequest([
             'params' => [
                 'controller' => 'Forms',
                 'action'     => 'add',
@@ -107,7 +107,7 @@ class ViewTest extends TestCase
         $view = $controller->createView('Test\App\View\AppView');
         $view->templatePath('Forms');
         $actual = $view->render();
-        $this->assertRegExp('/Form template/', $actual);
+        self::assertRegExp('/Form template/', $actual);
     }
 
     /**
@@ -115,7 +115,7 @@ class ViewTest extends TestCase
      */
     public function testRenderFormViewNotFindTemplate()
     {
-        $request = new Request([
+        $request = new ServerRequest([
             'params' => [
                 'controller' => 'NoExist',
                 'action'     => 'add',

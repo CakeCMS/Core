@@ -20,9 +20,9 @@ use Core\ORM\Table;
 use Cake\Cache\Cache;
 use Core\View\AppView;
 use Cake\Core\Configure;
-use Cake\Network\Request;
 use Cake\ORM\TableRegistry;
 use Core\ORM\Entity\Entity;
+use Cake\Http\ServerRequest;
 use Core\View\Helper\FormHelper;
 
 /**
@@ -53,7 +53,7 @@ class FormHelperTest extends HelperTestCase
 
     public function testClassName()
     {
-        $this->assertInstanceOf('Core\View\Helper\FormHelper', $this->_helper());
+        self::assertInstanceOf('Core\View\Helper\FormHelper', $this->_helper());
     }
 
     public function testCreateForm()
@@ -66,7 +66,7 @@ class FormHelperTest extends HelperTestCase
         ];
 
         $this->assertHtml($expected, $this->_helper()->create(false));
-        $this->assertSame('</form>', $this->_helper()->end());
+        self::assertSame('</form>', $this->_helper()->end());
 
         $expected = [
             'form' => ['method' => 'post', 'accept-charset' => 'utf-8', 'class' => 'ck-form jsForm', 'action' => '/'],
@@ -77,7 +77,7 @@ class FormHelperTest extends HelperTestCase
 
         $helper = $this->_helper();
         $this->assertHtml($expected, $helper->create(false, ['jsForm' => true]));
-        $this->assertSame(
+        self::assertSame(
             '<input type="hidden" name="action" class="jsFormAction" value=""/></form>',
             $helper->end()
         );
@@ -85,7 +85,7 @@ class FormHelperTest extends HelperTestCase
 
     public function testCreateProcessForm()
     {
-        $Request = new Request([
+        $Request = new ServerRequest([
             'params' => [
                 'plugin'     => 'Test',
                 'controller' => 'Event',
@@ -110,7 +110,7 @@ class FormHelperTest extends HelperTestCase
         ];
 
         $this->assertHtml($expected, $Form->create(false, ['process' => true]));
-        $this->assertSame('<input type="hidden" name="action" class="jsFormAction" value=""/></form>', $Form->end());
+        self::assertSame('<input type="hidden" name="action" class="jsFormAction" value=""/></form>', $Form->end());
     }
     
     public function testButton()
@@ -165,7 +165,7 @@ class FormHelperTest extends HelperTestCase
                     'value'     => 'test@google.com'
                 ],
             '/div'
-        ], $helper->input('email'));
+        ], $helper->control('email'));
 
         $this->assertHtml([
             'div' => ['class' => 'input text'],
@@ -180,7 +180,7 @@ class FormHelperTest extends HelperTestCase
                     'value'     => 'Test title'
                 ],
             '/div'
-        ], $helper->input('name'));
+        ], $helper->control('name'));
 
         $this->assertHtml([
             'div' => ['class' => 'input text'],
@@ -189,7 +189,7 @@ class FormHelperTest extends HelperTestCase
                 '/label',
                 'input' => ['type' => 'text', 'name' => 'test', 'id' => 'test'],
             '/div'
-        ], $helper->input('test'));
+        ], $helper->control('test'));
 
         $this->assertHtml([
             'div' => ['class' => 'input text'],
@@ -204,7 +204,7 @@ class FormHelperTest extends HelperTestCase
                     'value'     => 'Test param'
                 ],
             '/div'
-        ], $helper->input('params.name'));
+        ], $helper->control('params.name'));
     }
 
     public function testCheckAll()
@@ -258,7 +258,7 @@ class FormsTable extends Table
      *
      * @var array
      */
-    protected $_schema = [
+    protected static $_tableSchema = [
         'id'        => ['type' => 'integer', 'null' => '', 'default' => '', 'length' => '8'],
         'name'      => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
         'email'     => ['type' => 'string', 'null' => '', 'default' => '', 'length' => '255'],
@@ -279,6 +279,6 @@ class FormsTable extends Table
      */
     public function initialize(array $config)
     {
-        $this->schema($this->_schema);
+        $this->setSchema(self::$_tableSchema);
     }
 }

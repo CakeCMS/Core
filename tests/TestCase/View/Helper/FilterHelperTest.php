@@ -28,7 +28,7 @@ class FilterHelperTest extends HelperTestCase
 
     public function testClassName()
     {
-        $this->assertInstanceOf('Core\View\Helper\FilterHelper', $this->_helper());
+        self::assertInstanceOf('Core\View\Helper\FilterHelper', $this->_helper());
     }
 
     public function testDefaultRender()
@@ -37,6 +37,6 @@ class FilterHelperTest extends HelperTestCase
             'name' => ['type' => 'text']
         ]);
 
-        $this->assertSame('Frontend filter element', $actual);
+        self::assertSame('Frontend filter element', $actual);
     }
 }

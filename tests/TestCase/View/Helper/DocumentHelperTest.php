@@ -34,38 +34,38 @@ class DocumentHelperTest extends HelperTestCase
 
     public function testClassName()
     {
-        $this->assertInstanceOf('Core\View\Helper\DocumentHelper', $this->_helper());
+        self::assertInstanceOf('Core\View\Helper\DocumentHelper', $this->_helper());
     }
 
     public function testProperties()
     {
         $this->_helper()->initialize([]);
 
-        $this->assertSame('ltr', $this->_helper()->dir);
-        $this->assertSame('utf-8', $this->_helper()->charset);
-        $this->assertSame('ru_RU', $this->_helper()->locale);
-        $this->assertSame(PHP_EOL, $this->_helper()->eol);
-        $this->assertSame('    ', $this->_helper()->tab);
+        self::assertSame('ltr', $this->_helper()->dir);
+        self::assertSame('utf-8', $this->_helper()->charset);
+        self::assertSame('ru_RU', $this->_helper()->locale);
+        self::assertSame(PHP_EOL, $this->_helper()->eol);
+        self::assertSame('    ', $this->_helper()->tab);
 
         Configure::write('debug', 0);
 
         $doc = new DocumentHelper($this->View);
-        $this->assertEmpty($doc->eol);
-        $this->assertEmpty($doc->tab);
+        self::assertEmpty($doc->eol);
+        self::assertEmpty($doc->tab);
 
         Configure::write('debug', 1);
     }
     
     public function testLang()
     {
-        $this->assertSame('ru', $this->_helper()->lang());
-        $this->assertSame('ru', $this->_helper()->lang(false));
+        self::assertSame('ru', $this->_helper()->lang());
+        self::assertSame('ru', $this->_helper()->lang(false));
 
         Configure::write('App.defaultLocale', 'en_GB');
         $doc = new DocumentHelper($this->View);
 
-        $this->assertSame('en', $doc->lang());
-        $this->assertSame('gb', $doc->lang(false));
+        self::assertSame('en', $doc->lang());
+        self::assertSame('gb', $doc->lang(false));
     }
 
     public function testType()
@@ -80,7 +80,7 @@ class DocumentHelperTest extends HelperTestCase
 
         $expected = implode($this->_helper()->eol, $expected) . $this->_helper()->eol;
 
-        $this->assertSame($expected, $this->_helper()->type());
+        self::assertSame($expected, $this->_helper()->type());
     }
 
     public function testMeta()
@@ -94,7 +94,7 @@ class DocumentHelperTest extends HelperTestCase
         $output   = $this->_helper()->meta($expected);
         $expected = implode($this->_helper()->eol, $expected) . $this->_helper()->eol;
 
-        $this->assertSame($expected, $output);
+        self::assertSame($expected, $output);
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $expected = [
@@ -103,10 +103,10 @@ class DocumentHelperTest extends HelperTestCase
             '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
         ];
 
-        $this->assertNull($this->_helper()->meta($expected, 'meta'));
+        self::assertNull($this->_helper()->meta($expected, 'meta'));
 
         $expected = implode($this->_helper()->eol, $expected) . $this->_helper()->eol;
-        $this->assertSame($expected, $this->View->fetch('meta'));
+        self::assertSame($expected, $this->View->fetch('meta'));
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         $expected = [
@@ -120,7 +120,7 @@ class DocumentHelperTest extends HelperTestCase
 
         $this->_helper()->meta(['<meta http-equiv="Content-Language" content="en">'], 'meta');
 
-        $this->assertSame($expected, $this->View->fetch('meta'));
+        self::assertSame($expected, $this->View->fetch('meta'));
     }
 
     public function testAssets()
@@ -213,7 +213,7 @@ class DocumentHelperTestIntegration extends IntegrationTestCase
         $this->get($this->_url);
         /** @var AppView $view */
         $view = $this->_controller->viewBuilder()->build();
-        $this->assertSame(
+        self::assertSame(
             'prefix-site theme- plugin-test view-metadata tmpl-form layout-default',
             $view->Document->getBodyClasses()
         );
@@ -227,7 +227,7 @@ class DocumentHelperTestIntegration extends IntegrationTestCase
         $this->get($passUrl);
         /** @var AppView $view */
         $view = $this->_controller->viewBuilder()->build();
-        $this->assertSame(
+        self::assertSame(
             'prefix-site theme- plugin-test view-metadata tmpl-form layout-default item-id-10',
             $view->Document->getBodyClasses()
         );

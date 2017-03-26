@@ -45,17 +45,17 @@ class CachedBehaviorModelTest extends TestCase
             ->cache('test_cached', 'test_cached')->first();
 
         $cacheFile = CACHE . 'query/cache/cached/cache_test_cached';
-        $this->assertTrue(file_exists($cacheFile));
+        self::assertTrue(file_exists($cacheFile));
 
         $entity->set('title', 'Cache');
         $table->save($entity);
-        $this->assertFalse(file_exists($cacheFile));
+        self::assertFalse(file_exists($cacheFile));
 
         $entity = $table->find()
             ->where(['id' => 1])
             ->cache('test_cached', 'test_cached')->first();
 
         $table->delete($entity);
-        $this->assertFalse(file_exists($cacheFile));
+        self::assertFalse(file_exists($cacheFile));
     }
 }

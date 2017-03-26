@@ -51,7 +51,7 @@ class LessHelperTest extends HelperTestCase
 
     public function testClassName()
     {
-        $this->assertInstanceOf('Core\View\Helper\LessHelper', $this->_helper());
+        self::assertInstanceOf('Core\View\Helper\LessHelper', $this->_helper());
     }
 
     public function testPluginLessProcess()
@@ -59,8 +59,8 @@ class LessHelperTest extends HelperTestCase
         $url  = $this->_helper()->process('Test.custom.less', true);
         $full = $this->_getCacheFilePath($url);
 
-        $this->assertTrue(file_exists($full));
-        $this->assertRegExp('(http://localhost/test/img/cake.png)', file_get_contents($full));
+        self::assertTrue(file_exists($full));
+        self::assertRegExp('(http://localhost/test/img/cake.png)', file_get_contents($full));
     }
 
     public function testAppLessProcess()
@@ -68,8 +68,8 @@ class LessHelperTest extends HelperTestCase
         $url  = $this->_helper()->process('styles.less', true);
         $full = $this->_getCacheFilePath($url);
 
-        $this->assertTrue(file_exists($full));
-        $this->assertRegExp('(http://localhost/img/cake-big.jpg)', file_get_contents($full));
+        self::assertTrue(file_exists($full));
+        self::assertRegExp('(http://localhost/img/cake-big.jpg)', file_get_contents($full));
     }
 
     public function testProcessNoDebug()
@@ -80,13 +80,13 @@ class LessHelperTest extends HelperTestCase
         $url  = $less->process('styles.less', true);
         $full = $this->_getCacheFilePath($url);
 
-        $this->assertTrue(file_exists($full));
+        self::assertTrue(file_exists($full));
 
         $content = file_get_contents($full);
         $lines   = explode(PHP_EOL, $content);
 
-        $this->assertSame(3, count($lines));
-        $this->assertRegExp('/.*\.min\.css/', $url);
+        self::assertSame(3, count($lines));
+        self::assertRegExp('/.*\.min\.css/', $url);
 
         Configure::write('debug', true);
     }
@@ -98,10 +98,10 @@ class LessHelperTest extends HelperTestCase
         $url  = $this->_helper()->process('styles.less', true);
         $full = $this->_getCacheFilePath($url);
 
-        $this->assertTrue(file_exists($full));
+        self::assertTrue(file_exists($full));
 
         $content = file_get_contents($full);
-        $this->assertRegExp('/localhost\/img\/cake-big\.jpg\?[0-9]+/', $content);
+        self::assertRegExp('/localhost\/img\/cake-big\.jpg\?[0-9]+/', $content);
 
         Configure::delete('Asset');
     }
@@ -109,10 +109,10 @@ class LessHelperTest extends HelperTestCase
     public function testProcessNoExistFile()
     {
         $url = $this->_helper()->process('not-found.less', true);
-        $this->assertNull($url);
+        self::assertNull($url);
 
         $url = $this->_helper()->process('Plugin.not-found.less', true);
-        $this->assertNull($url);
+        self::assertNull($url);
     }
 
     /**

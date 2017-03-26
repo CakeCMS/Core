@@ -44,7 +44,7 @@ class NavTest extends TestCase
         //  test clear.
         Nav::clear();
         $items = Nav::items();
-        $this->assertEquals($items, []);
+        self::assertEquals($items, []);
 
         //  test first level addition.
         $defaults = Nav::getDefaults();
@@ -52,22 +52,22 @@ class NavTest extends TestCase
         Nav::add('extensions', $extensions);
         $result = Nav::items();
         $expected = ['extensions' => Hash::merge($defaults, $extensions)];
-        $this->assertEquals($result, $expected);
+        self::assertEquals($result, $expected);
 
         //  tested nested insertion (1 level).
         $plugins = ['title' => 'Plugins'];
         Nav::add('extensions.children.plugins', $plugins);
         $result = Nav::items();
         $expected['extensions']['children']['plugins'] = Hash::merge($defaults, $plugins);
-        $this->assertEquals($result, $expected);
+        self::assertEquals($result, $expected);
 
         //  2 levels deep.
         $example = ['title' => 'Example'];
         Nav::add('extensions.children.plugins.children.example', $example);
         $result = Nav::items();
         $expected['extensions']['children']['plugins']['children']['example'] = Hash::merge($defaults, $example);
-        $this->assertEquals($result, $expected);
-        $this->assertEquals($expected, Nav::items('sidebar'));
+        self::assertEquals($result, $expected);
+        self::assertEquals($expected, Nav::items('sidebar'));
     }
 
     /**
@@ -81,19 +81,19 @@ class NavTest extends TestCase
     public function testNavItemsWithBogusMenu()
     {
         $result = Nav::items('bogus');
-        $this->assertEquals([], $result);
+        self::assertEquals([], $result);
     }
 
     public function testNavGetMenus()
     {
         $result = Nav::menus();
-        $this->assertEquals(['sidebar'], $result);
+        self::assertEquals(['sidebar'], $result);
 
         Nav::activeMenu('top');
         Nav::add('foo', ['title' => 'foo']);
         $result = Nav::menus();
 
-        $this->assertEquals(['sidebar', 'top'], $result);
+        self::assertEquals(['sidebar', 'top'], $result);
     }
 
     public function testNavMultipleMenus()
@@ -102,10 +102,10 @@ class NavTest extends TestCase
         Nav::add('foo', ['title' => 'foo']);
 
         $menus = array_keys(Nav::items());
-        $this->assertFalse(in_array('foo', $menus), 'foo exists in sidebar');
+        self::assertFalse(in_array('foo', $menus), 'foo exists in sidebar');
 
         $menus = array_keys(Nav::items('top'));
-        $this->assertTrue(in_array('foo', $menus), 'foo missing in top');
+        self::assertTrue(in_array('foo', $menus), 'foo missing in top');
     }
 
     public function testNavMerge()
@@ -122,7 +122,7 @@ class NavTest extends TestCase
 
         sort($expected);
         sort($items['foo']['access']);
-        $this->assertEquals($expected, $items['foo']['access']);
+        self::assertEquals($expected, $items['foo']['access']);
     }
 
     public function testNavAddStringPath()
@@ -137,7 +137,7 @@ class NavTest extends TestCase
 
         Nav::add('path', 'test.simple', $options);
 
-        $this->assertSame($expected, Nav::items('path'));
+        self::assertSame($expected, Nav::items('path'));
     }
 
     /**
@@ -153,7 +153,7 @@ class NavTest extends TestCase
         $items = ['title' => 'foo', 'access' => ['public', 'admin']];
         Nav::items('simple', $items);
 
-        $this->assertSame($items, Nav::items('simple'));
+        self::assertSame($items, Nav::items('simple'));
     }
 
     public function testRemove()
@@ -164,9 +164,9 @@ class NavTest extends TestCase
         $expected = [
             'simple' => Hash::merge(Nav::getDefaults(), $options)
         ];
-        $this->assertSame($expected, Nav::items('remove'));
+        self::assertSame($expected, Nav::items('remove'));
 
         Nav::remove('remove');
-        $this->assertSame([], Nav::items('remove'));
+        self::assertSame([], Nav::items('remove'));
     }
 }

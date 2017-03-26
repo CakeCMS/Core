@@ -56,13 +56,13 @@ class ThemeTest extends TestCase
 
     public function testNotFound()
     {
-        $this->assertNull(Theme::setup());
+        self::assertNull(Theme::setup());
     }
 
     public function testNotFoundTheme()
     {
         $actual = Theme::setup();
-        $this->assertNull($actual);
+        self::assertNull($actual);
     }
 
     public function testCustomTheme()
@@ -72,7 +72,7 @@ class ThemeTest extends TestCase
         Configure::write('Theme.site', $themeName);
         $actual = Theme::setup();
 
-        $this->assertSame($themeName, $actual);
+        self::assertSame($themeName, $actual);
         Plugin::unload('Realty');
     }
 
@@ -81,6 +81,6 @@ class ThemeTest extends TestCase
         $themeName = 'Test';
         Configure::write('Theme.site', $themeName);
         $actual = Theme::setup();
-        $this->assertNull($actual);
+        self::assertNull($actual);
     }
 }
