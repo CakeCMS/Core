@@ -13,6 +13,7 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
+use Core\Cms;
 use Cake\Mailer\Email;
 use Cake\Core\Configure;
 use Cake\Routing\DispatcherFactory;
@@ -58,3 +59,5 @@ Email::setConfigTransport(Configure::consume('EmailTransport'));
 
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
+
+Cms::getInstance();

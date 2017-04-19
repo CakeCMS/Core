@@ -15,14 +15,19 @@
     ],
     "require": {
         "php": ">=5.6.0",
+
         "cakephp/cakephp": "~3.4",
         "cakephp/migrations": "~1.0",
         "cakephp/debug_kit": "~3.2",
+
         "jbzoo/utils": "^1.0",
         "jbzoo/data": "^1.0",
+        "jbzoo/path": "~1.4",
+        "jbzoo/less": "^1.0",
+        "jbzoo/simpletypes": "~1.4",
+
         "mobiledetect/mobiledetectlib": "2.*",
         "friendsofcake/search": "~2.3",
-        "jbzoo/less": "^1.0",
         "oyejorge/less.php": "^1.7",
         "pimple/pimple": "~3.0"
     },

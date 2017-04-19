@@ -44,9 +44,6 @@ Configure::write('App', [
         ],
         'locales' => [
             APP . 'Locale' . DS,
-        ],
-        'elements' => [
-            WWW_ROOT . 'elements',
         ]
     ],
 ]);

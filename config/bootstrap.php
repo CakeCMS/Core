@@ -39,8 +39,6 @@ Configure::write('Cache.defaultConfig', [
     'prefix'    => 'un_',
 ]);
 
-Cms::mergeConfig('App.paths.elements', Plugin::path('Core') . 'webroot/elements/');
-
 if (!defined('STATUS_PUBLISH')) {
     define('STATUS_PUBLISH', 1);
 }
