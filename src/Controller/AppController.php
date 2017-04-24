@@ -15,6 +15,7 @@
 
 namespace Core\Controller;
 
+use Core\Cms;
 use Core\Plugin;
 use Cake\Event\Event;
 use Cake\Http\Response;
@@ -41,6 +42,13 @@ class AppController extends CakeController
 {
 
     /**
+     * Hold CMS object.
+     *
+     * @var Cms
+     */
+    public $cms;
+
+    /**
      * Initialization hook method.
      *
      * @return void
@@ -48,6 +56,7 @@ class AppController extends CakeController
     public function initialize()
     {
         parent::initialize();
+        $this->cms = Cms::getInstance();
         $this->_setTheme();
         Plugin::manifestEvent('Controller.initialize', $this);
     }

@@ -20,6 +20,7 @@ use JBZoo\Utils\FS;
 use Pimple\Container;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
+use Core\Helper\Manager as HelperManager;
 
 /**
  * Class Cms
@@ -69,6 +70,10 @@ class Cms extends Container
     {
         $this['path'] = function () {
             return $this->_initPaths();
+        };
+
+        $this['helper'] = function () {
+            return new HelperManager();
         };
     }
 

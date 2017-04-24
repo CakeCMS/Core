@@ -3,5 +3,12 @@
         "name"  : "path",
         "type"  : "class",
         "value" : "Core\\Path\\Path"
+    },
+    {
+        "name"  : "helper",
+        "type"  : "container",
+        "value" : [
+
+        ]
     }
 ]

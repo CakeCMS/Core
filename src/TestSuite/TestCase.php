@@ -15,6 +15,7 @@
 
 namespace Core\TestSuite;
 
+use Core\Cms;
 use Core\Plugin;
 use JBZoo\Utils\Str;
 use Cake\Cache\Cache;
@@ -41,6 +42,13 @@ class TestCase extends CakeTestCase
      * @var string
      */
     protected $_corePlugin = 'Core';
+
+    /**
+     * Hold CMS object.
+     *
+     * @var Cms
+     */
+    protected $_cms;
 
     /**
      * Setup the test case, backup the static object values so they can be restored.
@@ -74,6 +82,8 @@ class TestCase extends CakeTestCase
             Plugin::load($this->_corePlugin, $loadParams);
             Plugin::routes($this->_corePlugin);
         }
+
+        $this->_cms = Cms::getInstance();
     }
 
     /**

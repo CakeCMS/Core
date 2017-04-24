@@ -13,33 +13,15 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Core;
+namespace Test\Helper;
 
-use Pimple\Container as PimpleContainer;
+use Core\Helper\AppHelper;
 
 /**
- * Class Container
+ * Class AppleClass
  *
- * @package Core
+ * @package Test\Helper
  */
-class Container extends PimpleContainer
+class AppleHelper extends AppHelper
 {
-
-    /**
-     * Hold CMS instance.
-     *
-     * @var Cms
-     */
-    public $cms;
-
-    /**
-     * Container constructor.
-     *
-     * @param array $values
-     */
-    public function __construct(array $values = [])
-    {
-        parent::__construct($values);
-        $this->cms = Cms::getInstance();
-    }
 }
