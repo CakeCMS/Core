@@ -15,6 +15,7 @@
 
 namespace Core\View;
 
+use Core\Cms;
 use Core\Plugin;
 use Cake\Core\App;
 use Cake\View\View;
@@ -41,6 +42,13 @@ class AppView extends View
     const VIEW_FORM = 'form';
 
     /**
+     * Hold CMS object.
+     *
+     * @var Cms
+     */
+    public $cms;
+
+    /**
      * Controller form actions.
      *
      * @var array
@@ -60,6 +68,7 @@ class AppView extends View
     public function initialize()
     {
         parent::initialize();
+        $this->cms = Cms::getInstance();
         Plugin::manifestEvent('View.initialize', $this);
     }
 

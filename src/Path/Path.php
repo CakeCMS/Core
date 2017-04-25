@@ -15,6 +15,7 @@
 
 namespace Core\Path;
 
+use Cake\Core\Configure;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Arr;
 use JBZoo\Path\Exception;
@@ -32,6 +33,13 @@ class Path extends JBPAth
     const LS_MODE_FILE = 'file';
 
     /**
+     * Flag of result path (If true, is real path. If false, is relative path).
+     *
+     * @var string
+     */
+    protected $_isReal = false;
+
+    /**
      * Get a list of directories from a resource.
      *
      * @param string $resource
@@ -42,6 +50,26 @@ class Path extends JBPAth
     public function dirs($resource, $recursive = false, $filter = null)
     {
         return $this->ls($resource, self::LS_MODE_DIR, $recursive, $filter);
+    }
+
+    /**
+     * Get url to a file.
+     *
+     * @param string $source
+     * @param bool $full
+     * @return null|string
+     */
+    public function url($source, $full = true)
+    {
+        $stamp = Configure::read('Asset.timestamp');
+        $url = parent::url($source, $full);
+
+        if ($url !== null && $stamp && strpos($url, '?') === false) {
+            $fullPath = $this->get($source);
+            $url .= '?' . @filemtime($fullPath);
+        }
+
+        return $url;
     }
 
     /**

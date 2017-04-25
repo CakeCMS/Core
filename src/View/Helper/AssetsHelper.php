@@ -17,6 +17,7 @@ namespace Core\View\Helper;
 
 use JBZoo\Utils\Str;
 use Cake\Utility\Hash;
+use Cake\Core\Configure;
 
 /**
  * Class AssetsHelper
@@ -27,6 +28,9 @@ use Cake\Utility\Hash;
  */
 class AssetsHelper extends AppHelper
 {
+
+    const WEIGHT_CORE = 1;
+    const WEIGHT_LIB = 2;
 
     /**
      * Use helpers.
@@ -70,12 +74,12 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script('libs/bootstrap.min.js', $this->_setOptions([
-            'weight' => 2,
+            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
         ]));
 
         $this->Html->css('libs/bootstrap.min.css', $this->_setOptions([
-            'weight' => 1,
+            'weight' => self::WEIGHT_CORE,
             'alias'  => __FUNCTION__,
         ]));
 
@@ -92,12 +96,12 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script('libs/fancybox.min.js', $this->_setOptions([
-            'weight' => 2,
+            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
         ]));
 
         $this->Html->css('libs/fancybox.min.css', $this->_setOptions([
-            'weight' => 1,
+            'weight' => self::WEIGHT_CORE,
             'alias'  => __FUNCTION__,
         ]));
 
@@ -112,7 +116,7 @@ class AssetsHelper extends AppHelper
     public function fontAwesome()
     {
         $this->Html->css('libs/font-awesome.min.css', $this->_setOptions([
-            'weight' => 1,
+            'weight' => self::WEIGHT_CORE,
             'alias'  => 'font-awesome',
         ]));
 
@@ -127,7 +131,7 @@ class AssetsHelper extends AppHelper
     public function jquery()
     {
         $this->Html->script('libs/jquery.min.js', $this->_setOptions([
-            'weight' => 1,
+            'weight' => self::WEIGHT_CORE,
             'alias'  => __FUNCTION__,
         ]));
 
@@ -144,12 +148,12 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script('libs/utils.min.js', $this->_setOptions([
-            'weight' => 2,
+            'weight' => self::WEIGHT_LIB,
             'alias'  => 'jquery-utils',
         ]));
 
         $this->Html->script('libs/jquery-factory.min.js', $this->_setOptions([
-            'weight' => 2,
+            'weight' => self::WEIGHT_LIB,
             'alias'  => 'jquery-factory',
         ]));
 
@@ -166,12 +170,12 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script('libs/materialize.min.js', $this->_setOptions([
-            'weight' => 2,
+            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
         ]));
 
         $this->Html->css('libs/materialize.min.css', $this->_setOptions([
-            'weight' => 1,
+            'weight' => self::WEIGHT_CORE,
             'alias'  => __FUNCTION__,
         ]));
 
@@ -188,12 +192,12 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script('libs/sweetalert.min.js', $this->_setOptions([
-            'weight' => 2,
+            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
         ]));
 
         $this->Html->css('libs/sweetalert.min.css', $this->_setOptions([
-            'weight' => 1,
+            'weight' => self::WEIGHT_CORE,
             'alias'  => __FUNCTION__,
         ]));
 
@@ -210,7 +214,7 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script(['libs/jquery-check-all.min.js'], $this->_setOptions([
-            'weight' => 2,
+            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
         ]));
 
@@ -230,7 +234,7 @@ class AssetsHelper extends AppHelper
 
         $controller = (string) $this->request->getParam('controller');
         $widgetName = Str::slug($controller . '-' . $action) . '.js';
-        $cssOptions = ['block' => 'css_bottom', 'fullBase' => true];
+        $cssOptions = ['block' => 'css_bottom', 'fullBase' => true, 'force' => Configure::read('debug')];
 
         $this->Html->css($plugin . '.' . $prefix . 'styles.css', $cssOptions);
         $this->Html->less($plugin . '.' . $prefix . 'styles.less', $cssOptions);
