@@ -15,6 +15,7 @@
 
 namespace Core\Path;
 
+use JBZoo\Utils\FS;
 use JBZoo\Utils\Arr;
 use JBZoo\Path\Exception;
 use JBZoo\Path\Path as JBPAth;
@@ -26,6 +27,22 @@ use JBZoo\Path\Path as JBPAth;
  */
 class Path extends JBPAth
 {
+
+    const LS_MODE_DIR = 'dir';
+    const LS_MODE_FILE = 'file';
+
+    /**
+     * Get a list of directories from a resource.
+     *
+     * @param string $resource
+     * @param bool $recursive
+     * @param null $filter
+     * @return mixed
+     */
+    public function dirs($resource, $recursive = false, $filter = null)
+    {
+        return $this->ls($resource, self::LS_MODE_DIR, $recursive, $filter);
+    }
 
     /**
      * Get path instance.
@@ -45,5 +62,94 @@ class Path extends JBPAth
         }
 
         return self::$_objects[$key];
+    }
+
+    /**
+     * Get a list of files or diretories from a resource.
+     *
+     * @param string $resource
+     * @param string $mode
+     * @param bool $recursive
+     * @param null $filter
+     * @return array
+     * @SuppressWarnings(PHPMD.ShortMethodName)
+     */
+    public function ls($resource, $mode = self::LS_MODE_FILE, $recursive = false, $filter = null)
+    {
+        $files = [];
+        list (, $paths, $path) = $this->_parse($resource);
+
+        foreach ((array) $paths as $_path) {
+            if (file_exists($_path . '/' . $path)) {
+                foreach ($this->_list(FS::clean($_path . '/' . $path), '', $mode, $recursive, $filter) as $file) {
+                    if (!Arr::in($file, $files)) {
+                        $files[] = $file;
+                    }
+                }
+            }
+        }
+
+        return $files;
+    }
+
+    /**
+     * Get the list of files or directories in a given path.
+     *
+     * @param string $path
+     * @param string $prefix
+     * @param string $mode
+     * @param bool $recursive
+     * @param null $filter
+     * @return array
+     */
+    protected function _list($path, $prefix = '', $mode = 'file', $recursive = false, $filter = null)
+    {
+        $files  = [];
+        $ignore = ['.', '..', '.DS_Store', '.svn', '.git', '.gitignore', '.gitmodules', 'cgi-bin'];
+
+        if ($scan = @scandir($path)) {
+            foreach ($scan as $file) {
+                // continue if ignore match
+                if (Arr::in($file, $ignore)) {
+                    continue;
+                }
+
+                if (is_dir($path . '/' . $file)) {
+                    // add dir
+                    if ($mode === 'dir') {
+                        // continue if no regex filter match
+                        if ($filter && !preg_match($filter, $file)) {
+                            continue;
+                        }
+
+                        $files[] = $prefix . $file;
+                    }
+
+                    // continue if not recursive
+                    if (!$recursive) {
+                        continue;
+                    }
+
+                    // read subdirectory
+                    $files = array_merge(
+                        $files,
+                        $this->_list($path . '/' . $file, $prefix . $file . '/', $mode, $recursive, $filter)
+                    );
+
+                } else {
+                    // add file
+                    if ($mode === 'file') {
+                        // continue if no regex filter match
+                        if ($filter && !preg_match($filter, $file)) {
+                            continue;
+                        }
+
+                        $files[] = $prefix.$file;
+                    }
+                }
+            }
+        }
+
+        return $files;
     }
 }
