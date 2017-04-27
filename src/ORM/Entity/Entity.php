@@ -15,6 +15,7 @@
 
 namespace Core\ORM\Entity;
 
+use Core\Cms;
 use JBZoo\Data\Data;
 use JBZoo\Data\JSON;
 use Cake\ORM\Entity as CakeEntity;
@@ -27,6 +28,25 @@ use Cake\ORM\Entity as CakeEntity;
  */
 class Entity extends CakeEntity
 {
+
+    /**
+     * Hold CMS object.
+     *
+     * @var Cms
+     */
+    public $cms;
+
+    /**
+     * Entity constructor.
+     *
+     * @param array $properties
+     * @param array $options
+     */
+    public function __construct(array $properties = [], array $options = [])
+    {
+        parent::__construct($properties, $options);
+        $this->cms = Cms::getInstance();
+    }
 
     /**
      * Create new current params field.

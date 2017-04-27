@@ -46,3 +46,7 @@ if (!defined('STATUS_PUBLISH')) {
 if (!defined('STATUS_UN_PUBLISH')) {
     define('STATUS_UN_PUBLISH', 0);
 }
+
+if (!defined('TABLE_PRIMARY_KEY')) {
+    define('TABLE_PRIMARY_KEY', 'id');
+}
