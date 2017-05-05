@@ -18,6 +18,7 @@ namespace Core\TestSuite;
 use Core\Plugin;
 use Cake\Cache\Cache;
 use Cake\Utility\Hash;
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\IntegrationTestCase as CakeIntegrationTestCase;
 
 /**
@@ -41,6 +42,13 @@ class IntegrationTestCase extends CakeIntegrationTestCase
      * @var string
      */
     protected $_corePlugin = 'Core';
+
+    /**
+     * Default table name.
+     *
+     * @var null|string
+     */
+    protected $_defaultTable;
 
     /**
      * Default url.
@@ -116,5 +124,17 @@ class IntegrationTestCase extends CakeIntegrationTestCase
     protected function _getUrl(array $url = [])
     {
         return Hash::merge($this->_url, $url);
+    }
+
+    /**
+     * Get table object.
+     *
+     * @param null|string $name
+     * @return \Cake\ORM\Table
+     */
+    protected function _getTable($name = null)
+    {
+        $tableName = ($name === null) ? $this->_defaultTable : $name;
+        return TableRegistry::get($this->_corePlugin . '.' . $tableName);
     }
 }

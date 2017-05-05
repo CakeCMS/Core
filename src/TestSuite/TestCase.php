@@ -19,6 +19,7 @@ use Core\Cms;
 use Core\Plugin;
 use JBZoo\Utils\Str;
 use Cake\Cache\Cache;
+use Cake\ORM\TableRegistry;
 use Cake\TestSuite\TestCase as CakeTestCase;
 
 /**
@@ -42,6 +43,13 @@ class TestCase extends CakeTestCase
      * @var string
      */
     protected $_corePlugin = 'Core';
+
+    /**
+     * Default table name.
+     *
+     * @var null|string
+     */
+    protected $_defaultTable;
 
     /**
      * Hold CMS object.
@@ -109,6 +117,37 @@ class TestCase extends CakeTestCase
     public static function assertIsEmptyArray(array $array)
     {
         self::assertSame([], $array);
+    }
+
+    /**
+     * Check error validation.
+     *
+     * @param mixed $field
+     * @param mixed $value
+     * @param array $errorExpected
+     */
+    public function assertFieldErrorValidation($field, $value, array $errorExpected = [])
+    {
+        $data   = [$field => $value];
+        $table  = $this->_getTable();
+        $entity = $table->newEntity($data);
+        $result = $table->save($entity);
+
+        self::assertFalse($result);
+        self::assertTrue(is_array($entity->getError($field)));
+        self::assertSame($errorExpected, $entity->getError($field));
+    }
+
+    /**
+     * Get table object.
+     *
+     * @param null|string $name
+     * @return \Cake\ORM\Table
+     */
+    protected function _getTable($name = null)
+    {
+        $tableName = ($name === null) ? $this->_defaultTable : $name;
+        return TableRegistry::get($this->_corePlugin . '.' . $tableName);
     }
 
     /**
