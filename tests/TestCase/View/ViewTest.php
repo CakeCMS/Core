@@ -128,4 +128,19 @@ class ViewTest extends TestCase
         $view->templatePath('NoExist');
         $view->render(' ');
     }
+
+    public function testGetViewFile()
+    {
+        Plugin::load('Test', ['autoload' => true]);
+        $view = new AppView();
+        $path = $view->getViewFile('no_exist');
+        self::assertNull($path);
+
+        $path = $view->getViewFile('view_file');
+        self::assertNotNull($path);
+
+        $path = $view->getViewFile('Test.Metadata/form');
+        self::assertNotNull($path);
+        Plugin::unload('Test');
+    }
 }

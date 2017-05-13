@@ -56,6 +56,27 @@ class AppView extends View
     protected $_formActions = ['edit', 'add'];
 
     /**
+     * Get view file path.
+     *
+     * @param string $name
+     * @return null|string
+     */
+    public function getViewFile($name)
+    {
+        list($plugin, $name) = $this->pluginSplit($name);
+        $return = null;
+        foreach ($this->_paths($plugin) as $path) {
+            $viewFile = FS::clean($path . $name . $this->_ext);
+            if (FS::isFile($viewFile)) {
+                $return = $this->_checkFilePath($viewFile, $path);
+                break;
+            }
+        }
+
+        return $return;
+    }
+
+    /**
      * Initialization hook method.
      *
      * Properties like $helpers etc. cannot be initialized statically in your custom
