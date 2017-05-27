@@ -15,6 +15,7 @@
 
 namespace Core\View\Helper;
 
+use Cake\ORM\Entity;
 use Cake\View\View;
 use JBZoo\Utils\Arr;
 use Cake\Utility\Hash;
@@ -73,6 +74,19 @@ class HtmlHelper extends CakeHtmlHelper
     }
 
     /**
+     * Creates a link element for CSS stylesheets.
+     *
+     * @param array|string $path
+     * @param array $options
+     * @return null|string
+     */
+    public function css($path, array $options = [])
+    {
+        $options += ['rel' => 'stylesheet'];
+        return $this->_include($path, $options, 'css');
+    }
+
+    /**
      * Get sort assets included list.
      *
      * @param string $key
@@ -86,19 +100,6 @@ class HtmlHelper extends CakeHtmlHelper
         }
 
         return Hash::sort((array) $value, '{n}.weight', 'asc');
-    }
-
-    /**
-     * Creates a link element for CSS stylesheets.
-     *
-     * @param array|string $path
-     * @param array $options
-     * @return null|string
-     */
-    public function css($path, array $options = [])
-    {
-        $options += ['rel' => 'stylesheet'];
-        return $this->_include($path, $options, 'css');
     }
 
     /**
@@ -204,6 +205,57 @@ class HtmlHelper extends CakeHtmlHelper
     public function script($path, array $options = [])
     {
         return $this->_include($path, $options, 'script');
+    }
+
+    /**
+     * Create status icon or link.
+     *
+     * @param int $status
+     * @param array $url
+     * @param string $icon
+     * @return null|string
+     */
+    public function status($status = 0, array $url = [], $icon = 'circle')
+    {
+        $class = (int) $status === 1 ? 'ck-green' : 'ck-red';
+        if (count($url) === 0) {
+            return $this->icon($icon, ['class' => $class]);
+        }
+
+        return $this->link(null, 'javascript:void(0);', [
+            'icon'     => $icon,
+            'class'    => $class,
+            'data-url' => $this->Url->build($url)
+        ]);
+    }
+
+    /**
+     * Create and render ajax toggle element.
+     *
+     * @param Entity $entity
+     * @param array $url
+     * @param array $data
+     * @return string
+     */
+    public function toggle(Entity $entity, array $url = [], array $data = [])
+    {
+        if (count($url) === 0) {
+            $url = [
+                'action'     => 'toggle',
+                'prefix'     => $this->request->getParam('prefix'),
+                'plugin'     => $this->request->getParam('plugin'),
+                'controller' => $this->request->getParam('controller'),
+                (int) $entity->get('id'),
+                (int) $entity->get('status')
+            ];
+        }
+
+        $data = Hash::merge([
+            'url'    => $url,
+            'entity' => $entity,
+        ], $data);
+
+        return $this->_View->element(__FUNCTION__, $data);
     }
 
     /**

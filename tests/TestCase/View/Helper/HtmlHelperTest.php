@@ -17,8 +17,11 @@ namespace Core\Test\TestCase\View\Helper;
 
 use Core\Plugin;
 use JBZoo\Utils\FS;
+use Core\View\AppView;
 use Cake\Core\Configure;
 use Cake\Filesystem\Folder;
+use Core\ORM\Entity\Entity;
+use Cake\Http\ServerRequest;
 use Core\View\Helper\HtmlHelper;
 
 /**
@@ -36,7 +39,8 @@ class HtmlHelperTest extends HelperTestCase
     public function setUp()
     {
         parent::setUp();
-        Plugin::load('Test', ['autoload' => true]);
+        Plugin::load('Test', ['autoload' => true, 'routes' => true]);
+        Plugin::routes('Test');
     }
 
     public function tearDown()
@@ -406,6 +410,75 @@ class HtmlHelperTest extends HelperTestCase
             ['script' => ['src' => 'http://localhost/test/js/scripts.js'], '/script'],
             $actual
         );
+    }
+    
+    public function testStatus()
+    {
+        $helper = $this->_helper();
+
+        $this->assertHtml(['i' => ['class' => 'ck-red ck-icon fa fa-circle']], $helper->status(0));
+        $this->assertHtml(['i' => ['class' => 'ck-green ck-icon fa fa-circle']], $helper->status(1));
+        $this->assertHtml(['i' => ['class' => 'ck-green ck-icon fa fa-circle']], $helper->status(true));
+        $this->assertHtml(['i' => ['class' => 'ck-red ck-icon fa fa-circle']], $helper->status(false));
+        $this->assertHtml(['i' => ['class' => 'ck-red ck-icon fa fa-circle']], $helper->status(null));
+
+        $actual = $helper->status(0, ['plugin' => 'Test', 'controller' => 'Metadata', 'action' => 'toggle', 1]);
+        $this->assertHtml([
+            'a' => [
+                'href'     => 'javascript:void(0);',
+                'class'    => 'ck-red ck-link',
+                'data-url' => '/test/metadata/toggle/1',
+                'title'    => ''
+            ],
+                'i' => ['class' => 'ck-icon fa fa-circle'], '/i',
+            '/a'
+        ], $actual);
+
+        $actual = $helper->status(1, ['plugin' => 'Test', 'controller' => 'Metadata', 'action' => 'toggle', 1]);
+        $this->assertHtml([
+            'a' => [
+                'href'     => 'javascript:void(0);',
+                'class'    => 'ck-green ck-link',
+                'data-url' => '/test/metadata/toggle/1',
+                'title'    => ''
+            ],
+                'i' => ['class' => 'ck-icon fa fa-circle'], '/i',
+            '/a'
+        ], $actual);
+    }
+
+    public function testToggle()
+    {
+        $request = new ServerRequest([
+            'params' => [
+                'plugin'     => 'Test',
+                'controller' => 'Metadata',
+                'action'     => 'toggle',
+                'pass'       => [1],
+            ]
+        ]);
+
+        $entity = new Entity([
+            'status' => 1,
+            'id'     => 10
+        ]);
+        $view   = new AppView($request);
+        $helper = new HtmlHelper($view);
+
+        $actual = $helper->toggle($entity);
+        $expected = [
+            'div' => ['class' => 'ck-toggle-wrapper jsToggle'],
+                'a' => [
+                    'href'     => 'javascript:void(0);',
+                    'class'    => 'ck-green ck-link',
+                    'data-url' => '/test/metadata/toggle/10/1',
+                    'title'    => ''
+                ],
+                    'i' => ['class' => 'ck-icon fa fa-circle'], '/i',
+                '/a',
+            '/div'
+        ];
+        $this->assertHtml($expected, $actual);
     }
 
     /**

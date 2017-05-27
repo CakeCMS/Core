@@ -46,6 +46,15 @@ class MetadataController extends AppController
     }
 
     /**
+     * Action for test html status.
+     *
+     * @return void
+     */
+    public function toggle()
+    {
+    }
+
+    /**
      * Set page title and meta data.
      *
      * @return void
