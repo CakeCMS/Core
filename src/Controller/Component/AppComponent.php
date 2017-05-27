@@ -15,12 +15,14 @@
 
 namespace Core\Controller\Component;
 
+use Core\ORM\Table;
 use JBZoo\Utils\Arr;
 use JBZoo\Utils\Str;
 use Cake\Utility\Hash;
 use Cake\Http\ServerRequest;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
+use Cake\Network\Exception\BadRequestException;
 
 /**
  * Class AppComponent
@@ -95,5 +97,59 @@ class AppComponent extends Component
         }
 
         return $this->_controller->redirect($url);
+    }
+
+    /**
+     * Toggle table field value.
+     *
+     * @param Table $table
+     * @param int $id
+     * @param string|int $value
+     * @param string $field
+     */
+    public function toggleField(Table $table, $id, $value, $field = 'status')
+    {
+        $this->checkIsAjax();
+        $this->_checkToggleData($id, $value);
+
+        $this->_controller->viewBuilder()
+            ->setLayout('ajax')
+            ->setTemplate('toggle')
+            ->setTemplatePath('Common');
+
+        $entity = $table->get($id);
+        $entity->set($field, !(int) $value);
+
+        if ($result = $table->save($entity)) {
+            $this->_controller->set('entity', $result);
+            $this->_controller->render('toggle');
+        } else {
+            throw new \RuntimeException(__d('core', 'Failed toggling field {0} to {1}', $field, $entity->get($field)));
+        }
+    }
+
+    /**
+     * Check is ajax request.
+     *
+     * @return void
+     */
+    public function checkIsAjax()
+    {
+        if (!$this->_request->is('ajax')) {
+            throw new \RuntimeException(__d('core', 'Bad request'));
+        }
+    }
+
+    /**
+     * Check toggle data.
+     *
+     * @param int $id
+     * @param string|int $value
+     */
+    protected function _checkToggleData($id, $value)
+    {
+        if (empty($id) || $value === null) {
+            throw new BadRequestException(__d('core', 'Invalid content'));
+        }
     }
 }

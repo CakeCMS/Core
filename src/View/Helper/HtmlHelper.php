@@ -255,7 +255,7 @@ class HtmlHelper extends CakeHtmlHelper
             'entity' => $entity,
         ], $data);
 
-        return $this->_View->element(__FUNCTION__, $data);
+        return $this->_View->element('Core.' .  __FUNCTION__, $data);
     }
 
     /**

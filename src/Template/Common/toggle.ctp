@@ -13,8 +13,22 @@
  * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
  * @var       \Core\View\AppView $this
  * @var       \Core\ORM\Entity\Entity $entity
- * @var       array $url
  */
 
-$icon = $this->Html->status($entity->get('status'), $url);
-echo $this->Html->div('ck-toggle-wrapper jsToggle', $icon);
+$url = [
+    'prefix'     => $this->request->getParam('prefix'),
+    'plugin'     => $this->request->getParam('plugin'),
+    'controller' => $this->request->getParam('controller'),
+    'action'     => $this->request->getParam('action'),
+    (int) $entity->get('id'),
+    (int) $entity->get('status')
+];
+
+$output = [
+    'id'     => $entity->get('id'),
+    'status' => $entity->get('status'),
+    'url'    => $this->Url->build($url),
+    'output' => $this->Html->status($entity->get('status'), $url)
+];
+
+echo json_encode($output);

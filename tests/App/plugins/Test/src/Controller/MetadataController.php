@@ -15,6 +15,8 @@
 
 namespace Test\Controller;
 
+use Core\ORM\Table;
+use Cake\ORM\TableRegistry;
 use Core\Controller\AppController;
 
 /**
@@ -46,12 +48,14 @@ class MetadataController extends AppController
     }
 
     /**
-     * Action for test html status.
-     *
-     * @return void
+     * @param null $id
+     * @param int $status
      */
-    public function toggle()
+    public function toggle($id = null, $status = 0)
     {
+        /** @var Table $table */
+        $table = TableRegistry::get('Test.Pages');
+        $this->App->toggleField($table, $id, $status);
     }
 
     /**
