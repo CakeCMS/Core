@@ -202,4 +202,27 @@ class AssetsHelperTest extends HelperTestCase
         $this->assertHtml($expected['jquery'], $jquery);
         $this->assertHtml($expected['tablecheckall'], $tableCheckAll);
     }
+
+    public function testToggleField()
+    {
+        $this->_helper()->toggleField();
+
+        $jquery         = $this->_helper()->getAssets('script.jquery.output');
+        $jqueryFactory  = $this->_helper()->getAssets('script.jquery-factory.output');
+        $jqueryUtils    = $this->_helper()->getAssets('script.jquery-utils.output');
+        $widget         = $this->_helper()->getAssets('script.togglefield.output');
+
+        $expected = [
+            'jquery' => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
+            'jquery-factory' => ['script' => ['src' => 'http://localhost/js/libs/jquery-factory.min.js']], '/script',
+            'jquery-utils' => ['script' => ['src' => 'http://localhost/js/libs/utils.min.js']], '/script',
+            'widget' => ['script' => ['src' => 'http://localhost/core/js/admin/widget/field-toggle.js']], '/script',
+        ];
+
+        $this->assertHtml($expected['jquery'], $jquery);
+        $this->assertHtml($expected['jquery-factory'], $jqueryFactory);
+        $this->assertHtml($expected['jquery-utils'], $jqueryUtils);
+        $this->assertHtml($expected['widget'], $widget);
+        self::assertRegExp('/\$\(\"\.jsToggleField\"\)\.JBZooFieldToggle/', $this->_helper()->Js->getBuffer());
+    }
 }

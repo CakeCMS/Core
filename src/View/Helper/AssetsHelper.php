@@ -25,12 +25,14 @@ use Cake\Core\Configure;
  * @package Core\View\Helper
  * @property \Cake\View\Helper\UrlHelper $Url
  * @property \Core\View\Helper\HtmlHelper $Html
+ * @property \Core\View\Helper\JsHelper $Js
  */
 class AssetsHelper extends AppHelper
 {
 
     const WEIGHT_CORE = 1;
     const WEIGHT_LIB = 2;
+    const WEIGHT_WIDGET = 3;
 
     /**
      * Use helpers.
@@ -38,6 +40,7 @@ class AssetsHelper extends AppHelper
      * @var array
      */
     public $helpers = [
+        'Core.Js',
         'Url'  => ['className' => 'Core.Url'],
         'Html' => ['className' => 'Core.Html'],
     ];
@@ -217,6 +220,28 @@ class AssetsHelper extends AppHelper
             'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
         ]));
+
+        return $this;
+    }
+
+    /**
+     * Include toggle field js widget.
+     *
+     * @param string $selector
+     * @param string $widget
+     * @param array $options
+     * @return $this
+     */
+    public function toggleField($selector = '.jsToggleField', $widget = 'JBZoo.FieldToggle', array $options = [])
+    {
+        $this->jqueryFactory();
+        $this->Html->script('Core.admin/widget/field-toggle.js', $this->_setOptions([
+            'weight' => self::WEIGHT_WIDGET,
+            'alias'  => __FUNCTION__
+        ]));
+
+        $options = Hash::merge(['token' => $this->request->getCookie('csrfToken')], $options);
+        $this->Js->widget($selector, $widget, $options);
 
         return $this;
     }

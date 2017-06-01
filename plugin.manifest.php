@@ -16,6 +16,7 @@
 use JBZoo\Utils\Str;
 use Core\View\AppView;
 use Cake\Controller\Controller;
+use Core\View\Helper\FormHelper;
 
 return [
     'meta' => [
@@ -30,6 +31,10 @@ return [
     ],
 
     'Controller.initialize' => function (Controller $controller) {
+        $controller->loadComponent('Csrf');
+        $controller->loadComponent('Cookie');
+        $controller->loadComponent('Security');
+        $controller->loadComponent('Paginator');
         $controller->loadComponent('Core.App');
         $controller->loadComponent('Core.Move');
         $controller->loadComponent('Core.Process');
@@ -49,7 +54,7 @@ return [
         $view->loadHelper('Html', ['className' => 'Core.Html']);
         $view->loadHelper('Form', [
             'className' => 'Core.Form',
-            'prepareBtnClass' => function (\Core\View\Helper\FormHelper $html, $options, $button) {
+            'prepareBtnClass' => function (FormHelper $html, $options, $button) {
                 $options = $html->addClass($options, 'waves-effect waves-light btn');
                 if (!empty($button)) {
                     $options = $html->addClass($options, Str::trim((string) $button));
