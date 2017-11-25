@@ -5,17 +5,17 @@
 # For the full copyright and license information, please view the LICENSE
 # file that was distributed with this source code.
 #
-# @package   Core
-# @license   MIT
-# @copyright MIT License http://www.opensource.org/licenses/mit-license.php
-# @link      https://github.com/CakeCMS/Core
+# @package    Core
+# @license    MIT
+# @copyright  MIT License http://www.opensource.org/licenses/mit-license.php
+# @link       https://github.com/CakeCMS/Core
 #
 
-.PHONY: build update test-all autoload test phpmd phpcs phpcpd phploc coveralls npm bower gulp
+.PHONY: build update test-all autoload test phpmd phpcpd phploc coveralls npm bower gulp
 
 test-all:
 	@echo -e "\033[0;33m>>> \033[0;30;46m Run all tests \033[0m"
-	@make update autoload prepare-test-app test-unit phpmd phpcs phpcpd phploc
+	@make update autoload prepare-test-app test-unit phpmd phpcpd phploc
 
 update:
 	@echo -e "\033[0;33m>>> \033[0;30;46m Update project \033[0m"
@@ -34,14 +34,7 @@ test-unit:
 
 phpmd:
 	@echo -e "\033[0;33m>>> \033[0;30;46m Check PHPmd \033[0m"
-	@php ./vendor/phpmd/phpmd/src/bin/phpmd ./src text ./vendor/jbzoo/misc/phpmd/jbzoo.xml --verbose
-	@echo ""
-
-phpcs:
-	@echo -e "\033[0;33m>>> \033[0;30;46m Check Code Style \033[0m"
-	@php ./vendor/squizlabs/php_codesniffer/scripts/phpcs ./src   \
-        --standard=./vendor/jbzoo/misc/phpcs/JBZoo/ruleset.xml    \
-        --report=full
+	@php ./vendor/phpmd/phpmd/src/bin/phpmd ./src text codesize, unusedcode, naming
 	@echo ""
 
 phpcpd:

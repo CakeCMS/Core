@@ -6,11 +6,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Core
- * @license   MIT
- * @copyright MIT License http://www.opensource.org/licenses/mit-license.php
- * @link      https://github.com/CakeCMS/Core".
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package     Core
+ * @license     MIT
+ * @copyright   MIT License http://www.opensource.org/licenses/mit-license.php
+ * @link        https://github.com/CakeCMS/Core".
+ * @author      Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
 namespace Core\ORM\Behavior;
@@ -31,12 +31,12 @@ class ProcessBehavior extends Behavior
      * @var array
      */
     protected $_defaultConfig = [
-        'field' => 'status',
+        'field'   => 'status',
         'actions' => [
             'delete'    => 'processDelete',
             'publish'   => 'processPublish',
             'unpublish' => 'processUnPublish'
-        ],
+        ]
     ];
 
     /**

@@ -6,11 +6,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Core
- * @license   MIT
- * @copyright MIT License http://www.opensource.org/licenses/mit-license.php
- * @link      https://github.com/CakeCMS/Core".
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package     Core
+ * @license     MIT
+ * @copyright   MIT License http://www.opensource.org/licenses/mit-license.php
+ * @link        https://github.com/CakeCMS/Core".
+ * @author      Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
 use Cake\View\View;
@@ -36,48 +36,48 @@ return [
     'Controller.beforeRender' => function (Controller $controller, Event $event) {
         $controller
             ->set('controllerName', $controller->name)
-            ->set('eventName', $event->name());
+            ->set('eventName', $event->getName());
     },
     'Controller.beforeFilter' => function (Controller $controller, Event $event) {
         $controller
             ->set('controllerName', $controller->name)
-            ->set('eventName', $event->name());
+            ->set('eventName', $event->getName());
     },
     'Controller.afterFilter' => function (Controller $controller, Event $event) {
         $controller
             ->set('controllerName', $controller->name)
-            ->set('eventName', $event->name());
+            ->set('eventName', $event->getName());
     },
     'Controller.beforeRedirect' => function (Controller $controller, Event $event, $url, Response $response) {
         $controller
             ->set('controllerName', $controller->name)
-            ->set('eventName', $event->name())
+            ->set('eventName', $event->getName())
             ->set('url', $url)
             ->set('responseType', $response->type());
     },
     'View.beforeRenderFile' => function (View $view, Event $event, $file) {
         $view
-            ->set('eventName', $event->name())
+            ->set('eventName', $event->getName())
             ->set('file', $file);
     },
     'View.beforeRender' => function (View $view, Event $event, $file) {
         $view
-            ->set('eventName', $event->name())
+            ->set('eventName', $event->getName())
             ->set('file', $file);
     },
     'View.beforeLayout' => function (View $view, Event $event, $file) {
         $view
-            ->set('eventName', $event->name())
+            ->set('eventName', $event->getName())
             ->set('file', $file);
     },
     'View.afterRender' => function (View $view, Event $event, $file) {
         $view
-            ->set('eventName', $event->name())
+            ->set('eventName', $event->getName())
             ->set('file', $file);
     },
     'View.afterRenderFile' => function (View $view, Event $event, $file, $content) {
         $view
-            ->set('eventName', $event->name())
+            ->set('eventName', $event->getName())
             ->set('file', $file)
             ->set('content', $content);
     },

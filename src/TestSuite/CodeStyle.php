@@ -6,11 +6,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @package   Core
- * @license   MIT
- * @copyright MIT License http://www.opensource.org/licenses/mit-license.php
- * @link      https://github.com/CakeCMS/Core".
- * @author    Sergey Kalistratov <kalistratov.s.m@gmail.com>
+ * @package     Core
+ * @license     MIT
+ * @copyright   MIT License http://www.opensource.org/licenses/mit-license.php
+ * @link        https://github.com/CakeCMS/Core".
+ * @author      Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
 namespace Core\TestSuite;
@@ -100,10 +100,28 @@ class CodeStyle extends JBCodeStyle
         '#',
         '# _DESCRIPTION_PO_',
         '#',
-        '# @package   _PACKAGE_',
-        '# @license   _LICENSE_',
-        '# @copyright _COPYRIGHTS_',
-        '# @link      _LINK_',
+        '# @package      _PACKAGE_',
+        '# @license      _LICENSE_',
+        '# @copyright    _COPYRIGHTS_',
+        '# @link         _LINK_',
+    ];
+
+    /**
+     * Valid header for PHP files.
+     *
+     * @var array
+     */
+    protected $_validHeaderPHP = [
+        '<?php',
+        '/**',
+        ' * _VENDOR_ _PACKAGE_',
+        ' *',
+        ' * _DESCRIPTION_PHP_',
+        ' *',
+        ' * @package     _PACKAGE_',
+        ' * @license     _LICENSE_',
+        ' * @copyright   _COPYRIGHTS_',
+        ' * @link        _LINK_'
     ];
 
     /**
@@ -170,6 +188,8 @@ class CodeStyle extends JBCodeStyle
                 \JBZoo\PHPUnit\success();
             }
         }
+
+        \JBZoo\PHPUnit\isTrue(true);
     }
 
     /**
@@ -193,5 +213,7 @@ class CodeStyle extends JBCodeStyle
             $content = \JBZoo\PHPUnit\openFile($file->getPathname());
             \JBZoo\PHPUnit\isContain($valid, $content, false, 'File has no valid header: ' . $file);
         }
+
+        \JBZoo\PHPUnit\isTrue(true);
     }
 }
