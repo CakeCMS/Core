@@ -12,6 +12,12 @@ before_install:
   - sudo apt-get update -qq
   - sudo apt-get install -y -qq postfix
 
+after_success:
+  - export CI_BUILD_NUMBER="$TRAVIS_BUILD_NUMBER"
+  - export CI_PULL_REQUEST="$TRAVIS_PULL_REQUEST"
+  - export CI_BRANCH="$TRAVIS_BRANCH"
+  - travis_retry php bin/coveralls -vvv
+
 before_script:
   # Mock mail service
   - sudo service postfix stop

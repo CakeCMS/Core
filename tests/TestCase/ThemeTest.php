@@ -20,8 +20,8 @@ use Core\Plugin;
 use Cake\Core\App;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
+use Test\Cases\TestCase;
 use Cake\Filesystem\Folder;
-use Core\TestSuite\TestCase;
 
 /**
  * Class ThemeTest

@@ -17,7 +17,7 @@ namespace Core\Test\TestCase\Event;
 
 use Core\Nav;
 use Core\Event\EventManager;
-use Core\TestSuite\IntegrationTestCase;
+use Test\Cases\IntegrationTestCase;
 
 /**
  * Class CoreEventHandlerTest

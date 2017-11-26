@@ -16,9 +16,9 @@
 namespace Core\Test\TestCase\Utility;
 
 use Cake\Routing\Router;
-use Cake\TestSuite\TestCase;
-use Core\ORM\Entity\Entity;
 use Core\Utility\Macros;
+use Test\Cases\TestCase;
+use Core\ORM\Entity\Entity;
 
 /**
  * Class MacrosTest

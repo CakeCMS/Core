@@ -16,8 +16,8 @@
 namespace Core\Test\TestCase\Utility;
 
 use Core\Plugin;
+use Test\Cases\TestCase;
 use Core\Utility\Toolbar;
-use Core\TestSuite\TestCase;
 
 /**
  * Class ToolbarTest

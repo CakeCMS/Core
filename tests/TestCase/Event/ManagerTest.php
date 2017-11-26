@@ -16,8 +16,8 @@
 namespace Core\Test\TestCase\Event;
 
 use Core\Plugin;
+use Test\Cases\TestCase;
 use Core\Event\EventManager;
-use Core\TestSuite\TestCase;
 use Test\Controller\EventController;
 
 /**

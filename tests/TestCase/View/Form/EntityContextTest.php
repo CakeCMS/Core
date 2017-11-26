@@ -15,9 +15,9 @@
 
 namespace Core\Test\TestCase\View\Form;
 
-use Cake\Http\ServerRequest;
+use Test\Cases\TestCase;
 use Core\ORM\Entity\Entity;
-use Core\TestSuite\TestCase;
+use Cake\Http\ServerRequest;
 use Core\View\Form\EntityContext;
 
 /**

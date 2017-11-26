@@ -17,8 +17,8 @@ namespace Core\Test\TestCase\ORM\Behavior;
 
 use Cake\ORM\Entity;
 use Core\ORM\Table;
+use Test\Cases\TestCase;
 use Cake\ORM\TableRegistry;
-use Core\TestSuite\TestCase;
 use Core\ORM\Behavior\ProcessBehavior;
 
 /**

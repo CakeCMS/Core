@@ -17,8 +17,8 @@ namespace Core\Test\TestCase\View\Helper;
 
 use Core\Nav;
 use Core\View\AppView;
+use Test\Cases\TestCase;
 use Cake\Http\ServerRequest;
-use Core\TestSuite\TestCase;
 use Core\View\Helper\NavHelper;
 
 /**

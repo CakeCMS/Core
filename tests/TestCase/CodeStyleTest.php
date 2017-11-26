@@ -15,7 +15,7 @@
 
 namespace Core\Test\TestCase;
 
-use Core\TestSuite\CodeStyle;
+use Test\Suites\CodeStyle;
 
 /**
  * Class CodeStyleTest

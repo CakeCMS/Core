@@ -18,12 +18,12 @@ namespace Core\Test\TestCase;
 use Core\Plugin;
 use Cake\Event\Event;
 use Core\View\AppView;
+use Cake\Http\Response;
 use Cake\Core\Configure;
+use Test\Cases\TestCase;
 use Cake\Filesystem\File;
-use Cake\Network\Request;
-use Cake\Network\Response;
 use Cake\Filesystem\Folder;
-use Core\TestSuite\TestCase;
+use Cake\Http\ServerRequest;
 use Core\Controller\AppController;
 
 /**
@@ -175,7 +175,7 @@ class PluginTest extends TestCase
         self::assertSame('Controller.beforeRender', $viewVars['eventName']);
         self::assertSame('App', $viewVars['controllerName']);
 
-        $request  = new Request();
+        $request  = new ServerRequest();
         $response = new Response(['type' => 'application/json']);
 
         $controller = new AppController($request, $response);
@@ -200,7 +200,7 @@ class PluginTest extends TestCase
 
     public function testManifestControllerBeforeRedirect()
     {
-        $request    = new Request();
+        $request    = new ServerRequest();
         $response   = new Response(['type' => 'application/json']);
         $controller = new AppController($request, $response);
         $event      = new Event('Controller.beforeRedirect', $controller);

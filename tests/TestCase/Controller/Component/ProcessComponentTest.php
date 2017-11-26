@@ -17,8 +17,8 @@ namespace Core\Test\TestCase\Controller\Component;
 
 use Core\ORM\Table;
 use Cake\Routing\Router;
+use Test\Cases\TestCase;
 use Cake\ORM\TableRegistry;
-use Core\TestSuite\TestCase;
 use Core\Controller\AppController;
 use Cake\Routing\Route\DashedRoute;
 use Core\ORM\Behavior\ProcessBehavior;

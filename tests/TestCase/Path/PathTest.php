@@ -17,7 +17,7 @@ namespace Core\Test\TestCase\Path;
 
 use Core\Cms;
 use Core\Path\Path;
-use Core\TestSuite\TestCase;
+use Test\Cases\TestCase;
 
 /**
  * Class PathTest

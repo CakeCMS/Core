@@ -16,8 +16,8 @@
 namespace Core\Test\TestCase\ORM\Behavior;
 
 use Cake\Cache\Cache;
+use Test\Cases\TestCase;
 use Cake\ORM\TableRegistry;
-use Core\TestSuite\TestCase;
 
 /**
  * Class CachedBehaviorModelTest

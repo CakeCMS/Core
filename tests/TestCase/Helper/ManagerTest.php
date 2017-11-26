@@ -16,8 +16,8 @@
 namespace Core\Test\TestCase\Helper;
 
 use Core\Helper\Manager;
+use Test\Cases\TestCase;
 use Core\Helper\Exception;
-use Core\TestSuite\TestCase;
 
 /**
  * Class ManagerTest

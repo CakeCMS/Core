@@ -16,7 +16,7 @@
 namespace Core\Test\TestCase\Notify;
 
 use Core\Notify\Email;
-use Core\TestSuite\TestCase;
+use Test\Cases\TestCase;
 
 /**
  * Class EmailTest

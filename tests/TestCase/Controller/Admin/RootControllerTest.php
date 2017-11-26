@@ -15,7 +15,7 @@
 
 namespace Core\Test\TestCase\Controller\Admin;
 
-use Core\TestSuite\IntegrationTestCase;
+use Test\Cases\IntegrationTestCase;
 
 /**
  * Class RootControllerTest

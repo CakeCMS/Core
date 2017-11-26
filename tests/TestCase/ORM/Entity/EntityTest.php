@@ -15,8 +15,8 @@
 
 namespace Core\Test\TestCase\ORM\Entity;
 
+use Test\Cases\TestCase;
 use Core\ORM\Entity\Entity;
-use Core\TestSuite\TestCase;
 
 /**
  * Class EntityTest

@@ -16,7 +16,7 @@
 namespace Core\Test\TestCase\Migration;
 
 use Core\Plugin;
-use Core\TestSuite\TestCase;
+use Test\Cases\TestCase;
 use Core\Migration\Manager as MigrateManager;
 
 /**

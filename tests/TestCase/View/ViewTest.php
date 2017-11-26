@@ -18,8 +18,8 @@ namespace Core\Test\TestCase;
 use Core\Plugin;
 use Core\View\AppView;
 use Core\View\AjaxView;
+use Test\Cases\TestCase;
 use Cake\Http\ServerRequest;
-use Core\TestSuite\TestCase;
 use Test\App\Controller\FormsController;
 
 /**

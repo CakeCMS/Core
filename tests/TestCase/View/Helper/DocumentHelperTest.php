@@ -17,8 +17,8 @@ namespace Core\Test\TestCase\View\Helper;
 
 use App\View\AppView;
 use Cake\Core\Configure;
+use Test\Cases\IntegrationTestCase;
 use Core\View\Helper\DocumentHelper;
-use Core\TestSuite\IntegrationTestCase;
 
 /**
  * Class DocumentHelperTest

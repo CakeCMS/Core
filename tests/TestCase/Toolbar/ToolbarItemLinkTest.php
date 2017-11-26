@@ -15,8 +15,8 @@
 
 namespace Core\Test\TestCase\Toolbar;
 
+use Test\Cases\TestCase;
 use Core\Utility\Toolbar;
-use Core\TestSuite\TestCase;
 
 /**
  * Class ToolbarItemLinkTest

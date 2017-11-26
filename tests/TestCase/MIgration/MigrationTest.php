@@ -17,7 +17,7 @@ namespace Core\Test\TestCase\Migration;
 
 use Core\Plugin;
 use JBZoo\Utils\FS;
-use Core\TestSuite\TestCase;
+use Test\Cases\TestCase;
 use Core\Migration\Migration;
 
 /**

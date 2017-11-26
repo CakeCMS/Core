@@ -17,9 +17,9 @@ namespace Core\Test\TestCase\Controller\Component;
 
 use Core\Plugin;
 use Cake\Routing\Router;
+use Test\Cases\TestCase;
 use Cake\ORM\TableRegistry;
 use Cake\Http\ServerRequest;
-use Core\TestSuite\TestCase;
 use Core\Controller\AppController;
 use Cake\Routing\Route\DashedRoute;
 use Test\Controller\MetadataController;

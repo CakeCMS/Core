@@ -15,7 +15,7 @@
 
 namespace Core\Test\TestCase\View\Helper;
 
-use Core\TestSuite\IntegrationTestCase;
+use Test\Cases\IntegrationTestCase;
 
 /**
  * Class JsHelperTest

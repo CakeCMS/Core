@@ -17,7 +17,7 @@ namespace Core\Test\TestCase;
 
 use Core\Nav;
 use Cake\Utility\Hash;
-use Core\TestSuite\TestCase;
+use Test\Cases\TestCase;
 
 /**
  * Class NavTest
