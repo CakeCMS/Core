@@ -69,10 +69,10 @@ class Migration
         }
 
         return $data;
-     }
+    }
 
     /**
-     * 
+     * Get migration manager.
      *
      * @param string $plugin
      * @return Manager

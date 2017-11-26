@@ -29,6 +29,7 @@
         "pimple/pimple"                : "~3.0"
     },
     "require-dev"  : {
+        "cake-cms/test"            : "@dev",
         "jbzoo/phpunit"            : "~2.1",
         "psy/psysh"                : "@stable",
         "cake-cms/backend"         : "~1.0",
@@ -68,6 +69,7 @@
         "phpmd"              : "php ./vendor/phpmd/phpmd/src/bin/phpmd ./src text codesize, unusedcode, naming",
         "phpcpd"             : "php ./vendor/sebastian/phpcpd/phpcpd ./src --verbose",
         "phploc"             : "php ./vendor/phploc/phploc/phploc ./src --verbose",
+        "phpcs"              : "php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./src --standard=./vendor/cake-cms/test/src/phpcs/CakeCMS/ruleset.xml --report=full",
         "coveralls"          : "php ./vendor/satooshi/php-coveralls/bin/coveralls --verbose",
         "post-autoload-dump" : [
             "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump"

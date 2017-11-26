@@ -247,7 +247,9 @@ class Manager
                         $version = Util::getVersionFromFileName($fileName);
                         if (Arr::key($version, $versions)) {
                             throw new \InvalidArgumentException(
-                                __d('core', 'Duplicate migration - "%s" has the same version as "%s"',
+                                __d(
+                                    'core',
+                                    'Duplicate migration - "%s" has the same version as "%s"',
                                     $file,
                                     $versions[$version]->getVersion()
                                 )
@@ -269,7 +271,9 @@ class Manager
                         $migration = new $class($version);
                         if (!($migration instanceof AbstractMigration)) {
                             throw new \InvalidArgumentException(
-                                __d('core', 'The class "%s" in file "%s" must extend \Phinx\Migration\AbstractMigration',
+                                __d(
+                                    'core',
+                                    'The class "%s" in file "%s" must extend \Phinx\Migration\AbstractMigration',
                                     $class,
                                     $file
                                 )
