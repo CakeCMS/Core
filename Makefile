@@ -11,7 +11,7 @@
 # @link       https://github.com/CakeCMS/Core
 #
 
-.PHONY: build update test-all autoload test phpmd phpcpd phploc coveralls npm bower gulp
+.PHONY: build update test-all autoload test phpmd phpcs phpcpd phploc coveralls npm bower gulp
 
 test-all:
 	@echo -e "\033[0;33m>>> \033[0;30;46m Run all tests \033[0m"
@@ -35,6 +35,13 @@ test-unit:
 phpmd:
 	@echo -e "\033[0;33m>>> \033[0;30;46m Check PHPmd \033[0m"
 	@php ./vendor/phpmd/phpmd/src/bin/phpmd ./src text codesize, unusedcode, naming
+	@echo ""
+
+phpcs:
+	@echo -e "\033[0;33m>>> \033[0;30;46m Check PhpCS \033[0m"
+	@php ./vendor/squizlabs/php_codesniffer/bin/phpcs ./src             \
+        --standard=./vendor/cake-cms/test/src/phpcs/CakeCMS/ruleset.xml \
+        --report=full
 	@echo ""
 
 phpcpd:
