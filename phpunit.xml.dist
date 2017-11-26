@@ -18,12 +18,12 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          syntaxCheck="true"
-         stopOnFailures="false"
-         stopOnError="false"
-         stopOnFailure="false"
-         stopOnIncomplete="false"
+         stopOnError="true"
+         stopOnFailure="true"
+         stopOnIncomplete="true"
          stopOnSkipped="false"
-         verbose="true"
+         stopOnRisky="false"
+         verbose="false"
 >
 
     <testsuites>
