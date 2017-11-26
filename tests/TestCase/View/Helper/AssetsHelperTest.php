@@ -150,9 +150,6 @@ class AssetsHelperTest extends HelperTestCase
         $jquery = $this->_helper()->getAssets('script.jquery.output');
         $sweetalert = $this->_helper()->getAssets('script.sweetalert.output');
 
-        dump($jquery);
-        dump($sweetalert);
-
         $this->assertHtml($expected['jquery'], $jquery);
         $this->assertHtml($expected['sweetalert'], $sweetalert);
 
