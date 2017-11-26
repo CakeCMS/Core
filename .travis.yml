@@ -27,6 +27,3 @@ script:
 
 after_script:
   - make coveralls
-
-after_success:
-  - bin/coveralls -v
