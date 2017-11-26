@@ -18,12 +18,12 @@
          convertWarningsToExceptions="true"
          processIsolation="false"
          syntaxCheck="true"
-         stopOnError="true"
-         stopOnFailure="true"
-         stopOnIncomplete="true"
+         stopOnFailures="false"
+         stopOnError="false"
+         stopOnFailure="false"
+         stopOnIncomplete="false"
          stopOnSkipped="false"
-         stopOnRisky="false"
-         verbose="false"
+         verbose="true"
 >
 
     <testsuites>
@@ -34,7 +34,7 @@
 
     <filter>
         <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
+            <directory suffix=".php">./src</directory>
         </whitelist>
     </filter>
 
