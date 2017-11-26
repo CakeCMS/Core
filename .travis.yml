@@ -24,6 +24,7 @@ matrix:
 
 script:
   - npm install bower -g
+  - npm install gulp -g
   - make test-all
 
 after_success:
