@@ -6,8 +6,6 @@ php:
 before_script:
   - nvm install 6
   - npm install
-  - npm install bower -g
-  - bower install
 
 before_install:
   # Mock mail services
@@ -25,6 +23,7 @@ matrix:
   fast_finish: true
 
 script:
+  - npm install bower -g
   - make test-all
 
 after_success:
