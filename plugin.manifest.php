@@ -34,7 +34,7 @@ return [
         $controller->loadComponent('Csrf');
         $controller->loadComponent('Cookie');
         $controller->loadComponent('Security', [
-            'unlockedFields' => 'action'
+            'unlockedFields' => ['action']
         ]);
         $controller->loadComponent('Paginator');
         $controller->loadComponent('Core.App');

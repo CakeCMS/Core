@@ -22,6 +22,8 @@ use JBZoo\Data\Data;
 use JBZoo\Utils\Arr;
 use Phinx\Config\Config;
 use Cake\Core\Configure;
+use Migrations\CakeAdapter;
+use Cake\Database\Connection;
 use Phinx\Db\Adapter\AdapterFactory;
 use Phinx\Migration\AbstractMigration;
 use Cake\Datasource\ConnectionManager;
@@ -39,11 +41,11 @@ class Manager
     const SCHEMA_TABLE = 'phinxlog';
 
     /**
-     * DB connection name.
+     * Phinx data base adapter.
      *
-     * @var string
+     * @var \Phinx\Db\Adapter\AdapterInterface
      */
-    protected $_connectionName;
+    protected $_adapter;
 
     /**
      * DB adapter name.
@@ -53,20 +55,6 @@ class Manager
     protected $_adapterName;
 
     /**
-     * Hold connection config.
-     *
-     * @var array|Data
-     */
-    protected $_connectionConfig = [];
-
-    /**
-     * Migration plugin name.
-     *
-     * @var string
-     */
-    protected $_plugin;
-
-    /**
      * Phinx configuration.
      *
      * @var Config
@@ -74,11 +62,18 @@ class Manager
     protected $_config;
 
     /**
-     * Phinx data base adapter.
+     * Hold connection config.
      *
-     * @var \Phinx\Db\Adapter\AdapterInterface
+     * @var array|Data
      */
-    protected $_adapter;
+    protected $_connectionConfig = [];
+
+    /**
+     * DB connection name.
+     *
+     * @var string
+     */
+    protected $_connectionName;
 
     /**
      * Hold migrations.
@@ -86,6 +81,13 @@ class Manager
      * @var array
      */
     protected $_migrations = [];
+
+    /**
+     * Migration plugin name.
+     *
+     * @var string
+     */
+    protected $_plugin;
 
     /**
      * Manager constructor.
@@ -105,7 +107,7 @@ class Manager
                 'paths' => [
                     'migrations' => Migration::getPath($plugin),
                 ],
-                'environments' => $this->_configuration(),
+                'environments' => $this->_configuration()
             ];
 
             $this->_plugin  = $plugin;
@@ -115,118 +117,6 @@ class Manager
         } else {
             throw new MissingPluginException($plugin);
         }
-    }
-
-    /**
-     * Get database adapter.
-     *
-     * @param array $options
-     * @return \Phinx\Db\Adapter\AdapterInterface
-     */
-    protected function _setAdapter(array $options)
-    {
-        $adapterFactory = AdapterFactory::instance();
-        return $adapterFactory->getAdapter($this->_adapterName, $options);
-    }
-
-    /**
-     * Migrate up action.
-     *
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
-     */
-    public function migrateUp()
-    {
-        $output = [];
-        foreach ($this->getMigrations() as $version => $migration) {
-            if ($this->isMigrated($version) === false) {
-                $paths = $this->_config->getMigrationPaths();
-                foreach ($paths as $path) {
-                    $migrationFile = glob($path . DS . $version . '*');
-                    $filePath      = array_shift($migrationFile);
-                    $className     = Util::mapFileNameToClassName(basename($filePath));
-
-                    /** @noinspection PhpIncludeInspection */
-                    require_once $filePath;
-
-                    /** @var AbstractMigration $migrate */
-                    $migrate  = new $className($version);
-                    $versions = $this->_adapter->getVersions();
-
-                    //  Check migrate value version.
-                    if ($migrate->getVersion() > $version) {
-                        $output[] = __d(
-                            'core',
-                            'The version «{0}» is lower than the current.',
-                            sprintf('<strong>%s</strong>', $version)
-                        );
-                    }
-
-                    if (!Arr::in($version, $versions)) {
-                        $migrate->setAdapter($this->_adapter)->up();
-                        $output[] = $this->_execute($migrate);
-                    }
-                }
-            }
-        }
-
-        return $output;
-    }
-
-    /**
-     * Execute migration.
-     *
-     * @param AbstractMigration $migration
-     * @return bool|null|string
-     */
-    protected function _execute(AbstractMigration $migration)
-    {
-        $version = $migration->getVersion();
-        $migrationName = $this->_plugin . '::' . get_class($migration);
-
-        $sqlInsert = sprintf(
-            'INSERT INTO %s ('
-            . 'version,'
-            . 'migration_name'
-            . ') VALUES ('
-            . '\'%s\','
-            . '\'%s\''
-            . ');',
-            self::SCHEMA_TABLE,
-            $version,
-            $migrationName
-        );
-
-        $this->_adapter->query($sqlInsert);
-
-        $sqlCheck = sprintf(
-            'SELECT version FROM %s WHERE version=\'%s\'',
-            self::SCHEMA_TABLE,
-            $version
-        );
-
-        $versionResult = $this->_adapter->fetchRow($sqlCheck);
-        if (count((array) $versionResult) > 0) {
-            return __d(
-                'core',
-                'The version «{0}» of plugin «{1}» has bin success migrated.',
-                sprintf('<strong>%s</strong>', $version),
-                sprintf('<strong>%s</strong>', __d(Str::low($this->_plugin), $this->_plugin))
-            );
-        }
-
-        return false;
-    }
-
-    /**
-     * Checks if the migration with version number $version as already been mark migrated
-     *
-     * @param int|string $version Version number of the migration to check
-     * @return bool
-     */
-    public function isMigrated($version)
-    {
-        return Arr::in($version, $this->_adapter->getVersions());
     }
 
     /**
@@ -293,6 +183,131 @@ class Manager
     }
 
     /**
+     * Checks if the migration with version number $version as already been mark migrated
+     *
+     * @param int|string $version Version number of the migration to check
+     * @return bool
+     */
+    public function isMigrated($version)
+    {
+        return Arr::in($version, $this->_adapter->getVersions());
+    }
+
+    /**
+     * Migrate up action.
+     *
+     * @return array
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+     */
+    public function migrateUp()
+    {
+        $output = [];
+        foreach ($this->getMigrations() as $version => $migration) {
+            if ($this->isMigrated($version) === false) {
+                $paths = $this->_config->getMigrationPaths();
+                foreach ($paths as $path) {
+                    $migrationFile = glob($path . DS . $version . '*');
+                    $filePath      = array_shift($migrationFile);
+                    $className     = Util::mapFileNameToClassName(basename($filePath));
+
+                    /** @noinspection PhpIncludeInspection */
+                    require_once $filePath;
+
+                    /** @var AbstractMigration $migrate */
+                    $migrate  = new $className($version);
+                    $versions = $this->_adapter->getVersions();
+
+                    //  Check migrate value version.
+                    if ($migrate->getVersion() > $version) {
+                        $output[] = __d(
+                            'core',
+                            'The version «{0}» is lower than the current.',
+                            sprintf('<strong>%s</strong>', $version)
+                        );
+                    }
+
+                    if (!Arr::in($version, $versions)) {
+                        $migrate->setAdapter($this->_adapter)->up();
+                        $output[] = $this->_execute($migrate);
+                    }
+                }
+            }
+        }
+
+        return $output;
+    }
+
+    /**
+     * Setup Phinx configuration.
+     *
+     * @return array
+     */
+    protected function _configuration()
+    {
+        return [
+            'default_migration_table' => self::SCHEMA_TABLE,
+            'default_database'        => $this->_connectionConfig->get('name'),
+
+            $this->_connectionConfig->get('name') => [
+                'adapter'       => $this->_adapterName,
+                'version_order' => Config::VERSION_ORDER_CREATION_TIME,
+                'host'          => $this->_connectionConfig->get('host'),
+                'port'          => $this->_connectionConfig->get('port'),
+                'name'          => $this->_connectionConfig->get('database'),
+                'user'          => $this->_connectionConfig->get('username'),
+                'pass'          => $this->_connectionConfig->get('password'),
+                'charset'       => $this->_connectionConfig->get('encoding'),
+                'unix_socket'   => $this->_connectionConfig->get('unix_socket')
+            ]
+        ];
+    }
+
+    /**
+     * Execute migration.
+     *
+     * @param AbstractMigration $migration
+     * @return bool|null|string
+     */
+    protected function _execute(AbstractMigration $migration)
+    {
+        $version = $migration->getVersion();
+        $migrationName = $this->_plugin . '::' . get_class($migration);
+
+        $sqlInsert = sprintf(
+            'INSERT INTO %s ('
+            . 'version,'
+            . 'migration_name'
+            . ') VALUES ('
+            . '\'%s\','
+            . '\'%s\''
+            . ');',
+            self::SCHEMA_TABLE,
+            $version,
+            $migrationName
+        );
+
+        $this->_adapter->query($sqlInsert);
+
+        $sqlCheck = sprintf(
+            'SELECT version FROM %s WHERE version=\'%s\'',
+            self::SCHEMA_TABLE,
+            $version
+        );
+
+        $versionResult = $this->_adapter->fetchRow($sqlCheck);
+        if (count((array) $versionResult) > 0) {
+            return __d(
+                'core',
+                'The version «{0}» of plugin «{1}» has bin success migrated.',
+                sprintf('<strong>%s</strong>', $version),
+                sprintf('<strong>%s</strong>', __d(Str::low($this->_plugin), $this->_plugin))
+            );
+        }
+
+        return false;
+    }
+
+    /**
      * Get adapter name from application driver.
      *
      * @param string $driver
@@ -318,27 +333,17 @@ class Manager
     }
 
     /**
-     * Setup Phinx configuration.
+     * Get database adapter.
      *
-     * @return array
+     * @param array $options
+     * @return \Phinx\Db\Adapter\AdapterInterface
      */
-    protected function _configuration()
+    protected function _setAdapter(array $options)
     {
-        return [
-            'default_migration_table' => self::SCHEMA_TABLE,
-            'default_database'        => $this->_connectionConfig->get('name'),
+        $adapterFactory = AdapterFactory::instance();
+        $connection     = new Connection($this->_connectionConfig->getArrayCopy());
+        $adapter        = $adapterFactory->getAdapter($this->_adapterName, $options);
 
-            $this->_connectionConfig->get('name') => [
-                'adapter'       => $this->_adapterName,
-                'name'          => $this->_connectionConfig->get('database'),
-                'host'          => $this->_connectionConfig->get('host'),
-                'port'          => $this->_connectionConfig->get('port'),
-                'user'          => $this->_connectionConfig->get('username'),
-                'pass'          => $this->_connectionConfig->get('password'),
-                'charset'       => $this->_connectionConfig->get('encoding'),
-                'unix_socket'   => $this->_connectionConfig->get('unix_socket'),
-                'version_order' => Config::VERSION_ORDER_CREATION_TIME
-            ]
-        ];
+        return new CakeAdapter($adapter, $connection);
     }
 }

@@ -26,15 +26,15 @@ use JBZoo\Utils\FS;
  * Class AppView
  *
  * @package Core\View
+ * @property \Core\View\Helper\JsHelper $Js
+ * @property \Core\View\Helper\UrlHelper $Url
+ * @property \Core\View\Helper\NavHelper $Nav
+ * @property \Core\View\Helper\LessHelper $Less
+ * @property \Core\View\Helper\FormHelper $Form
+ * @property \Core\View\Helper\HtmlHelper $Html
+ * @property \Core\View\Helper\FilterHelper $Filter
  * @property \Core\View\Helper\AssetsHelper $Assets
  * @property \Core\View\Helper\DocumentHelper $Document
- * @property \Core\View\Helper\FormHelper $Form
- * @property \Core\View\Helper\UrlHelper $Url
- * @property \Core\View\Helper\LessHelper $Less
- * @property \Core\View\Helper\HtmlHelper $Html
- * @property \Core\View\Helper\NavHelper $Nav
- * @property \Core\View\Helper\FilterHelper $Filter
- * @property \Core\View\Helper\JsHelper $Js
  */
 class AppView extends View
 {
