@@ -16,6 +16,7 @@
 namespace Core\Migration;
 
 use Core\Plugin;
+use Cake\I18n\Time;
 use JBZoo\Utils\Str;
 use Phinx\Util\Util;
 use JBZoo\Data\Data;
@@ -270,20 +271,24 @@ class Manager
      */
     protected function _execute(AbstractMigration $migration)
     {
-        $version = $migration->getVersion();
+        $time          = Time::parse('now');
+        $version       = $migration->getVersion();
         $migrationName = $this->_plugin . '::' . get_class($migration);
 
         $sqlInsert = sprintf(
             'INSERT INTO %s ('
             . 'version,'
-            . 'migration_name'
+            . 'migration_name,'
+            . 'start_time'
             . ') VALUES ('
+            . '\'%s\','
             . '\'%s\','
             . '\'%s\''
             . ');',
             self::SCHEMA_TABLE,
             $version,
-            $migrationName
+            $migrationName,
+            $time->toDateTimeString()
         );
 
         $this->_adapter->query($sqlInsert);
