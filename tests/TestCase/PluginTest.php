@@ -318,6 +318,16 @@ class PluginTest extends TestCase
         self::assertSame($file, $viewVars['file']);
     }
 
+    public function testHasMigrationFalse()
+    {
+        self::assertFalse(Plugin::hasMigration('Core'));
+    }
+
+    public function testHasMigrationTrue()
+    {
+        self::assertTrue(Plugin::hasMigration('Test'));
+    }
+
     /**
      * Get app view object.
      *

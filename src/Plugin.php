@@ -20,6 +20,7 @@ use JBZoo\Utils\FS;
 use JBZoo\Data\Data;
 use JBZoo\Utils\Arr;
 use Cake\Core\Configure;
+use Core\Migration\Manager;
 use Cake\Core\Plugin as CakePlugin;
 
 /**
@@ -127,6 +128,27 @@ class Plugin extends CakePlugin
         }
 
         return null;
+    }
+
+    /**
+     * Check plugin need migration.
+     *
+     * @param string $plugin
+     * @return bool
+     */
+    public static function hasMigration($plugin)
+    {
+        $manager = new Manager($plugin);
+        $migrations = array_keys($manager->getMigrations());
+        if (count($migrations)) {
+            foreach ($migrations as $version) {
+                if (!$manager->isMigrated($version)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**

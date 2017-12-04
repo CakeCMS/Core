@@ -56,10 +56,10 @@ class Migration
 
         if (count($files) > 0) {
             foreach ($files as $file) {
-                $name       = FS::filename($file);
-                $segments   = explode('_', $name);
-                $version    = array_shift($segments);
-                $class      = Inflector::camelize(implode('_', $segments));
+                $name     = FS::filename($file);
+                $segments = explode('_', $name);
+                $version  = array_shift($segments);
+                $class    = Inflector::camelize(implode('_', $segments));
 
                 $data[$version] = [
                     'class' => $class,
