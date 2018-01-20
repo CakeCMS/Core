@@ -131,27 +131,6 @@ class Plugin extends CakePlugin
     }
 
     /**
-     * Check plugin need migration.
-     *
-     * @param string $plugin
-     * @return bool
-     */
-    public static function hasMigration($plugin)
-    {
-        $manager = new Manager($plugin);
-        $migrations = array_keys($manager->getMigrations());
-        if (count($migrations)) {
-            foreach ($migrations as $version) {
-                if (!$manager->isMigrated($version)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Load the plugin.
      *
      * @param array|string $plugin
