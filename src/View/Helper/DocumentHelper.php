@@ -27,6 +27,7 @@ use Cake\Core\Configure;
  * @package Core\View\Helper
  * @property \Core\View\Helper\HtmlHelper $Html
  * @property \Core\View\Helper\AssetsHelper $Assets
+ *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class DocumentHelper extends AppHelper
@@ -37,11 +38,11 @@ class DocumentHelper extends AppHelper
      *
      * @var string
      */
+    public $charset;
     public $dir;
     public $eol;
-    public $tab;
     public $locale;
-    public $charset;
+    public $tab;
 
     /**
      * Uses helpers.
@@ -50,23 +51,101 @@ class DocumentHelper extends AppHelper
      */
     public $helpers = [
         'Core.Html',
-        'Core.Assets',
+        'Core.Assets'
     ];
 
     /**
-     * Constructor hook method.
+     * Is called after layout rendering is complete. Receives the layout filename as an argument.
      *
-     * @param array $config
+     * @param Event $event
+     * @param string $layoutFile
+     * @return void
      */
-    public function initialize(array $config)
+    public function afterLayout(Event $event, $layoutFile)
     {
-        parent::initialize($config);
+        Plugin::manifestEvent('View.beforeLayout', $this->_View, $event, $layoutFile);
+    }
 
-        $this->dir     = Configure::read('Cms.docDir');
-        $this->locale  = Configure::read('App.defaultLocale');
-        $this->charset = Str::low(Configure::read('App.encoding'));
-        $this->eol     = (Configure::read('debug')) ? PHP_EOL : '';
-        $this->tab     = (Configure::read('debug')) ? Configure::read('Cms.lineTab') : '';
+    /**
+     * Is called after the view has been rendered but before layout rendering has started.
+     *
+     * @param Event $event
+     * @param string $viewFile
+     * @return void
+     */
+    public function afterRender(Event $event, $viewFile)
+    {
+        $this->_setupMetaData();
+        Plugin::manifestEvent('View.afterRender', $this->_View, $event, $viewFile);
+    }
+
+    /**
+     * Is called after each view file is rendered. This includes elements, views, parent views and layouts.
+     * A callback can modify and return $content to change how the rendered content will be displayed in the browser.
+     *
+     * @param Event $event
+     * @param string $viewFile
+     * @param string $content
+     * @return void
+     */
+    public function afterRenderFile(Event $event, $viewFile, $content)
+    {
+        Plugin::manifestEvent('View.afterRenderFile', $this->_View, $event, $viewFile, $content);
+    }
+
+    /**
+     * Get assets fot layout render.
+     *
+     * @param string $type
+     * @return string
+     */
+    public function assets($type = 'css')
+    {
+        $output = [];
+        $assets = $this->Assets->getAssets($type);
+        foreach ($assets as $asset) {
+            $output[] = $asset['output'];
+        }
+
+        return implode($this->eol, $output);
+    }
+
+    /**
+     * Is called before layout rendering starts. Receives the layout filename as an argument.
+     *
+     * @param Event $event
+     * @param string $layoutFile
+     * @return void
+     */
+    public function beforeLayout(Event $event, $layoutFile)
+    {
+        Plugin::manifestEvent('View.beforeLayout', $this->_View, $event, $layoutFile);
+    }
+
+    /**
+     * Is called after the controller’s beforeRender method but before the controller renders view and layout.
+     * Receives the file being rendered as an argument.
+     *
+     * @param Event $event
+     * @param string $viewFile
+     * @return void
+     */
+    public function beforeRender(Event $event, $viewFile)
+    {
+        $this->Assets->loadPluginAssets();
+        Plugin::manifestEvent('View.beforeRender', $this->_View, $event, $viewFile);
+    }
+
+    /**
+     * Is called before each view file is rendered. This includes elements, views, parent views and layouts.
+     *
+     * @param Event $event
+     * @param string $viewFile
+     * @return void
+     */
+    public function beforeRenderFile(Event $event, $viewFile)
+    {
+        Plugin::manifestEvent('View.beforeRenderFile', $this->_View, $event, $viewFile);
     }
 
     /**
@@ -84,7 +163,7 @@ class DocumentHelper extends AppHelper
             'plugin-'   . Str::low($this->_View->plugin),
             'view-'     . Str::low($this->_View->name),
             'tmpl-'     . Str::low($this->_View->template),
-            'layout-'   . Str::low($this->_View->layout),
+            'layout-'   . Str::low($this->_View->layout)
         ];
 
         $pass = (array) $this->request->getParam('pass');
@@ -103,9 +182,9 @@ class DocumentHelper extends AppHelper
     public function head()
     {
         $output = [
-            'meta' => $this->_View->fetch('meta'),
-            'assets' => $this->assets('css'),
-            'fetch_css' => $this->_View->fetch('css'),
+            'meta'             => $this->_View->fetch('meta'),
+            'assets'           => $this->assets('css'),
+            'fetch_css'        => $this->_View->fetch('css'),
             'fetch_css_bottom' => $this->_View->fetch('css_bottom'),
         ];
 
@@ -113,20 +192,19 @@ class DocumentHelper extends AppHelper
     }
 
     /**
-     * Get assets fot layout render.
+     * Constructor hook method.
      *
-     * @param string $type
-     * @return string
+     * @param array $config
      */
-    public function assets($type = 'css')
+    public function initialize(array $config)
     {
-        $output = [];
-        $assets = $this->Assets->getAssets($type);
-        foreach ($assets as $asset) {
-            $output[] = $asset['output'];
-        }
+        parent::initialize($config);
 
-        return implode($this->eol, $output);
+        $this->dir     = Configure::read('Cms.docDir');
+        $this->locale  = Configure::read('App.defaultLocale');
+        $this->charset = Str::low(Configure::read('App.encoding'));
+        $this->eol     = (Configure::read('debug')) ? PHP_EOL : '';
+        $this->tab     = (Configure::read('debug')) ? Configure::read('Cms.lineTab') : '';
     }
 
     /**
@@ -192,95 +270,6 @@ class DocumentHelper extends AppHelper
     }
 
     /**
-     * Is called before each view file is rendered. This includes elements, views, parent views and layouts.
-     *
-     * @param Event $event
-     * @param string $viewFile
-     * @return void
-     */
-    public function beforeRenderFile(Event $event, $viewFile)
-    {
-        Plugin::manifestEvent('View.beforeRenderFile', $this->_View, $event, $viewFile);
-    }
-
-    /**
-     * Is called after each view file is rendered. This includes elements, views, parent views and layouts.
-     * A callback can modify and return $content to change how the rendered content will be displayed in the browser.
-     *
-     * @param Event $event
-     * @param string $viewFile
-     * @param string $content
-     * @return void
-     */
-    public function afterRenderFile(Event $event, $viewFile, $content)
-    {
-        Plugin::manifestEvent('View.afterRenderFile', $this->_View, $event, $viewFile, $content);
-    }
-
-    /**
-     * Is called after the controller’s beforeRender method but before the controller renders view and layout.
-     * Receives the file being rendered as an argument.
-     *
-     * @param Event $event
-     * @param string $viewFile
-     * @return void
-     */
-    public function beforeRender(Event $event, $viewFile)
-    {
-        $this->Assets->loadPluginAssets();
-        Plugin::manifestEvent('View.beforeRender', $this->_View, $event, $viewFile);
-    }
-
-    /**
-     * Is called after the view has been rendered but before layout rendering has started.
-     *
-     * @param Event $event
-     * @param string $viewFile
-     * @return void
-     */
-    public function afterRender(Event $event, $viewFile)
-    {
-        $this->_setupMetaData();
-        Plugin::manifestEvent('View.afterRender', $this->_View, $event, $viewFile);
-    }
-
-    /**
-     * Is called before layout rendering starts. Receives the layout filename as an argument.
-     *
-     * @param Event $event
-     * @param string $layoutFile
-     * @return void
-     */
-    public function beforeLayout(Event $event, $layoutFile)
-    {
-        Plugin::manifestEvent('View.beforeLayout', $this->_View, $event, $layoutFile);
-    }
-
-    /**
-     * Is called after layout rendering is complete. Receives the layout filename as an argument.
-     *
-     * @param Event $event
-     * @param string $layoutFile
-     * @return void
-     */
-    public function afterLayout(Event $event, $layoutFile)
-    {
-        Plugin::manifestEvent('View.beforeLayout', $this->_View, $event, $layoutFile);
-    }
-
-    /**
-     * Setup view meta data.
-     *
-     * @return void
-     */
-    protected function _setupMetaData()
-    {
-        $this->_assignMeta('page_title')
-            ->_assignMeta('meta_keywords')
-            ->_assignMeta('meta_description');
-    }
-
-    /**
      * Assign data from view vars.
      *
      * @param string $key
@@ -293,5 +282,18 @@ class DocumentHelper extends AppHelper
         }
 
         return $this;
+    }
+
+    /**
+     * Setup view meta data.
+     *
+     * @return void
+     */
+    protected function _setupMetaData()
+    {
+        $this
+            ->_assignMeta('page_title')
+            ->_assignMeta('meta_keywords')
+            ->_assignMeta('meta_description');
     }
 }

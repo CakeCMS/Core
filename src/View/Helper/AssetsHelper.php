@@ -23,15 +23,17 @@ use Cake\Core\Configure;
  * Class AssetsHelper
  *
  * @package Core\View\Helper
+ * @property \Core\View\Helper\JsHelper $Js
  * @property \Cake\View\Helper\UrlHelper $Url
  * @property \Core\View\Helper\HtmlHelper $Html
- * @property \Core\View\Helper\JsHelper $Js
+ *
+ * @SuppressWarnings("PHPMD.TooManyPublicMethods")
  */
 class AssetsHelper extends AppHelper
 {
 
-    const WEIGHT_CORE = 1;
-    const WEIGHT_LIB = 2;
+    const WEIGHT_CORE   = 1;
+    const WEIGHT_LIB    = 2;
     const WEIGHT_WIDGET = 3;
 
     /**
@@ -51,9 +53,9 @@ class AssetsHelper extends AppHelper
      * @var array
      */
     protected $_options = [
-        'block'    => 'assets',
-        'fullBase' => true,
         'weight'   => 10,
+        'fullBase' => true,
+        'block'    => 'assets'
     ];
 
     /**
@@ -66,13 +68,13 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script('libs/bootstrap.min.js', $this->_setOptions([
-            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_LIB
         ]));
 
         $this->Html->css('libs/bootstrap.min.css', $this->_setOptions([
-            'weight' => self::WEIGHT_CORE,
             'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_CORE
         ]));
 
         return $this;
@@ -88,13 +90,13 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script('libs/fancybox.min.js', $this->_setOptions([
-            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_LIB
         ]));
 
         $this->Html->css('libs/fancybox.min.css', $this->_setOptions([
-            'weight' => self::WEIGHT_CORE,
             'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_CORE
         ]));
 
         return $this;
@@ -108,8 +110,8 @@ class AssetsHelper extends AppHelper
     public function fontAwesome()
     {
         $this->Html->css('libs/font-awesome.min.css', $this->_setOptions([
-            'weight' => self::WEIGHT_CORE,
             'alias'  => 'font-awesome',
+            'weight' => self::WEIGHT_CORE
         ]));
 
         return $this;
@@ -134,8 +136,8 @@ class AssetsHelper extends AppHelper
     public function jquery()
     {
         $this->Html->script('libs/jquery.min.js', $this->_setOptions([
-            'weight' => self::WEIGHT_CORE,
             'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_CORE
         ]));
 
         return $this;
@@ -151,13 +153,13 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script('libs/utils.min.js', $this->_setOptions([
-            'weight' => self::WEIGHT_LIB,
             'alias'  => 'jquery-utils',
+            'weight' => self::WEIGHT_LIB
         ]));
 
         $this->Html->script('libs/jquery-factory.min.js', $this->_setOptions([
             'weight' => self::WEIGHT_LIB,
-            'alias'  => 'jquery-factory',
+            'alias'  => 'jquery-factory'
         ]));
 
         return $this;
@@ -182,7 +184,7 @@ class AssetsHelper extends AppHelper
         $this->Html->less($plugin . '.' . $prefix . 'styles.less', $cssOptions);
         $this->Html->script([
             $plugin . '.' . $prefix . 'widget/' . $widgetName,
-            $plugin . '.' . $prefix . 'script.js',
+            $plugin . '.' . $prefix . 'script.js'
         ], ['block' => 'script_bottom', 'fullBase' => true]);
     }
 
@@ -196,13 +198,13 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script('libs/materialize.min.js', $this->_setOptions([
-            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_LIB
         ]));
 
         $this->Html->css('libs/materialize.min.css', $this->_setOptions([
-            'weight' => self::WEIGHT_CORE,
             'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_CORE
         ]));
 
         return $this;
@@ -218,8 +220,8 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script('libs/slugify.min.js', $this->_setOptions([
-            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_LIB
         ]));
 
         return $this;
@@ -235,13 +237,13 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script('libs/sweetalert.min.js', $this->_setOptions([
-            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_LIB
         ]));
 
         $this->Html->css('libs/sweetalert.min.css', $this->_setOptions([
-            'weight' => self::WEIGHT_CORE,
             'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_CORE
         ]));
 
         return $this;
@@ -257,8 +259,8 @@ class AssetsHelper extends AppHelper
         $this->jquery();
 
         $this->Html->script(['libs/jquery-check-all.min.js'], $this->_setOptions([
-            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_LIB
         ]));
 
         return $this;
@@ -275,9 +277,10 @@ class AssetsHelper extends AppHelper
     public function toggleField($selector = '.jsToggleField', $widget = 'JBZoo.FieldToggle', array $options = [])
     {
         $this->jqueryFactory();
+
         $this->Html->script('Core.admin/widget/field-toggle.js', $this->_setOptions([
-            'weight' => self::WEIGHT_WIDGET,
-            'alias'  => __FUNCTION__
+            'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_WIDGET
         ]));
 
         $options = Hash::merge(['token' => $this->request->getCookie('csrfToken')], $options);
