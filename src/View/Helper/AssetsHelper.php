@@ -57,17 +57,6 @@ class AssetsHelper extends AppHelper
     ];
 
     /**
-     * Get sort assets included list.
-     *
-     * @param string $type
-     * @return array|null
-     */
-    public function getAssets($type = 'css')
-    {
-        return $this->Html->getAssets($type);
-    }
-
-    /**
      * Include bootstrap.
      *
      * @return $this
@@ -127,6 +116,17 @@ class AssetsHelper extends AppHelper
     }
 
     /**
+     * Get sort assets included list.
+     *
+     * @param string $type
+     * @return array|null
+     */
+    public function getAssets($type = 'css')
+    {
+        return $this->Html->getAssets($type);
+    }
+
+    /**
      * Include jquery lib.
      *
      * @return $this
@@ -164,6 +164,29 @@ class AssetsHelper extends AppHelper
     }
 
     /**
+     * Autoload plugin assets.
+     *
+     * @return void
+     */
+    public function loadPluginAssets()
+    {
+        $plugin = (string) $this->request->getParam('plugin');
+        $prefix = ($this->request->getParam('prefix')) ? $this->request->getParam('prefix') . '/' : null;
+        $action = (string) $this->request->getParam('action');
+
+        $controller = (string) $this->request->getParam('controller');
+        $widgetName = Str::slug($controller . '-' . $action) . '.js';
+        $cssOptions = ['block' => 'css_bottom', 'fullBase' => true, 'force' => Configure::read('debug')];
+
+        $this->Html->css($plugin . '.' . $prefix . 'styles.css', $cssOptions);
+        $this->Html->less($plugin . '.' . $prefix . 'styles.less', $cssOptions);
+        $this->Html->script([
+            $plugin . '.' . $prefix . 'widget/' . $widgetName,
+            $plugin . '.' . $prefix . 'script.js',
+        ], ['block' => 'script_bottom', 'fullBase' => true]);
+    }
+
+    /**
      * Include materialize design.
      *
      * @return $this
@@ -179,6 +202,23 @@ class AssetsHelper extends AppHelper
 
         $this->Html->css('libs/materialize.min.css', $this->_setOptions([
             'weight' => self::WEIGHT_CORE,
+            'alias'  => __FUNCTION__,
+        ]));
+
+        return $this;
+    }
+
+    /**
+     * Include jquery slugify plugin.
+     *
+     * @return $this
+     */
+    public function slugify()
+    {
+        $this->jquery();
+
+        $this->Html->script('libs/slugify.min.js', $this->_setOptions([
+            'weight' => self::WEIGHT_LIB,
             'alias'  => __FUNCTION__,
         ]));
 
@@ -244,29 +284,6 @@ class AssetsHelper extends AppHelper
         $this->Js->widget($selector, $widget, $options);
 
         return $this;
-    }
-
-    /**
-     * Autoload plugin assets.
-     *
-     * @return void
-     */
-    public function loadPluginAssets()
-    {
-        $plugin = (string) $this->request->getParam('plugin');
-        $prefix = ($this->request->getParam('prefix')) ? $this->request->getParam('prefix') . '/' : null;
-        $action = (string) $this->request->getParam('action');
-
-        $controller = (string) $this->request->getParam('controller');
-        $widgetName = Str::slug($controller . '-' . $action) . '.js';
-        $cssOptions = ['block' => 'css_bottom', 'fullBase' => true, 'force' => Configure::read('debug')];
-
-        $this->Html->css($plugin . '.' . $prefix . 'styles.css', $cssOptions);
-        $this->Html->less($plugin . '.' . $prefix . 'styles.less', $cssOptions);
-        $this->Html->script([
-            $plugin . '.' . $prefix . 'widget/' . $widgetName,
-            $plugin . '.' . $prefix . 'script.js',
-        ], ['block' => 'script_bottom', 'fullBase' => true]);
     }
 
     /**
