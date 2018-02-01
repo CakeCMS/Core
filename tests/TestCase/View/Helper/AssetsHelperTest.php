@@ -176,7 +176,7 @@ class AssetsHelperTest extends HelperTestCase
         $slugify = (string) $this->_helper()->getAssets('script.slugify.output');
 
         $this->assertHtml($expected['jquery'], $jquery);
-        $this->assertHtml($expected['materialize'], $slugify);
+        $this->assertHtml($expected['slugify'], $slugify);
     }
 
     public function testSweetAlert()
