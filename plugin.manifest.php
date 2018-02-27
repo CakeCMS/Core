@@ -73,5 +73,15 @@ return [
 
     'events' => [
         'Core.CoreEventHandler',
+    ],
+
+    'params' => [
+        'Global' => [
+            'admin_email' => [
+                'type'      => 'email',
+                'default'   => 'my@site.net',
+                'label'     => __d('core', 'Global email'),
+            ]
+        ]
     ]
 ];
