@@ -29,65 +29,65 @@ class Macros
 {
 
     /**
-     * Replacement list.
+     * Replacement data list.
      *
-     * @var array
+     * @var array|Entity
      */
-    protected $_list = [];
+    protected $_data = [];
 
     /**
      * Macros constructor.
      *
-     * @param mixed $list
+     * @param   mixed $data
      */
-    public function __construct($list = [])
+    public function __construct($data = [])
     {
-        if ($list instanceof Entity) {
-            /** @var Entity $list */
-            $list = $list->toArray();
+        if ($data instanceof Entity) {
+            $data = $data->toArray();
         }
 
-        $this->_list = (array) $list;
+        $this->_data = (array) $data;
+
         $this->set('base_url', Router::fullBaseUrl());
     }
 
     /**
      * Get replacement val or all list.
      *
-     * @param null|string|int $key
-     * @return array
+     * @param   null|string|int $key
+     * @return  array
      */
     public function get($key = null)
     {
-        if (Arr::key($key, $this->_list)) {
-            return $this->_list[$key];
+        if (Arr::key($key, $this->_data)) {
+            return $this->_data[$key];
         }
 
-        return $this->_list;
+        return $this->_data;
     }
 
     /**
      * Add new value in list.
      *
-     * @param string|int $key
-     * @param string|int $val
-     * @return $this
+     * @param   string|int $key
+     * @param   string|int $val
+     * @return  $this
      */
     public function set($key, $val)
     {
-        $this->_list = Hash::merge([$key => $val], $this->_list);
+        $this->_data = Hash::merge([$key => $val], $this->_data);
         return $this;
     }
 
     /**
      * Get replacement text.
      *
-     * @param string $text
-     * @return string mixed
+     * @param   string $text
+     * @return  string mixed
      */
     public function text($text)
     {
-        foreach ($this->_list as $macros => $value) {
+        foreach ($this->_data as $macros => $value) {
             $macros = '{' . $macros . '}';
             $text   = preg_replace('#' . $macros . '#ius', $value, $text);
         }

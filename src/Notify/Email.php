@@ -67,8 +67,8 @@ class Email
     /**
      * Mail constructor.
      *
-     * @param Entity|array $data
-     * @param string $tpl
+     * @param   Entity|array $data
+     * @param   string $tpl
      */
     public function __construct($data = [], $tpl = self::DEFAULT_MSG_TPL)
     {
@@ -84,12 +84,12 @@ class Email
     /**
      * Send message method.
      *
-     * @param string $subject
-     * @param string $content
-     * @param string|array $to
-     * @param string $fromName
-     * @param string $fromEmail
-     * @return array
+     * @param   string $subject
+     * @param   string $content
+     * @param   string|array $to
+     * @param   string $fromName
+     * @param   string $fromEmail
+     * @return  array
      */
     public function send($subject, $content, $to, $fromName = '', $fromEmail = '')
     {
@@ -110,7 +110,7 @@ class Email
     /**
      * Constructor hook method.
      *
-     * @return void
+     * @return  void
      */
     protected function _initialize()
     {
