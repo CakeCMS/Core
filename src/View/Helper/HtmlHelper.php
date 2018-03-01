@@ -27,10 +27,10 @@ use Cake\View\Helper\HtmlHelper as CakeHtmlHelper;
 /**
  * Class HtmlHelper
  *
- * @package Core\View\Helper
- * @property \Core\View\Helper\LessHelper $Less
- * @property \Core\View\Helper\UrlHelper $Url
- * @property \Core\View\Helper\DocumentHelper $Document
+ * @package     Core\View\Helper
+ * @property    \Core\View\Helper\LessHelper $Less
+ * @property    \Core\View\Helper\UrlHelper $Url
+ * @property    \Core\View\Helper\DocumentHelper $Document
  */
 class HtmlHelper extends CakeHtmlHelper
 {
@@ -61,8 +61,8 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * HtmlHelper constructor.
      *
-     * @param View $View
-     * @param array $config
+     * @param   View $View
+     * @param   array $config
      */
     public function __construct(View $View, array $config = [])
     {
@@ -76,9 +76,9 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * Creates a link element for CSS stylesheets.
      *
-     * @param array|string $path
-     * @param array $options
-     * @return null|string
+     * @param   array|string $path
+     * @param   array $options
+     * @return  null|string
      */
     public function css($path, array $options = [])
     {
@@ -89,8 +89,8 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * Get sort assets included list.
      *
-     * @param string $key
-     * @return array|null
+     * @param   string $key
+     * @return  array|null|string
      */
     public function getAssets($key)
     {
@@ -105,9 +105,9 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * Create icon element.
      *
-     * @param string $icon
-     * @param array $options
-     * @return null|string
+     * @param   string $icon
+     * @param   array $options
+     * @return  null|string
      */
     public function icon($icon = 'home', array $options = [])
     {
@@ -132,9 +132,11 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * Creates a CSS stylesheets from less.
      *
-     * @param string|array $path
-     * @param array $options
-     * @return null|string
+     * @param   string|array $path
+     * @param   array $options
+     * @return  null|string
+     *
+     * @throws  \JBZoo\Less\Exception
      */
     public function less($path, array $options = [])
     {
@@ -162,10 +164,10 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * Create an html link.
      *
-     * @param string $title
-     * @param null|string|array $url
-     * @param array $options
-     * @return string
+     * @param   string $title
+     * @param   null|string|array $url
+     * @param   array $options
+     * @return  string
      */
     public function link($title, $url = null, array $options = [])
     {
@@ -198,9 +200,9 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * Returns one or many `<script>` tags depending on the number of scripts given.
      *
-     * @param array|string $path
-     * @param array $options
-     * @return null|string
+     * @param   array|string $path
+     * @param   array $options
+     * @return  null|string
      */
     public function script($path, array $options = [])
     {
@@ -210,10 +212,10 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * Create status icon or link.
      *
-     * @param int $status
-     * @param array $url
-     * @param string $icon
-     * @return null|string
+     * @param   int $status
+     * @param   array $url
+     * @param   string $icon
+     * @return  null|string
      */
     public function status($status = 0, array $url = [], $icon = 'circle')
     {
@@ -232,10 +234,10 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * Create and render ajax toggle element.
      *
-     * @param Entity $entity
-     * @param array $url
-     * @param array $data
-     * @return string
+     * @param   Entity $entity
+     * @param   array $url
+     * @param   array $data
+     * @return  string
      */
     public function toggle(Entity $entity, array $url = [], array $data = [])
     {
@@ -261,10 +263,10 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * Check if need escape link title.
      *
-     * @param string $title
-     * @param bool $isClear
-     * @param array $options
-     * @return bool
+     * @param   string $title
+     * @param   bool $isClear
+     * @param   array $options
+     * @return  bool
      */
     protected function _isEscapeTitle($title, $isClear, array $options = [])
     {
@@ -274,9 +276,9 @@ class HtmlHelper extends CakeHtmlHelper
     /**
      * Setup default title attr.
      *
-     * @param string $title
-     * @param array $options
-     * @return array
+     * @param   string $title
+     * @param   array $options
+     * @return  array
      */
     protected function _setTitleAttr($title, array $options = [])
     {

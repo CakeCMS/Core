@@ -22,10 +22,10 @@ use Cake\Core\Configure;
 /**
  * Class AssetsHelper
  *
- * @package Core\View\Helper
- * @property \Core\View\Helper\JsHelper $Js
- * @property \Cake\View\Helper\UrlHelper $Url
- * @property \Core\View\Helper\HtmlHelper $Html
+ * @package     Core\View\Helper
+ * @property    \Core\View\Helper\JsHelper $Js
+ * @property    \Cake\View\Helper\UrlHelper $Url
+ * @property    \Core\View\Helper\HtmlHelper $Html
  *
  * @SuppressWarnings("PHPMD.TooManyPublicMethods")
  */
@@ -61,7 +61,7 @@ class AssetsHelper extends AppHelper
     /**
      * Include bootstrap.
      *
-     * @return $this
+     * @return  $this
      */
     public function bootstrap()
     {
@@ -83,7 +83,7 @@ class AssetsHelper extends AppHelper
     /**
      * Include fancybox.
      *
-     * @return $this
+     * @return  $this
      */
     public function fancyBox()
     {
@@ -105,7 +105,7 @@ class AssetsHelper extends AppHelper
     /**
      * Include font awesome.
      *
-     * @return $this
+     * @return  $this
      */
     public function fontAwesome()
     {
@@ -120,8 +120,8 @@ class AssetsHelper extends AppHelper
     /**
      * Get sort assets included list.
      *
-     * @param string $type
-     * @return array|null
+     * @param   string $type
+     * @return  array|null
      */
     public function getAssets($type = 'css')
     {
@@ -129,9 +129,26 @@ class AssetsHelper extends AppHelper
     }
 
     /**
+     * Include jQuery imgAreaSelect plugin. See https://github.com/odyniec/imgareaselect
+     *
+     * @return  $this
+     */
+    public function imgAreaSelect()
+    {
+        $this->jquery();
+
+        $this->Html->script('libs/img-area-select.min.js', $this->_setOptions([
+            'alias'  => __FUNCTION__,
+            'weight' => self::WEIGHT_LIB
+        ]));
+
+        return $this;
+    }
+
+    /**
      * Include jquery lib.
      *
-     * @return $this
+     * @return  $this
      */
     public function jquery()
     {
@@ -146,7 +163,7 @@ class AssetsHelper extends AppHelper
     /**
      * Include jquery factory.
      *
-     * @return $this
+     * @return  $this
      */
     public function jqueryFactory()
     {
@@ -168,7 +185,9 @@ class AssetsHelper extends AppHelper
     /**
      * Autoload plugin assets.
      *
-     * @return void
+     * @return  void
+     *
+     * @throws  \JBZoo\Less\Exception
      */
     public function loadPluginAssets()
     {
@@ -191,7 +210,7 @@ class AssetsHelper extends AppHelper
     /**
      * Include materialize design.
      *
-     * @return $this
+     * @return  $this
      */
     public function materialize()
     {
@@ -213,7 +232,7 @@ class AssetsHelper extends AppHelper
     /**
      * Include jquery slugify plugin.
      *
-     * @return $this
+     * @return  $this
      */
     public function slugify()
     {
@@ -230,7 +249,7 @@ class AssetsHelper extends AppHelper
     /**
      * Include sweet alert.
      *
-     * @return $this
+     * @return  $this
      */
     public function sweetAlert()
     {
@@ -252,7 +271,7 @@ class AssetsHelper extends AppHelper
     /**
      * Include jquery table check all.
      *
-     * @return $this
+     * @return  $this
      */
     public function tableCheckAll()
     {
@@ -269,10 +288,10 @@ class AssetsHelper extends AppHelper
     /**
      * Include toggle field js widget.
      *
-     * @param string $selector
-     * @param string $widget
-     * @param array $options
-     * @return $this
+     * @param   string $selector
+     * @param   string $widget
+     * @param   array $options
+     * @return  $this
      */
     public function toggleField($selector = '.jsToggleField', $widget = 'JBZoo.FieldToggle', array $options = [])
     {
@@ -292,8 +311,8 @@ class AssetsHelper extends AppHelper
     /**
      * Setup asset options.
      *
-     * @param array $options
-     * @return array
+     * @param   array $options
+     * @return  array
      */
     protected function _setOptions(array $options = [])
     {

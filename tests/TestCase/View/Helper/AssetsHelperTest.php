@@ -104,6 +104,23 @@ class AssetsHelperTest extends HelperTestCase
         self::assertArrayHasKey('materialize', $scripts);
     }
 
+    public function testImgAreaSelect()
+    {
+        $object = $this->_helper()->imgAreaSelect();
+        self::assertInstanceOf('Core\View\Helper\AssetsHelper', $object);
+
+        $expected = [
+            'jquery'        => ['script' => ['src' => 'http://localhost/js/libs/jquery.min.js']], '/script',
+            'imgAreaSelect' => ['script' => ['src' => 'http://localhost/js/libs/img-area-select.min.js']], '/script',
+        ];
+
+        $jquery        = (string) $this->_helper()->getAssets('script.jquery.output');
+        $imgAreaSelect = (string) $this->_helper()->getAssets('script.imgareaselect.output');
+
+        $this->assertHtml($expected['jquery'], $jquery);
+        $this->assertHtml($expected['imgAreaSelect'], $imgAreaSelect);
+    }
+
     public function testJQuery()
     {
         $object   = $this->_helper()->jquery();
