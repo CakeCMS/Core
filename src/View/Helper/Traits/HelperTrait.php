@@ -18,13 +18,13 @@ namespace Core\View\Helper\Traits;
 use JBZoo\Utils\Arr;
 use JBZoo\Utils\Str;
 use Cake\Utility\Hash;
-use Cake\Core\Configure;
 use Core\View\Helper\HtmlHelper;
 
 /**
  * Class HelperTrait
  *
- * @package Core\View\Helper\Traits
+ * @package     Core\View\Helper\Traits
+ * @property    HtmlHelper $Html
  */
 trait HelperTrait
 {
@@ -32,10 +32,10 @@ trait HelperTrait
     /**
      * Adds the given class to the element options
      *
-     * @param array $options Array options/attributes to add a class to
-     * @param string $class The class name being added.
-     * @param string $key the key to use for class.
-     * @return array Array of options with $key set.
+     * @param   array $options Array options/attributes to add a class to
+     * @param   string $class The class name being added.
+     * @param   string $key the key to use for class.
+     * @return  array Array of options with $key set.
      */
     protected function _addClass(array $options = [], $class = null, $key = 'class')
     {
@@ -50,8 +50,8 @@ trait HelperTrait
     /**
      * Get class with union prefix.
      *
-     * @param string $class
-     * @return string
+     * @param   string $class
+     * @return  string
      */
     protected function _class($class = 'cms')
     {
@@ -61,10 +61,10 @@ trait HelperTrait
     /**
      * Create current icon.
      *
-     * @param HtmlHelper $html
-     * @param string|int $title
-     * @param array $options
-     * @return array
+     * @param   HtmlHelper $html
+     * @param   string|int $title
+     * @param   array $options
+     * @return  array
      */
     protected function _createIcon(HtmlHelper $html, $title, array $options = [])
     {
@@ -86,8 +86,8 @@ trait HelperTrait
     /**
      * Create icon attributes.
      *
-     * @param array $options
-     * @return array
+     * @param   array $options
+     * @return  array
      */
     protected function _createIconAttr(array $options = [])
     {
@@ -108,8 +108,8 @@ trait HelperTrait
     /**
      * Create and get button classes.
      *
-     * @param array $options
-     * @return array
+     * @param   array $options
+     * @return  array
      */
     protected function _getBtnClass(array $options = [])
     {
@@ -130,9 +130,9 @@ trait HelperTrait
     /**
      * Create and get tooltip attributes.
      *
-     * @param array $options
-     * @param string $toggle
-     * @return array
+     * @param   array $options
+     * @param   string $toggle
+     * @return  array
      */
     protected function _getToolTipAttr(array $options = [], $toggle = 'tooltip')
     {
@@ -163,11 +163,38 @@ trait HelperTrait
     }
 
     /**
+     * Prepare before after content for input container.
+     *
+     * @param   string|int $type
+     * @param   string|int $value
+     * @return  null|string
+     */
+    protected function _prepareBeforeAfterContainer($type = 'before', $value)
+    {
+        $output    = null;
+        $iconClass = ($type === 'before') ? 'prefix' : 'postfix';
+
+        if ($value !== null) {
+            $output = $value;
+            if (is_string($output)) {
+                $hasIcon = preg_match('/icon:[a-zA-Z]/', $output);
+                if ($hasIcon > 0) {
+                    list (, $icon) = explode(':', $output, 2);
+                    $icon   = Str::low($icon);
+                    $output = $this->Html->icon($icon, ['class' => $iconClass]);
+                }
+            }
+        }
+
+        return $output;
+    }
+
+    /**
      * Setup button classes by options.
      *
-     * @param string $button
-     * @param array $options
-     * @return array
+     * @param   string $button
+     * @param   array $options
+     * @return  array
      */
     protected function _setBtnClass($button, array $options = [])
     {
@@ -185,9 +212,9 @@ trait HelperTrait
     /**
      * Setup icon options.
      *
-     * @param array $options
-     * @param array $iconOptions
-     * @return array
+     * @param   array $options
+     * @param   array $iconOptions
+     * @return  array
      */
     protected function _setIconOptions(array $options = [], array $iconOptions = [])
     {
@@ -212,9 +239,9 @@ trait HelperTrait
     /**
      * Setup tooltip title by options.
      *
-     * @param string $tooltip
-     * @param array $options
-     * @return array
+     * @param   string $tooltip
+     * @param   array $options
+     * @return  array
      */
     protected function _setTooltipTitle($tooltip, array $options = [])
     {

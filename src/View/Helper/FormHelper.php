@@ -19,6 +19,7 @@ use Cake\Form\Form;
 use Cake\View\View;
 use JBZoo\Data\Data;
 use JBZoo\Utils\Arr;
+use JBZoo\Utils\Str;
 use Cake\View\Helper;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
@@ -76,6 +77,7 @@ class FormHelper extends CakeFormHelper
         ], $this->_defaultConfig);
 
         $config = new Data($config);
+
         if ($config->get('materializeCss', false) === true) {
             $config
                 ->set('widgets', [
@@ -91,6 +93,10 @@ class FormHelper extends CakeFormHelper
                     return $this->_prepareTooltip($html, $options, $tooltip);
                 });
         }
+
+        $widgets = Hash::merge(['_default' => 'Core\View\Widget\BasicWidget'], $config->get('widgets', []));
+
+        $config->set('widgets', $widgets);
 
         parent::__construct($View, $config->getArrayCopy());
     }
@@ -173,6 +179,7 @@ class FormHelper extends CakeFormHelper
     {
         $options = $this->addClass($options, $this->_class(__FUNCTION__));
         $options = $this->_getBtnClass($options);
+        $options = $this->_getToolTipAttr($options);
 
         list($title, $options) = $this->_createIcon($this->Html, $title, $options);
 
@@ -277,6 +284,34 @@ class FormHelper extends CakeFormHelper
 
         $this->_addFormContextProvider();
         $this->_addFormArrayProvider();
+    }
+
+    /**
+     * Generates an input container template
+     *
+     * @param   array $options The options for input container template
+     * @return  string The generated input container template
+     */
+    protected function _inputContainerTemplate($options)
+    {
+        $inputContainerTemplate = $options['options']['type'] . 'Container' . $options['errorSuffix'];
+        if (!$this->templater()->get($inputContainerTemplate)) {
+            $inputContainerTemplate = 'inputContainer' . $options['errorSuffix'];
+        }
+
+        $_options = new Data($options['options']);
+        $before   = $this->_prepareBeforeAfterContainer('before', $_options->get('before'));
+        $after    = $this->_prepareBeforeAfterContainer('after', $_options->get('after'));
+
+        return $this->formatTemplate($inputContainerTemplate, [
+            'after'         => $after,
+            'before'        => $before,
+            'error'         => $options['error'],
+            'content'       => $options['content'],
+            'type'          => $options['options']['type'],
+            'required'      => $options['options']['required'] ? ' required' : '',
+            'templateVars'  => isset($options['options']['templateVars']) ? $options['options']['templateVars'] : []
+        ]);
     }
 
     /**

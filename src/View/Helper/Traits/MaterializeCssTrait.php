@@ -31,9 +31,9 @@ trait MaterializeCssTrait
     /**
      * Setup tooltip data-tooltip attr.
      *
-     * @param array $options
-     * @param string $tooltip
-     * @return array
+     * @param   array $options
+     * @param   string $tooltip
+     * @return  array
      */
     protected function _dataTooltip(array $options, $tooltip)
     {

@@ -26,8 +26,8 @@ return [
         '</div>'
     ]),
     'formGroup'           => "{{input}}\n{{label}}",
-    'inputContainer'      => '<div class="input-field {{type}}{{required}}">{{content}}</div>',
+    'inputContainer'      => '<div class="input-field {{type}}{{required}}">{{before}}{{content}}{{after}}</div>',
     'nestingLabel'        => '{{hidden}}{{input}}<label{{attrs}}><span>{{text}}</span></label>',
-    'inputContainerError' => '<div class="input-field {{type}}{{required}} error">{{content}}{{error}}</div>',
+    'inputContainerError' => '<div class="input-field {{type}}{{required}} error">{{before}}{{content}}{{after}}{{error}}</div>',
     'switcher'            => '<div class="switch">{{title}}<label>{{before}}{{input}}{{lever}}{{after}}</label></div>'
 ];

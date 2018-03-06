@@ -133,6 +133,60 @@ class FormHelperTest extends HelperTestCase
                 'Test',
             '/button',
         ], $this->_helper()->button('Test', ['icon' => 'home']));
+
+        $helper = new FormHelper($this->View, ['materializeCss' => true]);
+
+        $expected = $helper->button('Tooltip', ['tooltip' => true, 'title' => 'Custom title']);
+        $this->assertHtml([
+            'button' => [
+                'data-position' => 'top',
+                'type'          => 'submit',
+                'data-tooltip'  => 'Custom title',
+                'title'         => 'Custom title',
+                'class'         => 'ck-button hasTooltip',
+            ],
+                'Tooltip',
+            '/button',
+        ], $expected);
+
+        $expected = $helper->button('Tooltip', ['tooltip' => 'Custom title']);
+        $this->assertHtml([
+            'button' => [
+                'data-position' => 'top',
+                'type'          => 'submit',
+                'data-tooltip'  => 'Custom title',
+                'title'         => 'Custom title',
+                'class'         => 'ck-button hasTooltip',
+            ],
+                'Tooltip',
+            '/button',
+        ], $expected);
+
+        $expected = $helper->button('Tooltip', ['tooltip' => 'Custom title', 'tooltipPos' => 'bottom']);
+        $this->assertHtml([
+            'button' => [
+                'data-position' => 'bottom',
+                'type'          => 'submit',
+                'data-tooltip'  => 'Custom title',
+                'title'         => 'Custom title',
+                'class'         => 'ck-button hasTooltip',
+            ],
+                'Tooltip',
+            '/button',
+        ], $expected);
+
+        $expected = $helper->button('Tooltip', ['tooltip' => true]);
+        $this->assertHtml([
+            'button' => [
+                'title'         => '',
+                'data-tooltip'  => '',
+                'data-position' => 'top',
+                'type'          => 'submit',
+                'class'         => 'ck-button hasTooltip',
+            ],
+                'Tooltip',
+            '/button',
+        ], $expected);
     }
 
     public function testInputValueByEntityContext()
@@ -205,6 +259,76 @@ class FormHelperTest extends HelperTestCase
                 ],
             '/div'
         ], $helper->control('params.name'));
+    }
+
+    public function testBeforeAfterInputContainer()
+    {
+        $helper = new FormHelper($this->View, ['materializeCss' => true]);
+
+        $expected = $helper->control('before', ['before' => 'Before text']);
+        $this->assertHtml([
+            'div' => ['class' => 'input-field text'],
+                'Before text',
+                'input' => [
+                    'type' => 'text',
+                    'name' => 'before',
+                    'id'   => 'before'
+                ],
+                'label' => ['for' => 'before'],
+                    'Before',
+                '/label',
+            '/div'
+        ], $expected);
+
+        $expected = $helper->control('before', ['before' => 'icon:home']);
+        $this->assertHtml([
+            'div' => ['class' => 'input-field text'],
+                'i' => ['class' => 'prefix ck-icon fa fa-home'], '/i',
+                'input' => [
+                    'type' => 'text',
+                    'name' => 'before',
+                    'id'   => 'before'
+                ],
+                'label' => ['for' => 'before'],
+                    'Before',
+                '/label',
+            '/div'
+        ], $expected);
+
+        $expected = $helper->control('after', ['after' => 'icon:home']);
+        $this->assertHtml([
+            'div' => ['class' => 'input-field text'],
+                'input' => [
+                    'type' => 'text',
+                    'name' => 'after',
+                    'id'   => 'after'
+                ],
+                'label' => ['for' => 'after'],
+                    'After',
+                '/label',
+                 'i' => ['class' => 'postfix ck-icon fa fa-home'], '/i',
+            '/div'
+        ], $expected);
+
+        $expected = $helper->control('before_after', [
+            'after'  => 'icon:home',
+            'before' => 'icon:profile'
+        ]);
+
+        $this->assertHtml([
+            'div' => ['class' => 'input-field text'],
+                ['i' => ['class' => 'prefix ck-icon fa fa-profile']], '/i',
+                'input' => [
+                    'type' => 'text',
+                    'name' => 'before_after',
+                    'id'   => 'before-after'
+                ],
+                'label' => ['for' => 'before-after'],
+                    'Before After',
+                '/label',
+                 ['i' => ['class' => 'postfix ck-icon fa fa-home']], '/i',
+            '/div'
+        ], $expected);
     }
 
     public function testCheckAll()
