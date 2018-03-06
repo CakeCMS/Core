@@ -165,11 +165,11 @@ trait HelperTrait
     /**
      * Prepare before after content for input container.
      *
-     * @param   string|int $type
+     * @param   string|int $type    Set before or after flag.
      * @param   string|int $value
      * @return  null|string
      */
-    protected function _prepareBeforeAfterContainer($type = 'before', $value)
+    protected function _prepareBeforeAfterContainer($type, $value)
     {
         $output    = null;
         $iconClass = ($type === 'before') ? 'prefix' : 'postfix';
