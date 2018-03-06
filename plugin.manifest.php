@@ -53,17 +53,13 @@ return [
         $view->loadHelper('Core.Document');
         $view->loadHelper('Core.Filter');
         $view->loadHelper('Url', ['className' => 'Core.Url']);
-        $view->loadHelper('Html', ['className' => 'Core.Html']);
+        $view->loadHelper('Html', [
+            'materializeCss' => true,
+            'className'      => 'Core.Html'
+        ]);
         $view->loadHelper('Form', [
-            'className' => 'Core.Form',
-            'prepareBtnClass' => function (FormHelper $html, $options, $button) {
-                $options = $html->addClass($options, 'waves-effect waves-light btn');
-                if (!empty($button)) {
-                    $options = $html->addClass($options, Str::trim((string) $button));
-                }
-
-                return $options;
-            },
+            'materializeCss' => true,
+            'className'      => 'Core.Form'
         ]);
         $view->loadHelper('Core.Js');
         $view->loadHelper('Text');

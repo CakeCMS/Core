@@ -226,6 +226,19 @@ class FormHelperTest extends HelperTestCase
         ], $this->_helper()->checkAll());
     }
 
+    public function testFile()
+    {
+        $this->assertHtml(['input' => ['type' => 'file', 'name' => 'file']], $this->_helper()->file('file'));
+    }
+
+    public function testSwitcher()
+    {
+        $this->assertHtml([
+            ['input' => ['type' => 'hidden', 'name' => 'status', 'value' => 0]],
+            ['input' => ['type' => 'checkbox', 'name' => 'status', 'value' => 1]]
+        ], $this->_helper()->switcher('status'));
+    }
+
     public function testProcessCheck()
     {
         $this->assertHtml([
@@ -242,6 +255,127 @@ class FormHelperTest extends HelperTestCase
                 '/label',
             '/div'
         ], $this->_helper()->processCheck('test', 9));
+    }
+
+    public function testCheckMaterializeCssEnable()
+    {
+        $helper = new FormHelper($this->View, ['materializeCss' => true]);
+
+        self::assertInstanceOf('Core\View\Helper\FormHelper', $helper);
+        self::assertTrue($helper->getConfig('materializeCss'));
+    }
+
+    public function testCheckMaterializeSwitcher()
+    {
+        $helper = new FormHelper($this->View, ['materializeCss' => true]);
+
+        $expected =
+            '<div class="switch">' .
+                '<div class="switch-title">custom</div>' .
+                '<label>' .
+                'Off' .
+                    '<input type="hidden" name="custom" value="0"/>' .
+                    '<input type="checkbox" name="custom" value="1" class="filled-in">' .
+                    '<span class="lever"></span>' .
+                'On' .
+                '</label>' .
+            '</div>';
+
+        $this->assertSame($expected, $helper->switcher('custom'));
+    }
+
+    public function testCheckMaterializeInput()
+    {
+        $helper = new FormHelper($this->View, ['materializeCss' => true]);
+
+        $expected = [
+            'div' => ['class' => 'input-field text'],
+                'input' => ['type' => 'text', 'name' => 'test', 'id' => 'test'],
+                'label' => ['for' => 'test'],
+                    'Test',
+                '/label',
+            '/div'
+        ];
+
+        $this->assertHtml($expected, $helper->control('test'));
+
+        $expected = [
+            'div' => ['class' => 'input-field textarea'],
+                'textarea' => [
+                    'rows'  => 5,
+                    'name'  => 'test',
+                    'id'    => 'test',
+                    'class' => 'materialize-textarea',
+                ],
+                '/textarea',
+                'label' => ['for' => 'test'],
+                    'Test',
+                '/label',
+            '/div'
+        ];
+        $this->assertHtml($expected, $helper->control('test', ['type' => 'textarea']));
+
+        $expected = [
+            'div' => ['class' => 'input-field textarea'],
+                'textarea' => [
+                    'rows'  => 5,
+                    'name'  => 'test',
+                    'id'    => 'test',
+                    'class' => 'custom-class materialize-textarea'
+                ],
+                '/textarea',
+                'label' => ['for' => 'test'],
+                    'Test',
+                '/label',
+            '/div'
+        ];
+        $this->assertHtml($expected, $helper->control('test', [
+            'type'  => 'textarea',
+            'class' => 'custom-class'
+        ]));
+    }
+
+    public function testCheckMaterializeFile()
+    {
+        $helper = new FormHelper($this->View, ['materializeCss' => true]);
+
+        $expected = [
+            'div' => ['class' => 'input-field file'],
+                ['div' => ['class' => 'file-field input-field']],
+                    ['div' => ['class' => 'btn']],
+                        ['span' => []],
+                            'image',
+                        '/span',
+                        ['input' => ['type' => 'file', 'name' => 'image']],
+                    '/div',
+                    ['div' => ['class' => 'file-path-wrapper']],
+                        ['input' => ['class' => 'file-path', 'type' => 'text']],
+                    '/div',
+                '/div',
+            '/div'
+        ];
+
+        $this->assertHtml($expected, $helper->file('image'));
+
+        $expected = [
+            'div' => ['class' => 'input-field file'],
+                ['div' => ['class' => 'file-field input-field']],
+                    ['div' => ['class' => 'btn']],
+                        ['span' => []],
+                            'Custom title',
+                        '/span',
+                        ['input' => ['type' => 'file', 'name' => 'avatar']],
+                    '/div',
+                    ['div' => ['class' => 'file-path-wrapper']],
+                        ['input' => ['class' => 'file-path', 'type' => 'text']],
+                    '/div',
+                '/div',
+            '/div'
+        ];
+
+        $this->assertHtml($expected, $helper->file('avatar', [
+            'title' => 'Custom title'
+        ]));
     }
 }
 

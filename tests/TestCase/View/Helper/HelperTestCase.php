@@ -80,6 +80,7 @@ class HelperTestCase extends TestCase
         $name   = ($name !== null) ? $name : $this->_name;
         $object = $this->_plugin . '\View\Helper\\' . $name . 'Helper';
         $config = Hash::merge($config, $this->_config);
+
         return new $object($this->View, $config);
     }
 }

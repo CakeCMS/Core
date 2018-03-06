@@ -15,13 +15,15 @@
 
 namespace Core\View\Helper;
 
-use Cake\ORM\Entity;
 use Cake\View\View;
+use Cake\ORM\Entity;
 use JBZoo\Utils\Arr;
+use Cake\View\Helper;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
 use Core\View\Helper\Traits\HelperTrait;
 use Core\View\Helper\Traits\IncludeTrait;
+use Core\View\Helper\Traits\MaterializeCssTrait;
 use Cake\View\Helper\HtmlHelper as CakeHtmlHelper;
 
 /**
@@ -35,7 +37,7 @@ use Cake\View\Helper\HtmlHelper as CakeHtmlHelper;
 class HtmlHelper extends CakeHtmlHelper
 {
 
-    use HelperTrait, IncludeTrait;
+    use HelperTrait, IncludeTrait, MaterializeCssTrait;
 
     /**
      * List of helpers used by this helper.
@@ -45,7 +47,7 @@ class HtmlHelper extends CakeHtmlHelper
     public $helpers = [
         'Core.Less',
         'Core.Document',
-        'Url' => ['className' => 'Core.Url'],
+        'Url' => ['className' => 'Core.Url']
     ];
 
     /**
@@ -55,7 +57,7 @@ class HtmlHelper extends CakeHtmlHelper
      */
     protected $_assets = [
         'styles'  => [],
-        'scripts' => [],
+        'scripts' => []
     ];
 
     /**
@@ -66,11 +68,40 @@ class HtmlHelper extends CakeHtmlHelper
      */
     public function __construct(View $View, array $config = [])
     {
+        $this->_defaultConfig = Hash::merge([
+            'materializeCss' => false,
+            'btnPref'        => Configure::read('Cms.btnPref'),
+            'iconPref'       => Configure::read('Cms.iconPref'),
+            'classPrefix'    => Configure::read('Cms.classPrefix'),
+            'templates'      => [
+                'icon' => '<i class="{{class}}"{{attrs}}></i>'
+            ]
+        ], $this->_defaultConfig);
+
         parent::__construct($View, $config);
-        $this->_configWrite('btnPref', Configure::read('Cms.btnPref'));
-        $this->_configWrite('iconPref', Configure::read('Cms.iconPref'));
-        $this->_configWrite('classPrefix', Configure::read('Cms.classPrefix'));
-        $this->_configWrite('templates.icon', '<i class="{{class}}"{{attrs}}></i>');
+    }
+
+    /**
+     * Constructor hook method. Implement this method to avoid having to overwrite the constructor and call parent.
+     *
+     * @param   array $config The configuration settings provided to this helper.
+     * @return  void
+     */
+    public function initialize(array $config)
+    {
+        $isMaterializeCss = $this->getConfig('materializeCss', false);
+
+        if ($isMaterializeCss === true) {
+            $this->_configWrite('prepareBtnClass', function (Helper $form, $options, $button) {
+                return $this->_prepareBtn($form, $options, $button);
+            });
+
+            $this->_configWrite('prepareTooltip', function (Helper $html, $options, $tooltip) {
+                return $this->_prepareTooltip($html, $options, $tooltip);
+            });
+        }
+
+        parent::initialize($config);
     }
 
     /**

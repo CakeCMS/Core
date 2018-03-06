@@ -52,6 +52,7 @@ class HtmlHelperTest extends HelperTestCase
     public function testClassName()
     {
         self::assertInstanceOf('Core\View\Helper\HtmlHelper', $this->_helper());
+        self::assertFalse($this->_helper()->getConfig('materializeCss'));
     }
 
     public function testIcon()
@@ -67,6 +68,43 @@ class HtmlHelperTest extends HelperTestCase
 
         $expected = ['i' => ['class' => 'ck-icon fa fa-profile', 'id' => 'icon', 'data-rel' => 'top']];
         $this->assertHtml($expected, $this->_helper()->icon('profile', ['id' => 'icon', 'data-rel' => 'top']));
+    }
+
+    public function testCss()
+    {
+        $actual = $this->_helper()->css('styles.css');
+        $this->assertHtml(['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/styles.css']], $actual);
+
+        $actual = $this->_helper()->css([
+            'styles.css',
+            'styles.css',
+        ]);
+
+        $this->assertHtml(['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/styles.css']], $actual);
+
+        self::assertNull($this->_helper()->css('no-exist.css'));
+
+        $googleJQuery = 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js';
+        $actual = $this->_helper()->css($googleJQuery);
+        $this->assertHtml(['link' => ['rel' => 'stylesheet', 'href' => $googleJQuery]], $actual);
+
+        $actual = $this->_helper()->css([], ['block' => __METHOD__]);
+        self::assertNull($actual);
+
+        $actual = $this->_helper()->css('styles.css', ['rel' => 'import']);
+        self::assertSame('<style>@import url(http://localhost/css/styles.css);</style>', $actual);
+
+        $this->_helper()->css('styles.css', ['block' => true]);
+        $this->assertHtml(
+            ['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/styles.css']],
+            $this->View->fetch('css')
+        );
+
+        $actual = $this->_helper()->css('Test.styles.css');
+        $this->assertHtml(
+            ['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/test/css/styles.css']],
+            $actual
+        );
     }
 
     public function testLink()
@@ -343,43 +381,6 @@ class HtmlHelperTest extends HelperTestCase
         $this->_clearCache();
     }
 
-    public function testCss()
-    {
-        $actual = $this->_helper()->css('styles.css');
-        $this->assertHtml(['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/styles.css']], $actual);
-
-        $actual = $this->_helper()->css([
-            'styles.css',
-            'styles.css',
-        ]);
-
-        $this->assertHtml(['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/styles.css']], $actual);
-
-        self::assertNull($this->_helper()->css('no-exist.css'));
-
-        $googleJQuery = 'https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js';
-        $actual = $this->_helper()->css($googleJQuery);
-        $this->assertHtml(['link' => ['rel' => 'stylesheet', 'href' => $googleJQuery]], $actual);
-
-        $actual = $this->_helper()->css([], ['block' => __METHOD__]);
-        self::assertNull($actual);
-
-        $actual = $this->_helper()->css('styles.css', ['rel' => 'import']);
-        self::assertSame('<style>@import url(http://localhost/css/styles.css);</style>', $actual);
-
-        $this->_helper()->css('styles.css', ['block' => true]);
-        $this->assertHtml(
-            ['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/css/styles.css']],
-            $this->View->fetch('css')
-        );
-
-        $actual = $this->_helper()->css('Test.styles.css');
-        $this->assertHtml(
-            ['link' => ['rel' => 'stylesheet', 'href' => 'http://localhost/test/css/styles.css']],
-            $actual
-        );
-    }
-
     public function testScript()
     {
         $actual = $this->_helper()->script('scripts.js');
@@ -411,7 +412,7 @@ class HtmlHelperTest extends HelperTestCase
             $actual
         );
     }
-    
+
     public function testStatus()
     {
         $helper = $this->_helper();
@@ -479,6 +480,22 @@ class HtmlHelperTest extends HelperTestCase
             '/div'
         ];
         $this->assertHtml($expected, $actual);
+    }
+
+    public function testCheckMaterializeCssEnable()
+    {
+        $helper = new HtmlHelper($this->View, ['materializeCss' => true]);
+
+        self::assertInstanceOf('Core\View\Helper\HtmlHelper', $helper);
+        self::assertTrue($helper->getConfig('materializeCss'));
+
+        $this->assertHtml([
+            'a' => ['href' => '#', 'class' => 'ck-link waves-effect waves-light btn success', 'title' => 'Title'],
+                'span' => ['class' => 'ck-link-title'],
+                    'Title',
+                '/span',
+            '/a'
+        ], $helper->link('Title', '#', ['button' => 'success']));
     }
 
     /**
