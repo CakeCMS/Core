@@ -67,6 +67,9 @@ prepare-test-app:
 	cd ./application && bash bin/app-jquery-table.sh && cd ../
 	@echo ""
 
+	cd ./application && bash bin/app-img-area-select.sh && cd ../
+	@echo ""
+
 	@echo -e "\033[0;33m>>> \033[0;30;46m Install application npm \033[0m"
 	cd ./application && npm install && cd ../
 	@echo ""
