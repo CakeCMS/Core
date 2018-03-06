@@ -174,19 +174,6 @@ class FormHelperTest extends HelperTestCase
                 'Tooltip',
             '/button',
         ], $expected);
-
-        $expected = $helper->button('Tooltip', ['tooltip' => true]);
-        $this->assertHtml([
-            'button' => [
-                'title'         => '',
-                'data-tooltip'  => '',
-                'data-position' => 'top',
-                'type'          => 'submit',
-                'class'         => 'ck-button hasTooltip',
-            ],
-                'Tooltip',
-            '/button',
-        ], $expected);
     }
 
     public function testInputValueByEntityContext()
