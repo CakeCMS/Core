@@ -49,9 +49,9 @@ class ProcessComponent extends AppComponent
     /**
      * Get actual request vars for process.
      *
-     * @param string $name
-     * @param string $primaryKey
-     * @return array
+     * @param   string $name
+     * @param   string $primaryKey
+     * @return  array
      */
     public function getRequestVars($name, $primaryKey = self::PRIMARY_KEY)
     {
@@ -66,8 +66,8 @@ class ProcessComponent extends AppComponent
     /**
      * Constructor hook method.
      *
-     * @param array $config
-     * @return void
+     * @param   array $config
+     * @return  void
      */
     public function initialize(array $config)
     {
@@ -94,11 +94,11 @@ class ProcessComponent extends AppComponent
     /**
      * Make process.
      *
-     * @param Table $table
-     * @param string $action
-     * @param array $ids
-     * @param array $options
-     * @return \Cake\Http\Response|null
+     * @param   Table $table
+     * @param   string $action
+     * @param   array $ids
+     * @param   array $options
+     * @return  \Cake\Http\Response|null
      */
     public function make(Table $table, $action, array $ids = [], array $options = [])
     {
@@ -131,10 +131,10 @@ class ProcessComponent extends AppComponent
     }
 
     /**
-     * Setup default action messages.
+     * Setup    default action messages.
      *
-     * @param int $count
-     * @return array
+     * @param   int $count
+     * @return  array
      */
     protected function _getDefaultMessages($count)
     {
@@ -169,9 +169,9 @@ class ProcessComponent extends AppComponent
     /**
      * Get event name by data.
      *
-     * @param string $action
-     * @param string $event
-     * @return string
+     * @param   string $action
+     * @param   string $event
+     * @return  string
      */
     protected function _getEventName($action, $event = self::EVENT_NAME_BEFORE)
     {
@@ -193,9 +193,9 @@ class ProcessComponent extends AppComponent
     /**
      * Get ids by request.
      *
-     * @param array $ids
-     * @param string $primaryKey
-     * @return array
+     * @param   array $ids
+     * @param   string $primaryKey
+     * @return  array
      */
     protected function _getIds(array $ids, $primaryKey = self::PRIMARY_KEY)
     {
@@ -212,9 +212,9 @@ class ProcessComponent extends AppComponent
     /**
      * Create and merge actual process options.
      *
-     * @param array $options
-     * @param int|string $count
-     * @return array
+     * @param   array $options
+     * @param   int|string $count
+     * @return  array
      */
     protected function _getOptions(array $options, $count)
     {
@@ -225,7 +225,7 @@ class ProcessComponent extends AppComponent
     /**
      * Load process behavior.
      *
-     * @param Table $table
+     * @param   Table $table
      */
     protected function _loadBehavior(Table $table)
     {
@@ -238,11 +238,11 @@ class ProcessComponent extends AppComponent
     /**
      * Controller process.
      *
-     * @param string $action
-     * @param Data $messages
-     * @param array $redirect
-     * @param array $ids
-     * @return \Cake\Http\Response|null
+     * @param   string $action
+     * @param   Data $messages
+     * @param   array $redirect
+     * @param   array $ids
+     * @return  \Cake\Http\Response|null
      */
     protected function _process($action, Data $messages, array $redirect, array $ids)
     {

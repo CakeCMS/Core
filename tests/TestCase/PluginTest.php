@@ -305,19 +305,6 @@ class PluginTest extends TestCase
         self::assertSame($file, $viewVars['file']);
     }
 
-    public function testManifestAfterLayout()
-    {
-        $view    = $this->_getView();
-        $file    = __FILE__;
-        $event   = new Event('View.afterLayout', $view);
-        $view->Document->afterLayout($event, $file);
-        $viewVars = $view->viewVars;
-
-        self::assertTrue(is_array($viewVars));
-        self::assertSame('View.afterLayout', $viewVars['eventName']);
-        self::assertSame($file, $viewVars['file']);
-    }
-
     /**
      * Get app view object.
      *

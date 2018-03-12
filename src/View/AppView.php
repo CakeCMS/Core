@@ -25,16 +25,16 @@ use JBZoo\Utils\FS;
 /**
  * Class AppView
  *
- * @package Core\View
- * @property \Core\View\Helper\JsHelper $Js
- * @property \Core\View\Helper\UrlHelper $Url
- * @property \Core\View\Helper\NavHelper $Nav
- * @property \Core\View\Helper\LessHelper $Less
- * @property \Core\View\Helper\FormHelper $Form
- * @property \Core\View\Helper\HtmlHelper $Html
- * @property \Core\View\Helper\FilterHelper $Filter
- * @property \Core\View\Helper\AssetsHelper $Assets
- * @property \Core\View\Helper\DocumentHelper $Document
+ * @package     Core\View
+ * @property    \Core\View\Helper\JsHelper $Js
+ * @property    \Core\View\Helper\UrlHelper $Url
+ * @property    \Core\View\Helper\NavHelper $Nav
+ * @property    \Core\View\Helper\LessHelper $Less
+ * @property    \Core\View\Helper\FormHelper $Form
+ * @property    \Core\View\Helper\HtmlHelper $Html
+ * @property    \Core\View\Helper\FilterHelper $Filter
+ * @property    \Core\View\Helper\AssetsHelper $Assets
+ * @property    \Core\View\Helper\DocumentHelper $Document
  */
 class AppView extends View
 {
@@ -58,8 +58,8 @@ class AppView extends View
     /**
      * Get view file path.
      *
-     * @param string $name
-     * @return null|string
+     * @param   string $name
+     * @return  null|string
      */
     public function getViewFile($name)
     {
@@ -84,21 +84,27 @@ class AppView extends View
      * So this method allows you to manipulate them as required after view instance
      * is constructed.
      *
-     * @return void
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function initialize()
     {
         parent::initialize();
         $this->cms = Cms::getInstance();
-        Plugin::manifestEvent('View.initialize', $this);
+
+        $pluginEvent = Plugin::getData('Core', 'View.initialize');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.initialize')) {
+            call_user_func_array($pluginEvent->find(0), [$this]);
+        }
     }
 
     /**
      * Render layout partial.
      *
-     * @param string $name
-     * @param array $data
-     * @return null|string
+     * @param   string $name
+     * @param   array $data
+     * @return  null|string
      */
     public function partial($name, array $data = [])
     {
@@ -114,9 +120,9 @@ class AppView extends View
     /**
      * Renders view for given template file and layout.
      *
-     * @param null|string $view
-     * @param null|string $layout
-     * @return null|string
+     * @param   null|string $view
+     * @param   null|string $layout
+     * @return  null|string
      */
     public function render($view = null, $layout = null)
     {
@@ -127,7 +133,7 @@ class AppView extends View
     /**
      * Find form view by request.
      *
-     * @return string|null
+     * @return  string|null
      */
     protected function _findViewByRequest()
     {
@@ -158,8 +164,8 @@ class AppView extends View
     /**
      * Get current form view.
      *
-     * @param null|string $view
-     * @return null
+     * @param   null|string $view
+     * @return  null
      */
     protected function _getFormView($view = null)
     {
@@ -173,8 +179,8 @@ class AppView extends View
     /**
      * Finds an partial filename, returns false on failure.
      *
-     * @param string $name
-     * @return bool|string
+     * @param   string $name
+     * @return  bool|string
      */
     protected function _getLayoutPartialPath($name)
     {

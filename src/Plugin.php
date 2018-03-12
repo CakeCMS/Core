@@ -20,7 +20,6 @@ use JBZoo\Utils\FS;
 use JBZoo\Data\Data;
 use JBZoo\Utils\Arr;
 use Cake\Core\Configure;
-use Core\Migration\Manager;
 use Cake\Core\Plugin as CakePlugin;
 
 /**
@@ -131,6 +130,17 @@ class Plugin extends CakePlugin
     }
 
     /**
+     * Check manifest event.
+     *
+     * @param   string $name Plugin name.
+     * @return  bool
+     */
+    public static function hasManifestEvent($name)
+    {
+        return Arr::in($name, self::$_manifestEvents);
+    }
+
+    /**
      * Load the plugin.
      *
      * @param array|string $plugin
@@ -218,7 +228,7 @@ class Plugin extends CakePlugin
     {
         $data = Plugin::getData($plugin);
         foreach ($data as $name => $callback) {
-            if (self::_isCallablePluginData($name, $plugin, $callback)) {
+            if (self::_isCallablePluginData($name, $plugin, $callback) && $plugin !== 'Core') {
                 self::$_eventList[$name][$plugin] = $callback;
             }
         }

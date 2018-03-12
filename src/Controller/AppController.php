@@ -30,13 +30,13 @@ use Cake\Controller\Component\RequestHandlerComponent;
 /**
  * Class AppController
  *
- * @package Core\Controller
- * @property \Cake\Http\Response $response
- * @property AppComponent $App
- * @property MoveComponent $Move
- * @property RequestHandlerComponent $RequestHandler
- * @property FlashComponent $Flash
- * @property ProcessComponent $Process
+ * @package     Core\Controller
+ * @property    AppComponent $App
+ * @property    MoveComponent $Move
+ * @property    FlashComponent $Flash
+ * @property    ProcessComponent $Process
+ * @property    \Cake\Http\Response $response
+ * @property    RequestHandlerComponent $RequestHandler
  */
 class AppController extends CakeController
 {
@@ -51,29 +51,40 @@ class AppController extends CakeController
     /**
      * Initialization hook method.
      *
-     * @return void
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function initialize()
     {
         parent::initialize();
         $this->cms = Cms::getInstance();
         $this->_setTheme();
-        Plugin::manifestEvent('Controller.initialize', $this);
+
+        $pluginEvent = Plugin::getData('Core', 'Controller.initialize');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('Controller.initialize')) {
+            call_user_func_array($pluginEvent->find(0), [$this]);
+        }
     }
 
     /**
      * Called after the controller action is run, but before the view is rendered. You can use this method
      * to perform logic or set view variables that are required on every request.
      *
-     * @param \Cake\Event\Event $event The beforeRender event.
-     * @return void
+     * @param   \Cake\Event\Event $event The beforeRender event.
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function beforeRender(Event $event)
     {
-        Plugin::manifestEvent('Controller.beforeRender', $this, $event);
+        $pluginEvent = Plugin::getData('Core', 'Controller.beforeRender');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('Controller.beforeRender')) {
+            call_user_func_array($pluginEvent->find(0), [$this, $event]);
+        }
 
         if (!array_key_exists('_serialize', $this->viewVars) &&
-            in_array($this->response->type(), ['application/json', 'application/xml'])
+            in_array($this->response->getType(), ['application/json', 'application/xml'])
         ) {
             $this->set('_serialize', true);
         }
@@ -83,44 +94,60 @@ class AppController extends CakeController
      * Called before the controller action. You can use this method to configure and customize components
      * or perform logic that needs to happen before each controller action.
      *
-     * @param Event $event
-     * @return void
+     * @param   Event $event
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function beforeFilter(Event $event)
     {
         EventManager::trigger('Controller.setup', $this);
-        Plugin::manifestEvent('Controller.beforeFilter', $this, $event);
+
+        $pluginEvent = Plugin::getData('Core', 'Controller.beforeFilter');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('Controller.beforeFilter')) {
+            call_user_func_array($pluginEvent->find(0), [$this, $event]);
+        }
     }
 
     /**
      * The beforeRedirect method is invoked when the controller's redirect method is called but before any
      * further action.
      *
-     * @param Event $event
-     * @param array|string $url
-     * @param Response $response
-     * @return void
+     * @param   Event $event
+     * @param   array|string $url
+     * @param   Response $response
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function beforeRedirect(Event $event, $url, Response $response)
     {
-        Plugin::manifestEvent('Controller.beforeRedirect', $this, $event, $url, $response);
+        $pluginEvent = Plugin::getData('Core', 'Controller.beforeRedirect');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('Controller.beforeRedirect')) {
+            call_user_func_array($pluginEvent->find(0), [$this, $event, $url, $response]);
+        }
     }
 
     /**
      * Called after the controller action is run and rendered.
      *
-     * @param Event $event
-     * @return void
+     * @param   Event $event
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function afterFilter(Event $event)
     {
-        Plugin::manifestEvent('Controller.afterFilter', $this, $event);
+        $pluginEvent = Plugin::getData('Core', 'Controller.afterFilter');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('Controller.afterFilter')) {
+            call_user_func_array($pluginEvent->find(0), [$this, $event]);
+        }
     }
 
     /**
      * Setup application theme.
      *
-     * @return void
+     * @return  void
      */
     protected function _setTheme()
     {

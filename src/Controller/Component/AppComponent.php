@@ -49,8 +49,8 @@ class AppComponent extends Component
     /**
      * Constructor hook method.
      *
-     * @param array $config
-     * @return void
+     * @param   array $config
+     * @return  void
      */
     public function initialize(array $config)
     {
@@ -63,8 +63,8 @@ class AppComponent extends Component
     /**
      * Redirect by request data.
      *
-     * @param array $options
-     * @return \Cake\Http\Response|null
+     * @param   array $options
+     * @return  \Cake\Http\Response|null
      */
     public function redirect(array $options = [])
     {
@@ -102,10 +102,10 @@ class AppComponent extends Component
     /**
      * Toggle table field value.
      *
-     * @param Table $table
-     * @param int $id
-     * @param string|int $value
-     * @param string $field
+     * @param   Table $table
+     * @param   int $id
+     * @param   string|int $value
+     * @param   string $field
      */
     public function toggleField(Table $table, $id, $value, $field = 'status')
     {
@@ -131,7 +131,7 @@ class AppComponent extends Component
     /**
      * Check is ajax request.
      *
-     * @return void
+     * @return  void
      */
     public function checkIsAjax()
     {
@@ -143,8 +143,8 @@ class AppComponent extends Component
     /**
      * Check toggle data.
      *
-     * @param int $id
-     * @param string|int $value
+     * @param   int $id
+     * @param   string|int $value
      */
     protected function _checkToggleData($id, $value)
     {

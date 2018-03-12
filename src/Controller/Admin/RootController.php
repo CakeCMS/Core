@@ -26,7 +26,7 @@ class RootController extends AppController
     /**
      * Dashboard action.
      *
-     * @return void
+     * @return  void
      */
     public function dashboard()
     {

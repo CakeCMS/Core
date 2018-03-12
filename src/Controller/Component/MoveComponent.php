@@ -23,8 +23,8 @@ use Cake\ORM\Behavior\TreeBehavior;
 /**
  * Class MoveComponent
  *
- * @package Core\Controller\Component
- * @property FlashComponent $Flash
+ * @package     Core\Controller\Component
+ * @property    FlashComponent $Flash
  */
 class MoveComponent extends AppComponent
 {
@@ -44,10 +44,10 @@ class MoveComponent extends AppComponent
     /**
      * Move down record in tree.
      *
-     * @param Table $table
-     * @param int $id
-     * @param int $step
-     * @return \Cake\Http\Response|null
+     * @param   Table $table
+     * @param   int $id
+     * @param   int $step
+     * @return  \Cake\Http\Response|null
      */
     public function down(Table $table, $id, $step = 1)
     {
@@ -57,11 +57,11 @@ class MoveComponent extends AppComponent
     /**
      * Sets the config.
      *
-     * @param array|string $key
-     * @param null|mixed $value
-     * @param bool $merge
-     * @return mixed
-     * @throws \Cake\Core\Exception\Exception When trying to set a key that is invalid.
+     * @param   array|string $key
+     * @param   null|mixed $value
+     * @param   bool $merge
+     * @return  mixed
+     * @throws  \Cake\Core\Exception\Exception When trying to set a key that is invalid.
      */
     public function setConfig($key, $value = null, $merge = true)
     {
@@ -79,10 +79,11 @@ class MoveComponent extends AppComponent
     /**
      * Move up record in tree.
      *
-     * @param Table $table
-     * @param int $id
-     * @param int $step
-     * @return \Cake\Http\Response|null
+     * @param   Table $table
+     * @param   int $id
+     * @param   int $step
+     * @return  \Cake\Http\Response|null
+     *
      * @SuppressWarnings(PHPMD.ShortMethodName)
      */
     public function up(Table $table, $id, $step = 1)
@@ -93,11 +94,11 @@ class MoveComponent extends AppComponent
     /**
      * Move object in tree table.
      *
-     * @param Table $table
-     * @param string $type
-     * @param int $id
-     * @param int $step
-     * @return \Cake\Http\Response|null
+     * @param   Table $table
+     * @param   string $type
+     * @param   int $id
+     * @param   int $step
+     * @return  \Cake\Http\Response|null
      */
     protected function _move(Table $table, $id, $step = 1, $type = self::TYPE_UP)
     {
@@ -124,7 +125,7 @@ class MoveComponent extends AppComponent
     /**
      * Process redirect.
      *
-     * @return \Cake\Http\Response|null
+     * @return  \Cake\Http\Response|null
      */
     protected function _redirect()
     {

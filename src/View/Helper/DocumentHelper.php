@@ -24,9 +24,9 @@ use Cake\Core\Configure;
 /**
  * Class DocumentHelper
  *
- * @package Core\View\Helper
- * @property \Core\View\Helper\HtmlHelper $Html
- * @property \Core\View\Helper\AssetsHelper $Assets
+ * @package     Core\View\Helper
+ * @property    \Core\View\Helper\HtmlHelper $Html
+ * @property    \Core\View\Helper\AssetsHelper $Assets
  *
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
@@ -57,47 +57,63 @@ class DocumentHelper extends AppHelper
     /**
      * Is called after layout rendering is complete. Receives the layout filename as an argument.
      *
-     * @param Event $event
-     * @param string $layoutFile
-     * @return void
+     * @param   Event $event
+     * @param   string $layoutFile
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function afterLayout(Event $event, $layoutFile)
     {
-        Plugin::manifestEvent('View.beforeLayout', $this->_View, $event, $layoutFile);
+        $pluginEvent = Plugin::getData('Core', 'View.afterLayout');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.afterLayout')) {
+            call_user_func_array($pluginEvent->find(0), [$this->_View, $event, $layoutFile]);
+        }
     }
 
     /**
      * Is called after the view has been rendered but before layout rendering has started.
      *
-     * @param Event $event
-     * @param string $viewFile
-     * @return void
+     * @param   Event $event
+     * @param   string $viewFile
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function afterRender(Event $event, $viewFile)
     {
         $this->_setupMetaData();
-        Plugin::manifestEvent('View.afterRender', $this->_View, $event, $viewFile);
+
+        $pluginEvent = Plugin::getData('Core', 'View.afterRender');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.afterRender')) {
+            call_user_func_array($pluginEvent->find(0), [$this->_View, $event, $viewFile]);
+        }
     }
 
     /**
      * Is called after each view file is rendered. This includes elements, views, parent views and layouts.
      * A callback can modify and return $content to change how the rendered content will be displayed in the browser.
      *
-     * @param Event $event
-     * @param string $viewFile
-     * @param string $content
-     * @return void
+     * @param   Event $event
+     * @param   string $viewFile
+     * @param   string $content
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function afterRenderFile(Event $event, $viewFile, $content)
     {
-        Plugin::manifestEvent('View.afterRenderFile', $this->_View, $event, $viewFile, $content);
+        $pluginEvent = Plugin::getData('Core', 'View.afterRenderFile');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.afterRenderFile')) {
+            call_user_func_array($pluginEvent->find(0), [$this->_View, $event, $viewFile, $content]);
+        }
     }
 
     /**
      * Get assets fot layout render.
      *
-     * @param string $type
-     * @return string
+     * @param   string $type
+     * @return  string
      */
     public function assets($type = 'css')
     {
@@ -113,45 +129,62 @@ class DocumentHelper extends AppHelper
     /**
      * Is called before layout rendering starts. Receives the layout filename as an argument.
      *
-     * @param Event $event
-     * @param string $layoutFile
-     * @return void
+     * @param   Event $event
+     * @param   string $layoutFile
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function beforeLayout(Event $event, $layoutFile)
     {
-        Plugin::manifestEvent('View.beforeLayout', $this->_View, $event, $layoutFile);
+        $pluginEvent = Plugin::getData('Core', 'View.beforeLayout');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.beforeLayout')) {
+            call_user_func_array($pluginEvent->find(0), [$this->_View, $event, $layoutFile]);
+        }
     }
 
     /**
      * Is called after the controller’s beforeRender method but before the controller renders view and layout.
      * Receives the file being rendered as an argument.
      *
-     * @param Event $event
-     * @param string $viewFile
-     * @return void
+     * @param   Event $event
+     * @param   string $viewFile
+     * @return  void
+     *
+     * @throws  \JBZoo\Less\Exception
+     * @throws  \JBZoo\Utils\Exception
      */
     public function beforeRender(Event $event, $viewFile)
     {
         $this->Assets->loadPluginAssets();
-        Plugin::manifestEvent('View.beforeRender', $this->_View, $event, $viewFile);
+
+        $pluginEvent = Plugin::getData('Core', 'View.beforeRender');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.beforeRender')) {
+            call_user_func_array($pluginEvent->find(0), [$this->_View, $event, $viewFile]);
+        }
     }
 
     /**
      * Is called before each view file is rendered. This includes elements, views, parent views and layouts.
      *
-     * @param Event $event
-     * @param string $viewFile
-     * @return void
+     * @param    Event $event
+     * @param   string $viewFile
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function beforeRenderFile(Event $event, $viewFile)
     {
-        Plugin::manifestEvent('View.beforeRenderFile', $this->_View, $event, $viewFile);
+        $pluginEvent = Plugin::getData('Core', 'View.beforeRenderFile');
+        if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.beforeRenderFile')) {
+            call_user_func_array($pluginEvent->find(0), [$this->_View, $event, $viewFile]);
+        }
     }
 
     /**
      * Get body classes by view data.
      *
-     * @return string
+     * @return  string
      */
     public function getBodyClasses()
     {
@@ -177,7 +210,7 @@ class DocumentHelper extends AppHelper
     /**
      * Create head for layout.
      *
-     * @return string
+     * @return  string
      */
     public function head()
     {
@@ -194,7 +227,7 @@ class DocumentHelper extends AppHelper
     /**
      * Constructor hook method.
      *
-     * @param array $config
+     * @param   array $config
      */
     public function initialize(array $config)
     {
@@ -210,9 +243,10 @@ class DocumentHelper extends AppHelper
     /**
      * Site language.
      *
-     * @param bool|true $isLang
-     * @return string
-     * @throws \Exception
+     * @param   bool|true $isLang
+     * @return  string
+     *
+     * @throws  \Exception
      */
     public function lang($isLang = true)
     {
@@ -223,9 +257,9 @@ class DocumentHelper extends AppHelper
     /**
      * Creates a link to an external resource and handles basic meta tags.
      *
-     * @param array $rows
-     * @param null $block
-     * @return null|string
+     * @param   array $rows
+     * @param   null $block
+     * @return  null|string
      */
     public function meta(array $rows, $block = null)
     {
@@ -247,8 +281,9 @@ class DocumentHelper extends AppHelper
     /**
      * Create html 5 document type.
      *
-     * @return string
-     * @throws \Exception
+     * @return  string
+     *
+     * @throws  \Exception
      */
     public function type()
     {
@@ -272,8 +307,8 @@ class DocumentHelper extends AppHelper
     /**
      * Assign data from view vars.
      *
-     * @param string $key
-     * @return $this
+     * @param   string $key
+     * @return  $this
      */
     protected function _assignMeta($key)
     {
@@ -287,7 +322,7 @@ class DocumentHelper extends AppHelper
     /**
      * Setup view meta data.
      *
-     * @return void
+     * @return  void
      */
     protected function _setupMetaData()
     {

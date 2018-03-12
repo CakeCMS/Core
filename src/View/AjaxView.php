@@ -33,7 +33,9 @@ class AjaxView extends AppView
     /**
      * Initialization hook method.
      *
-     * @return void
+     * @return  void
+     *
+     * @throws  \JBZoo\Utils\Exception
      */
     public function initialize()
     {
