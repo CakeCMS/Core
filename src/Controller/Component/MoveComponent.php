@@ -24,6 +24,7 @@ use Cake\ORM\Behavior\TreeBehavior;
  * Class MoveComponent
  *
  * @package     Core\Controller\Component
+ *
  * @property    FlashComponent $Flash
  */
 class MoveComponent extends AppComponent
@@ -61,6 +62,8 @@ class MoveComponent extends AppComponent
      * @param   null|mixed $value
      * @param   bool $merge
      * @return  mixed
+     *
+     * @throws  \Aura\Intl\Exception
      * @throws  \Cake\Core\Exception\Exception When trying to set a key that is invalid.
      */
     public function setConfig($key, $value = null, $merge = true)
@@ -134,7 +137,7 @@ class MoveComponent extends AppComponent
             'prefix'     => $request->getParam('prefix'),
             'plugin'     => $request->getParam('plugin'),
             'controller' => $request->getParam('controller'),
-            'action'     => $this->getConfig('action'),
+            'action'     => $this->getConfig('action')
         ]);
     }
 }

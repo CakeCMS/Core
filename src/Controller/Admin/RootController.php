@@ -27,6 +27,8 @@ class RootController extends AppController
      * Dashboard action.
      *
      * @return  void
+     *
+     * @throws  \Aura\Intl\Exception
      */
     public function dashboard()
     {

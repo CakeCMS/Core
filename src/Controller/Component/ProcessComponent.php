@@ -99,6 +99,8 @@ class ProcessComponent extends AppComponent
      * @param   array $ids
      * @param   array $options
      * @return  \Cake\Http\Response|null
+     *
+     * @throws  \Aura\Intl\Exception
      */
     public function make(Table $table, $action, array $ids = [], array $options = [])
     {
@@ -135,6 +137,8 @@ class ProcessComponent extends AppComponent
      *
      * @param   int $count
      * @return  array
+     *
+     * @throws  \Aura\Intl\Exception
      */
     protected function _getDefaultMessages($count)
     {
@@ -215,6 +219,8 @@ class ProcessComponent extends AppComponent
      * @param   array $options
      * @param   int|string $count
      * @return  array
+     *
+     * @throws  \Aura\Intl\Exception
      */
     protected function _getOptions(array $options, $count)
     {
@@ -243,6 +249,8 @@ class ProcessComponent extends AppComponent
      * @param   array $redirect
      * @param   array $ids
      * @return  \Cake\Http\Response|null
+     *
+     * @throws  \Aura\Intl\Exception
      */
     protected function _process($action, Data $messages, array $redirect, array $ids)
     {
