@@ -39,7 +39,7 @@ class CachedBehaviorModelTest extends TestCase
 
     public function testCached()
     {
-        $table = TableRegistry::get('Test.CachedBehavior');
+        $table = TableRegistry::getTableLocator()->get('Test.CachedBehavior');
         $entity = $table->find()
             ->where(['id' => 2])
             ->cache('test_cached', 'test_cached')->first();

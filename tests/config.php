@@ -13,6 +13,7 @@
  * @author      Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
+use Cake\Log\Log;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
 
@@ -58,6 +59,7 @@ Configure::write('EmailTransport', [
         'password'  => 'secret',
         'client'    => null,
         'tls'       => null,
+        'url'       => env('EMAIL_TRANSPORT_DEFAULT_URL', null),
     ],
 ]);
 
@@ -87,5 +89,23 @@ Cache::setConfig([
         'engine'    => 'File',
         'prefix'    => 'cms_model_',
         'serialize' => true
+    ]
+]);
+
+Log::setConfig([
+    // 'queries' => [
+    //     'className' => 'Console',
+    //     'stream' => 'php://stderr',
+    //     'scopes' => ['queriesLog']
+    // ],
+    'debug' => [
+        'engine' => 'Cake\Log\Engine\FileLog',
+        'levels' => ['notice', 'info', 'debug'],
+        'file' => 'debug',
+    ],
+    'error' => [
+        'engine' => 'Cake\Log\Engine\FileLog',
+        'levels' => ['warning', 'error', 'critical', 'alert', 'emergency'],
+        'file' => 'error',
     ]
 ]);

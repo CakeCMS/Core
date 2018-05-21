@@ -182,7 +182,7 @@ class ProcessComponent extends AppComponent
 
         $details = Hash::merge($details, [
             'Controller',
-            $this->_controller->name,
+            $this->_controller->getName(),
             $event . Inflector::camelize($action),
             'Process',
         ]);

@@ -22,7 +22,7 @@ use Cake\Utility\Hash;
 use Cake\Http\ServerRequest;
 use Cake\Controller\Component;
 use Cake\Controller\Controller;
-use Cake\Network\Exception\BadRequestException;
+use Cake\Http\Exception\BadRequestException;
 
 /**
  * Class AppComponent
@@ -35,14 +35,14 @@ class AppComponent extends Component
     /**
      * Controller object.
      *
-     * @var Controller
+     * @var     Controller
      */
     protected $_controller;
 
     /**
      * Hold controller request (Server request).
      *
-     * @var ServerRequest
+     * @var     ServerRequest
      */
     protected $_request;
 
@@ -106,6 +106,9 @@ class AppComponent extends Component
      * @param   int $id
      * @param   string|int $value
      * @param   string $field
+     *
+     * @throws  \RuntimeException
+     * @throws  \Aura\Intl\Exception
      */
     public function toggleField(Table $table, $id, $value, $field = 'status')
     {
@@ -132,6 +135,9 @@ class AppComponent extends Component
      * Check is ajax request.
      *
      * @return  void
+     *
+     * @throws  \RuntimeException
+     * @throws  \Aura\Intl\Exception
      */
     public function checkIsAjax()
     {
@@ -145,6 +151,10 @@ class AppComponent extends Component
      *
      * @param   int $id
      * @param   string|int $value
+     * @return  void
+     *
+     * @throws  \RuntimeException
+     * @throws  \Aura\Intl\Exception
      */
     protected function _checkToggleData($id, $value)
     {

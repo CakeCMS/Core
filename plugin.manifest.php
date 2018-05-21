@@ -44,7 +44,9 @@ return [
         $controller->loadComponent('Core.App');
         $controller->loadComponent('Core.Move');
         $controller->loadComponent('Core.Process');
-        $controller->loadComponent('RequestHandler');
+        $controller->loadComponent('RequestHandler', [
+            'enableBeforeRedirect' => false
+        ]);
         $controller->loadComponent('Flash', [
             'className' => 'Core.Flash',
         ]);

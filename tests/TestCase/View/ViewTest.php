@@ -88,7 +88,7 @@ class ViewTest extends TestCase
 
         $controller = new FormsController($request);
         $view = $controller->createView('Test\App\View\AppView');
-        $view->templatePath('Forms');
+        $view->setTemplatePath('Forms');
         $actual = $view->render();
         self::assertRegExp('/Edit template/', $actual);
     }
@@ -105,7 +105,7 @@ class ViewTest extends TestCase
 
         $controller = new FormsController($request);
         $view = $controller->createView('Test\App\View\AppView');
-        $view->templatePath('Forms');
+        $view->setTemplatePath('Forms');
         $actual = $view->render();
         self::assertRegExp('/Form template/', $actual);
     }
@@ -125,7 +125,7 @@ class ViewTest extends TestCase
 
         $controller = new FormsController($request);
         $view = $controller->createView('Test\App\View\AppView');
-        $view->templatePath('NoExist');
+        $view->setTemplatePath('NoExist');
         $view->render(' ');
     }
 

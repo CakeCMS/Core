@@ -122,15 +122,13 @@ class PluginTest extends TestCase
             'NoRoutes',
             'PluginTest',
             'Migrations',
-            'NoBootstrap',
-            'DebugKit',
+            'NoBootstrap'
         ]);
 
         self::assertTrue(Plugin::loaded('NoBootstrap'));
         self::assertTrue(Plugin::loaded('PluginTest'));
         self::assertTrue(Plugin::loaded('NoRoutes'));
         self::assertTrue(Plugin::loaded('NoConfig'));
-        self::assertTrue(Plugin::loaded('DebugKit'));
         self::assertTrue(Plugin::loaded('Migrations'));
 
         $Folder->delete($TestPlgPath);
@@ -143,7 +141,6 @@ class PluginTest extends TestCase
         Plugin::unload('PluginTest');
         Plugin::unload('Migrations');
         Plugin::unload('NoBootstrap');
-        Plugin::unload('DebugKit');
     }
     
     public function testManifestEventViewInitialize()

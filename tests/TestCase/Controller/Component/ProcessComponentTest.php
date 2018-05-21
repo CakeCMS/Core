@@ -15,6 +15,8 @@
 
 namespace Core\Test\TestCase\Controller\Component;
 
+use Cake\Http\ServerRequest;
+use Cake\ORM\Locator\TableLocator;
 use Core\ORM\Table;
 use Cake\Routing\Router;
 use Test\Cases\TestCase;
@@ -67,51 +69,61 @@ class ProcessComponentTest extends TestCase
 
     public function testGetRequestVars()
     {
-        $controller = $this->_process->getController();
-
-        $controller->request->data = [
-            'action' => 'test',
-            'user' => [
-                1 => [
-                    'id' => 1,
-                ],
-                4 => [
-                    'id' => 1,
-                ],
-                5 => [
-                    'id' => 0,
-                ],
-                8 => [
-                    'id' => 1,
-                ],
+        $request = new ServerRequest([
+            'post' => [
+                'action' => 'test',
+                'user'   => [
+                    1 => [
+                        'id' => 1
+                    ],
+                    4 => [
+                        'id' => 1
+                    ],
+                    5 => [
+                        'id' => 0
+                    ],
+                    8 => [
+                        'id' => 1
+                    ]
+                ]
             ]
-        ];
+        ]);
 
-        list ($action, $ids) = $this->_process->getRequestVars('users');
+        $controller         = new AppController($request);
+        $componentRegistry  = new ComponentRegistry($controller);
+        $component          = new ProcessComponent($componentRegistry, []);
 
-        self::assertSame('test', $action);
+        $result = $component->getRequestVars('users');
+
+        self::assertSame('test', $result[0]);
         self::assertSame([
             1 => 1,
             4 => 4,
             8 => 8,
-        ], $ids);
+        ], $result[1]);
 
-        $this->_process->request->data = [
-            'action' => 'new-action',
-            'user' => [
-                4 => [
-                    'id' => 1,
-                ],
-                5 => '1',
-                9 => [
-                    'id' => '9',
-                ],
+        $request = new ServerRequest([
+            'post' => [
+                'action' => 'new-action',
+                'user' => [
+                    4 => [
+                        'id' => 1
+                    ],
+                    5 => '1',
+                    9 => [
+                        'id' => '9'
+                    ]
+                ]
             ]
-        ];
+        ]);
 
-        list ($action, $ids) = $this->_process->getRequestVars('users');
-        self::assertSame('new-action', $action);
-        self::assertSame([4 => 4], $ids);
+        $controller         = new AppController($request);
+        $componentRegistry  = new ComponentRegistry($controller);
+        $component          = new ProcessComponent($componentRegistry, []);
+
+        $result = $component->getRequestVars('users');
+        self::assertSame('new-action', $result[0]);
+        self::assertSame([4 => 4], $result[1]);
     }
 
     public function testMakeNotFoundAction()
@@ -125,7 +137,7 @@ class ProcessComponentTest extends TestCase
             ]
         ]);
 
-        $session = $this->_controller->request->session()->read('Flash.flash');
+        $session = $this->_controller->request->getSession()->read('Flash.flash');
 
         self::assertInstanceOf('Cake\Http\Response', $result);
         self::assertSame(['http://localhost/'], $result->getHeader('Location'));
@@ -136,7 +148,7 @@ class ProcessComponentTest extends TestCase
     {
         $table   = new Table();
         $result  = $this->_process->make($table, 'delete', []);
-        $session = $this->_controller->request->session()->read('Flash.flash');
+        $session = $this->_controller->request->getSession()->read('Flash.flash');
 
         self::assertInstanceOf('Cake\Http\Response', $result);
         self::assertSame(['http://localhost/'], $result->getHeader('Location'));
@@ -147,16 +159,14 @@ class ProcessComponentTest extends TestCase
     {
         $table  = $this->_table();
 
-        $this->_controller->request->addParams([
-            'prefix' => 'admin'
-        ]);
+        $this->_controller->request = $this->_controller->request->withParam('prefix', 'admin');
 
         $result = $this->_process->make($table, 'delete', [
             1 => 1,
-            4 => 4,
+            4 => 4
         ]);
 
-        $session = $this->_controller->request->session()->read('Flash.flash');
+        $session = $this->_controller->request->getSession()->read('Flash.flash');
 
         self::assertInstanceOf('Cake\Http\Response', $result);
         self::assertSame(['http://localhost/'], $result->getHeader('Location'));
@@ -167,18 +177,18 @@ class ProcessComponentTest extends TestCase
     {
         $table   = $this->_table();
         $result  = $this->_process->make($table, 'delete', [9 => 9]);
-        $session = $this->_controller->request->session()->read('Flash.flash');
+        $session = $this->_controller->request->getSession()->read('Flash.flash');
 
         self::assertSame(['http://localhost/'], $result->getHeader('Location'));
         self::assertSame(__d('core', 'An error has occurred. Please try again.'), $session[0]['message']);
     }
 
     /**
-     * @return RowsTable
+     * @return \Cake\ORM\Table
      */
     protected function _table()
     {
-        return TableRegistry::get('Rows', [
+        return TableRegistry::getTableLocator()->get('Rows', [
             'className' => __NAMESPACE__ . '\RowsTable'
         ]);
     }

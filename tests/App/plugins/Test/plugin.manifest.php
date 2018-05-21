@@ -35,25 +35,25 @@ return [
     },
     'Controller.beforeRender' => function (Controller $controller, Event $event) {
         $controller
-            ->set('controllerName', $controller->name)
+            ->set('controllerName', $controller->getName())
             ->set('eventName', $event->getName());
     },
     'Controller.beforeFilter' => function (Controller $controller, Event $event) {
         $controller
-            ->set('controllerName', $controller->name)
+            ->set('controllerName', $controller->getName())
             ->set('eventName', $event->getName());
     },
     'Controller.afterFilter' => function (Controller $controller, Event $event) {
         $controller
-            ->set('controllerName', $controller->name)
+            ->set('controllerName', $controller->getName())
             ->set('eventName', $event->getName());
     },
     'Controller.beforeRedirect' => function (Controller $controller, Event $event, $url, Response $response) {
         $controller
-            ->set('controllerName', $controller->name)
+            ->set('controllerName', $controller->getName())
             ->set('eventName', $event->getName())
             ->set('url', $url)
-            ->set('responseType', $response->type());
+            ->set('responseType', $response->getType());
     },
     'View.beforeRenderFile' => function (View $view, Event $event, $file) {
         $view

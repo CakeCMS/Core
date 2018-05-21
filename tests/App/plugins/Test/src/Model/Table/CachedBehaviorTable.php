@@ -28,19 +28,20 @@ class CachedBehaviorTable extends Table
     /**
      * Initialize a table instance. Called after the constructor.
      *
-     * @param array $config
-     * @return void
+     * @param   array $config
+     * @return  void
      */
     public function initialize(array $config)
     {
         parent::initialize($config);
 
-        $this->table('cached_behavior');
-        $this->primaryKey('id');
-        $this->displayField('title');
-        $this->behaviors()->load('Core.Cached', [
-            'config' => 'test_cached',
-            'groups' => ['cached'],
-        ]);
+        $this
+            ->setTable('cached_behavior')
+            ->setPrimaryKey('id')
+            ->setDisplayField('title')
+            ->behaviors()->load('Core.Cached', [
+                'config' => 'test_cached',
+                'groups' => ['cached'],
+            ]);
     }
 }

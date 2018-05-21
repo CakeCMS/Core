@@ -17,6 +17,7 @@ namespace Core\Event;
 
 use Core\Plugin;
 use Cake\Core\App;
+use Core\Controller\AppController;
 use Cake\Event\EventManager as CakeEventManager;
 
 /**
@@ -80,7 +81,7 @@ class EventManager extends CakeEventManager
     {
         $event = new Event($name, $subject, $data);
         if (is_object($subject)) {
-            return $subject->eventManager()->dispatch($event);
+            return $subject->getEventManager()->dispatch($event);
         }
 
         return EventManager::instance()->dispatch($event);

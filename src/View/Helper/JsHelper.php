@@ -154,7 +154,7 @@ class JsHelper extends AppHelper
                 'sure'   => __d('alert', 'Are you sure?'),
             ],
             'request' => [
-                'url'    => $request->url,
+                'url'    => $request->getPath(),
                 'params' => [
                     'pass'       => $request->getParam('pass'),
                     'theme'      => $request->getParam('theme'),

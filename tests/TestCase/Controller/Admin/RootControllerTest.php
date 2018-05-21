@@ -15,6 +15,8 @@
 
 namespace Core\Test\TestCase\Controller\Admin;
 
+use Cake\Routing\DispatcherFactory;
+use Core\Plugin;
 use Test\Cases\IntegrationTestCase;
 
 /**

@@ -81,11 +81,8 @@ class AppComponentTest extends TestCase
         self::assertSame('text/html; charset=UTF-8', $controller->form()->getHeaderLine('Content-Type'));
 
         $request = $this->_request;
-        $request->addParams([
-            'action' => 'edit'
-        ]);
-
-        $request->data = ['action' => 'saveNew'];
+        $request = $request->withParam('action', 'edit');
+        $request = $request->withData('action', 'saveNew');
 
         $controller = new ComponentAppController($request);
 

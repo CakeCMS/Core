@@ -43,7 +43,7 @@ class TestEventHandler implements EventListenerInterface
      */
     public function onIndex(Event $event)
     {
-        return $event->name();
+        return $event->getName();
     }
 
     /**
@@ -52,6 +52,6 @@ class TestEventHandler implements EventListenerInterface
      */
     public function onView(Event $event)
     {
-        return $event->name();
+        return $event->getName();
     }
 }

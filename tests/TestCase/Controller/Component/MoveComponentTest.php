@@ -68,10 +68,8 @@ class MoveComponentTest extends TestCase
 
     public function testDown()
     {
-        $request    = $this->_request;
-        $request->addParams([
-            'action' => 'down'
-        ]);
+        $request = $this->_request;
+        $request = $request->withParam('action', 'down');
 
         $controller = new MovesController($request);
 
@@ -89,7 +87,7 @@ class MoveComponentTest extends TestCase
         self::assertSame(4, $entity->get('lft'));
         self::assertSame(5, $entity->get('rght'));
 
-        $flashSession = $controller->request->session()->read('Flash.flash');
+        $flashSession = $controller->request->getSession()->read('Flash.flash');
         $expected = [[
             'message' => __d('core', 'Object has been moved'),
             'key'     => 'flash',
@@ -109,7 +107,7 @@ class MoveComponentTest extends TestCase
         $entityId = 3;
         $response = $controller->up($entityId, 'text');
 
-        $flashSession = $controller->request->session()->read('Flash.flash');
+        $flashSession = $controller->request->getSession()->read('Flash.flash');
         $expected = [[
             'message' => __d('core', 'Object could not been moved'),
             'key'     => 'flash',
@@ -145,7 +143,7 @@ class MoveComponentTest extends TestCase
         self::assertSame(2, $entity->get('lft'));
         self::assertSame(3, $entity->get('rght'));
 
-        $flashSession = $controller->request->session()->read('Flash.flash');
+        $flashSession = $controller->request->getSession()->read('Flash.flash');
         $expected = [[
             'message' => __d('core', 'Object has been moved'),
             'key'     => 'flash',

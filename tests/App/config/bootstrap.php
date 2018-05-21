@@ -12,34 +12,3 @@
  * @link        https://github.com/CakeCMS/Core".
  * @author      Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
-
-namespace Core\View;
-
-/**
- * Class AjaxView
- *
- * @package Core\View
- */
-class AjaxView extends AppView
-{
-
-    /**
-     * The name of the layout file.
-     *
-     * @var string
-     */
-    public $layout = 'ajax';
-
-    /**
-     * Initialization hook method.
-     *
-     * @return  void
-     *
-     * @throws  \JBZoo\Utils\Exception
-     */
-    public function initialize()
-    {
-        parent::initialize();
-        $this->response->getType('ajax');
-    }
-}

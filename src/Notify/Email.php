@@ -17,6 +17,7 @@ namespace Core\Notify;
 
 use Cake\ORM\Entity;
 use Cake\Mailer\Email as CakeEmail;
+use Cake\Mailer\Transport\MailTransport;
 
 /**
  * Class Email
@@ -96,8 +97,10 @@ class Email
         $mail      = new CakeEmail();
         $fromName  = ($fromName !== '') ? $fromName : $this->_fromName;
         $fromEmail = ($fromEmail !== '') ? $fromEmail : $this->_fromEmail;
+        $transport = new MailTransport();
 
         return $mail
+            ->setTransport($transport)
             ->setTemplate($this->_tpl)
             ->setEmailFormat($this->_format)
             ->setFrom($fromEmail, $fromName)
