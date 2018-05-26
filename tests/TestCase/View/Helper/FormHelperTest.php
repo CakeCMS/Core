@@ -37,6 +37,8 @@ class FormHelperTest extends HelperTestCase
     protected $_name = 'Form';
     protected $_plugin = 'Core';
 
+    public $fixtures = ['plugin.core.pages'];
+
     public function setUp()
     {
         parent::setUp();
@@ -480,6 +482,41 @@ class FormHelperTest extends HelperTestCase
                     ['div' => ['class' => 'file-path-wrapper']],
                         ['input' => ['class' => 'file-path', 'type' => 'text']],
                     '/div',
+                '/div',
+            '/div'
+        ];
+
+        $this->assertHtml($expected, $helper->file('avatar', [
+            'title' => 'Custom title'
+        ]));
+
+        $table = TableRegistry::getTableLocator()->get('Test.Pages');
+
+        $entity = $table->newEntity([
+            'id'     => 1,
+            'title'  => 'Title',
+            'avatar' => 'image.png'
+        ]);
+
+        $entity->setError('avatar', 'Error message');
+
+        $helper->create($entity);
+
+        $expected = [
+            'div' => ['class' => 'input-field file error'],
+                ['div' => ['class' => 'file-field input-field']],
+                    ['div' => ['class' => 'btn']],
+                        ['span' => []],
+                            'Custom title',
+                        '/span',
+                        ['input' => ['type' => 'file', 'name' => 'avatar']],
+                    '/div',
+                    ['div' => ['class' => 'file-path-wrapper']],
+                        ['input' => ['class' => 'file-path', 'type' => 'text']],
+                    '/div',
+                '/div',
+                ['div' => ['class' => 'error-message']],
+                    'Error message',
                 '/div',
             '/div'
         ];

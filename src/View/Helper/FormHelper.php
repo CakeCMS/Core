@@ -111,7 +111,9 @@ class FormHelper extends CakeFormHelper
      */
     public function file($fieldName, array $options = [])
     {
-        $content = parent::file($fieldName, $options);
+        $errorSuffix = null;
+        $error       = $this->error($fieldName);
+        $content     = parent::file($fieldName, $options);
 
         if ($this->getConfig('materializeCss', false) === false) {
             return $content;
@@ -120,12 +122,16 @@ class FormHelper extends CakeFormHelper
         $options = $this->_parseOptions($fieldName, $options);
 
         $options['type'] = __FUNCTION__;
+        if ($error !== '') {
+            $options['error'] = $error;
+            $errorSuffix = 'Error';
+        }
 
         $result = $this->_inputContainerTemplate([
-            'error'       => null,
-            'errorSuffix' => null,
+            'error'       => $error,
             'content'     => $content,
-            'options'     => $options
+            'options'     => $options,
+            'errorSuffix' => $errorSuffix
         ]);
 
         return $result;
