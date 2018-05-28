@@ -65,5 +65,4 @@ class CoreEventHandler implements EventListenerInterface
             }
         }
     }
-
 }
