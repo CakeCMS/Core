@@ -31,7 +31,8 @@ class CoreEventHandler implements EventListenerInterface
     /**
      * Returns a list of events this object is implementing.
      *
-     * @return array
+     * @return  array
+     * @return  void
      */
     public function implementedEvents()
     {
@@ -41,29 +42,22 @@ class CoreEventHandler implements EventListenerInterface
     }
 
     /**
-     * @param Event $event
+     * On controller setup.
+     *
+     * @param   Event $event
+     * @return  void
      */
     public function onControllerSetup(Event $event)
     {
         /** @var AppController $controller */
         $controller = $event->getSubject();
-        if ($controller->request->getParam('prefix') === 'admin') {
-            $this->_onSetupAdmin($controller);
-        }
-    }
+        $isAdmin    = ($controller->request->getParam('prefix') === 'admin');
 
-    /**
-     * Setup admin data.
-     *
-     * @param AppController $controller
-     * @SuppressWarnings("unused")
-     */
-    protected function _onSetupAdmin(AppController $controller)
-    {
         $plugins = Plugin::loaded();
         foreach ($plugins as $plugin) {
-            $path    = Plugin::path($plugin);
-            $navConf = $path . 'config/admin_menu.php';
+            $path     = Plugin::path($plugin);
+            $menuFile = ($isAdmin) ? 'admin_menu' : 'menu';
+            $navConf  = $path . 'config/' . $menuFile . '.php';
 
             if (FS::isFile($navConf)) {
                 /** @noinspection PhpIncludeInspection */
@@ -71,4 +65,5 @@ class CoreEventHandler implements EventListenerInterface
             }
         }
     }
+
 }
