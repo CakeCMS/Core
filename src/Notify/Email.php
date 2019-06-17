@@ -99,9 +99,10 @@ class Email
         $fromEmail = ($fromEmail !== '') ? $fromEmail : $this->_fromEmail;
         $transport = new MailTransport();
 
+        $mail->viewBuilder()->setTemplate($this->_tpl);
+
         return $mail
             ->setTransport($transport)
-            ->setTemplate($this->_tpl)
             ->setEmailFormat($this->_format)
             ->setFrom($fromEmail, $fromName)
             ->setTo($to)

@@ -15,7 +15,6 @@
 
 namespace Core\Test\TestCase\Utility;
 
-use Core\Plugin;
 use Test\Cases\TestCase;
 use Core\Utility\Toolbar;
 
@@ -27,17 +26,7 @@ use Core\Utility\Toolbar;
 class ToolbarTest extends TestCase
 {
 
-    public function setUp()
-    {
-        parent::setUp();
-        Plugin::load('Test', ['autoload' => true]);
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-        Plugin::unload('Test');
-    }
+    protected $_loadPlugins = ['Test'];
 
     public function testClassName()
     {
@@ -109,7 +98,7 @@ class ToolbarTest extends TestCase
         $object = Toolbar::getInstance(__FUNCTION__);
         $result = $object->loadItemType('view');
 
-        self::assertInstanceOf('Test\App\Toolbar\ToolbarItemView', $result);
+        self::assertInstanceOf('TestApp\Toolbar\ToolbarItemView', $result);
     }
 
     public function testRenderButton()

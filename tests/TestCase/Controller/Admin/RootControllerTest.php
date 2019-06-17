@@ -27,6 +27,12 @@ use Test\Cases\IntegrationTestCase;
 class RootControllerTest extends IntegrationTestCase
 {
 
+    public function setUp()
+    {
+        parent::setUp();
+        $this->loadPlugins(['Core']);
+    }
+
     public function testDashboard()
     {
         $url = $this->_getUrl([

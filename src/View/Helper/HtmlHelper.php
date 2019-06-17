@@ -272,12 +272,14 @@ class HtmlHelper extends CakeHtmlHelper
      */
     public function toggle(Entity $entity, array $url = [], array $data = [])
     {
+        $request = $this->getView()->getRequest();
+
         if (count($url) === 0) {
             $url = [
                 'action'     => 'toggle',
-                'prefix'     => $this->request->getParam('prefix'),
-                'plugin'     => $this->request->getParam('plugin'),
-                'controller' => $this->request->getParam('controller'),
+                'prefix'     => $request->getParam('prefix'),
+                'plugin'     => $request->getParam('plugin'),
+                'controller' => $request->getParam('controller'),
                 (int) $entity->get('id'),
                 (int) $entity->get('status')
             ];

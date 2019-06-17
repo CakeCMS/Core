@@ -191,11 +191,12 @@ class AssetsHelper extends AppHelper
      */
     public function loadPluginAssets()
     {
-        $plugin = (string) $this->request->getParam('plugin');
-        $prefix = ($this->request->getParam('prefix')) ? $this->request->getParam('prefix') . '/' : null;
-        $action = (string) $this->request->getParam('action');
+        $request = $this->getView()->getRequest();
+        $plugin  = (string) $request->getParam('plugin');
+        $prefix  = ($request->getParam('prefix')) ? $request->getParam('prefix') . '/' : null;
+        $action  = (string) $request->getParam('action');
 
-        $controller = (string) $this->request->getParam('controller');
+        $controller = (string) $request->getParam('controller');
         $widgetName = Str::slug($controller . '-' . $action) . '.js';
         $cssOptions = ['block' => 'css_bottom', 'fullBase' => true, 'force' => Configure::read('debug')];
 
@@ -296,13 +297,14 @@ class AssetsHelper extends AppHelper
     public function toggleField($selector = '.jsToggleField', $widget = 'JBZoo.FieldToggle', array $options = [])
     {
         $this->jqueryFactory();
+        $request = $this->getView()->getRequest();
 
         $this->Html->script('Core.admin/widget/field-toggle.js', $this->_setOptions([
             'alias'  => __FUNCTION__,
             'weight' => self::WEIGHT_WIDGET
         ]));
 
-        $options = Hash::merge(['token' => $this->request->getCookie('csrfToken')], $options);
+        $options = Hash::merge(['token' => $request->getCookie('csrfToken')], $options);
         $this->Js->widget($selector, $widget, $options);
 
         return $this;

@@ -37,15 +37,12 @@ class LessHelperTest extends HelperTestCase
     public function setUp()
     {
         parent::setUp();
-        Plugin::load('Test', ['autoload' => true]);
-        Plugin::load('DebugKit', ['autoload' => true]);
+        $this->loadPlugins(['Core', 'Test']);
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        Plugin::unload('Test');
-        Plugin::unload('DebugKit');
         $this->_clearCache();
     }
 

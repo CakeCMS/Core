@@ -36,17 +36,17 @@ class HtmlHelperTest extends HelperTestCase
     protected $_name = 'Html';
     protected $_plugin = 'Core';
 
+    /**
+     * Setup the test case, backup the static object values so they can be restored.
+     * Specifically backs up the contents of Configure and paths in App if they have
+     * not already been backed up.
+     *
+     * @return  void
+     */
     public function setUp()
     {
         parent::setUp();
-        Plugin::load('Test', ['autoload' => true, 'routes' => true]);
-        Plugin::routes('Test');
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-        Plugin::unload('Test');
+        $this->loadPlugins(['Core', 'Test']);
     }
 
     public function testClassName()

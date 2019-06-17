@@ -27,15 +27,9 @@ use Cake\ORM\TableRegistry;
 class CachedBehaviorModelTest extends TestCase
 {
 
-    public $fixtures = ['plugin.core.cached_behavior',];
+    public $fixtures = ['plugin.Core.CachedBehavior',];
 
-    protected $_plugin = 'Test';
-    
-    public function tearDown()
-    {
-        parent::tearDown();
-        Cache::drop('test_cached');
-    }
+    protected $_loadPlugins = ['Test'];
 
     public function testCached()
     {

@@ -42,6 +42,9 @@ class NavHelperTest extends TestCase
     public function setUp()
     {
         parent::setUp();
+
+        $this->loadPlugins(['Core']);
+
         $this->View = new AppView();
         $this->Nav  = $this->View->helpers()->load('Core.Nav');
     }

@@ -28,6 +28,8 @@ use Test\Controller\EventController;
 class ManagerTest extends TestCase
 {
 
+    protected $_loadPlugins = ['Test'];
+
     public function testLoadListeners()
     {
         EventManager::loadListeners();
@@ -40,13 +42,10 @@ class ManagerTest extends TestCase
 
     public function testTrigger()
     {
-        Plugin::load('Test', ['autoload' => true]);
         EventManager::loadListeners();
 
         $controller = new EventController();
         self::assertSame('Event.Controller.index', $controller->index());
         self::assertSame('Event.Controller.view', $controller->view());
-        
-        Plugin::unload('Test');
     }
 }

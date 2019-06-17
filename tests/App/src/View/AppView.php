@@ -13,7 +13,7 @@
  * @author      Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Test\App\View;
+namespace TestApp\View;
 
 use Core\View\AppView as CoreAppView;
 

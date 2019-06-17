@@ -13,7 +13,7 @@
  * @author      Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Test\App;
+namespace TestApp;
 
 use Core\Application as CoreApplication;
 use Cake\Routing\Middleware\RoutingMiddleware;
@@ -46,12 +46,12 @@ class Application extends CoreApplication
      */
     public function middleware($middleware)
     {
-        $middleware->add(new RoutingMiddleware());
+        $middleware->add(new RoutingMiddleware($this));
         $middleware->add(function ($req, $res, $next) {
+            /** @var \Cake\Http\ServerRequest $res */
             $res = $next($req, $res);
             return $res->withHeader('X-Middleware', 'true');
         });
-
         return $middleware;
     }
 
@@ -65,6 +65,7 @@ class Application extends CoreApplication
     {
         $routes->scope('/app', function ($routes) {
             $routes->connect('/articles', ['controller' => 'Articles']);
+            $routes->fallbacks();
         });
     }
 }

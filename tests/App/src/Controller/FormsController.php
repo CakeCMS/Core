@@ -13,7 +13,7 @@
  * @author      Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Test\App\Controller;
+namespace TestApp\Controller;
 
 use Core\Controller\AppController;
 

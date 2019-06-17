@@ -31,13 +31,12 @@ class UrlHelperTest extends HelperTestCase
     public function setUp()
     {
         parent::setUp();
-        Plugin::load('Test', ['autoload' => true]);
+        $this->loadPlugins(['Core', 'Test']);
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        Plugin::unload('Test');
     }
 
     public function testClassName()

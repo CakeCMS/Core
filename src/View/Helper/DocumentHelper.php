@@ -15,7 +15,7 @@
 
 namespace Core\View\Helper;
 
-use Core\Plugin;
+use Core\Core\Plugin;
 use JBZoo\Utils\Arr;
 use JBZoo\Utils\Str;
 use Cake\Event\Event;

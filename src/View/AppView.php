@@ -16,11 +16,11 @@
 namespace Core\View;
 
 use Core\Cms;
-use Core\Plugin;
 use Cake\Core\App;
 use Cake\View\View;
-use JBZoo\Utils\Arr;
 use JBZoo\Utils\FS;
+use JBZoo\Utils\Arr;
+use Core\Core\Plugin;
 
 /**
  * Class AppView
@@ -40,13 +40,6 @@ class AppView extends View
 {
 
     const VIEW_FORM = 'form';
-
-    /**
-     * Hold CMS object.
-     *
-     * @var Cms
-     */
-    public $cms;
 
     /**
      * Controller form actions.
@@ -91,7 +84,6 @@ class AppView extends View
     public function initialize()
     {
         parent::initialize();
-        $this->cms = Cms::getInstance();
 
         $pluginEvent = Plugin::getData('Core', 'View.initialize');
         if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.initialize')) {

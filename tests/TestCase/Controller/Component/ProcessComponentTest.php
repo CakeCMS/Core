@@ -35,7 +35,7 @@ use Core\Controller\Component\ProcessComponent;
 class ProcessComponentTest extends TestCase
 {
 
-    public $fixtures = ['plugin.core.process_behavior'];
+    public $fixtures = ['plugin.Core.ProcessBehavior'];
 
     /**
      * @var AppController

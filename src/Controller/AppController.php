@@ -15,8 +15,7 @@
 
 namespace Core\Controller;
 
-use Core\Cms;
-use Core\Plugin;
+use Core\Core\Plugin;
 use Cake\Event\Event;
 use Cake\Http\Response;
 use Core\Event\EventManager;
@@ -42,23 +41,13 @@ class AppController extends CakeController
 {
 
     /**
-     * Hold CMS object.
-     *
-     * @var Cms
-     */
-    public $cms;
-
-    /**
      * Initialization hook method.
      *
      * @return  void
-     *
-     * @throws  \JBZoo\Utils\Exception
      */
     public function initialize()
     {
         parent::initialize();
-        $this->cms = Cms::getInstance();
         $this->_setTheme();
 
         $pluginEvent = Plugin::getData('Core', 'Controller.initialize');
@@ -72,9 +61,8 @@ class AppController extends CakeController
      * to perform logic or set view variables that are required on every request.
      *
      * @param   \Cake\Event\Event $event The beforeRender event.
-     * @return  void
      *
-     * @throws  \JBZoo\Utils\Exception
+     * @return  void
      */
     public function beforeRender(Event $event)
     {
@@ -95,9 +83,8 @@ class AppController extends CakeController
      * or perform logic that needs to happen before each controller action.
      *
      * @param   Event $event
-     * @return  void
      *
-     * @throws  \JBZoo\Utils\Exception
+     * @return  void
      */
     public function beforeFilter(Event $event)
     {
@@ -116,9 +103,8 @@ class AppController extends CakeController
      * @param   Event $event
      * @param   array|string $url
      * @param   Response $response
-     * @return  void
      *
-     * @throws  \JBZoo\Utils\Exception
+     * @return  void
      */
     public function beforeRedirect(Event $event, $url, Response $response)
     {
@@ -132,9 +118,8 @@ class AppController extends CakeController
      * Called after the controller action is run and rendered.
      *
      * @param   Event $event
-     * @return  void
      *
-     * @throws  \JBZoo\Utils\Exception
+     * @return  void
      */
     public function afterFilter(Event $event)
     {

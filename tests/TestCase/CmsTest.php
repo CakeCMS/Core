@@ -51,17 +51,4 @@ class CmsTest extends TestCase
         $expected = ['value-1', 'value-2', 'config_value', true, false, 'array-value-1', 'array-value-2'];
         self::assertSame($expected, Configure::read('Test.key'));
     }
-
-    public function testInitializeCms()
-    {
-        $app = Cms::getInstance();
-        self::assertInstanceOf('Core\Cms', $app);
-        self::assertInstanceOf('Core\Path\Path', $app['path']);
-        self::assertInstanceOf('Core\Helper\Manager', $app['helper']);
-
-        self::assertNotEmpty($app['path']->getPaths('locales'));
-        self::assertNotEmpty($app['path']->getPaths('plugins'));
-        self::assertNotEmpty($app['path']->getPaths('webroot'));
-        self::assertNotEmpty($app['path']->getPaths('templates'));
-    }
 }

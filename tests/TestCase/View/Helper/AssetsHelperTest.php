@@ -27,6 +27,19 @@ class AssetsHelperTest extends HelperTestCase
     protected $_name = 'Assets';
     protected $_plugin = 'Core';
 
+    /**
+     * Setup the test case, backup the static object values so they can be restored.
+     * Specifically backs up the contents of Configure and paths in App if they have
+     * not already been backed up.
+     *
+     * @return  void
+     */
+    public function setUp()
+    {
+        parent::setUp();
+        $this->loadPlugins(['Core']);
+    }
+
     public function testBootstrap()
     {
         $object = $this->_helper()->bootstrap();
@@ -256,6 +269,7 @@ class AssetsHelperTest extends HelperTestCase
         $this->assertHtml($expected['jquery'], $jquery);
         $this->assertHtml($expected['jquery-factory'], $jqueryFactory);
         $this->assertHtml($expected['jquery-utils'], $jqueryUtils);
+
         $this->assertHtml($expected['widget'], $widget);
         self::assertRegExp('/\$\(\"\.jsToggleField\"\)\.JBZooFieldToggle/', $this->_helper()->Js->getBuffer());
     }

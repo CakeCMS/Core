@@ -54,17 +54,27 @@ class HelperTestCase extends TestCase
      */
     protected $View;
 
+    /**
+     * Setup the test case, backup the static object values so they can be restored.
+     * Specifically backs up the contents of Configure and paths in App if they have
+     * not already been backed up.
+     *
+     * @return  void
+     */
     public function setUp()
     {
         parent::setUp();
-        Plugin::load($this->_plugin, ['path' => ROOT . DS, 'bootstrap' => true]);
         $this->View = new View();
     }
 
+    /**
+     * Clears the state used for requests.
+     *
+     * @return  void
+     */
     public function tearDown()
     {
         parent::tearDown();
-        Plugin::unload($this->_plugin);
         unset($this->View);
     }
 

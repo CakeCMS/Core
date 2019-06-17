@@ -145,7 +145,8 @@ class JsHelper extends AppHelper
      */
     protected function _setScriptVars()
     {
-        $request = $this->request;
+        $request = $this->getView()->getRequest();
+
         $vars = [
             'baseUrl' => Router::fullBaseUrl(),
             'alert' => [
@@ -163,7 +164,7 @@ class JsHelper extends AppHelper
                     'plugin'     => $request->getParam('plugin'),
                     'controller' => $request->getParam('controller'),
                 ],
-                'query'  => $this->request->getQueryParams(),
+                'query'  => $request->getQueryParams(),
                 'base'   => $request->getAttribute('base'),
                 'here'   => $request->getRequestTarget(),
             ]

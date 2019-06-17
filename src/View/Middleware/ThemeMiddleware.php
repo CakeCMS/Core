@@ -16,7 +16,7 @@
 namespace Core\View\Middleware;
 
 use Core\Theme;
-use Core\Plugin;
+use Core\Core\Plugin;
 use Cake\Http\Runner;
 use Cake\Http\Response;
 use Cake\Http\ServerRequest;
@@ -32,9 +32,10 @@ class ThemeMiddleware
     /**
      * Serve assets if the path matches one.
      *
-     * @param   ServerRequest $request
-     * @param   Response $response
-     * @param   Runner $next
+     * @param   ServerRequest   $request
+     * @param   Response        $response
+     * @param   Runner          $next
+     *
      * @return  mixed
      */
     public function __invoke($request, $response, $next)
@@ -43,7 +44,7 @@ class ThemeMiddleware
         $request  = $request->withParam('theme', $theme);
         $response = $next($request, $response);
 
-        Plugin::loaded($theme);
+        Plugin::isLoaded($theme);
         return $response;
     }
 }

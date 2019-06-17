@@ -15,7 +15,8 @@
 
 namespace Core\Test\TestCase;
 
-use Core\Plugin;
+use Cake\Cache\Cache;
+use Core\Core\Plugin;
 use Cake\Event\Event;
 use Core\View\AppView;
 use Cake\Http\Response;
@@ -34,17 +35,9 @@ use Core\Controller\AppController;
 class PluginTest extends TestCase
 {
 
-    public function setUp()
-    {
-        parent::setUp();
-        Plugin::load('Test', ['autoload' => true]);
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-        Plugin::unload('Test');
-    }
+    protected $_loadPlugins = [
+        'Test'
+    ];
 
     public function testGetManifestPath()
     {
@@ -78,21 +71,9 @@ class PluginTest extends TestCase
 
     public function testLoad()
     {
-        Plugin::unload('Test');
-        Plugin::load('Test', ['autoload' => true]);
-
-        self::assertTrue(Plugin::loaded('Test'));
+        self::assertTrue(Plugin::isLoaded('Test'));
         $locales = Configure::read('App.paths.locales');
-
-        $before = count($locales);
         self::assertTrue(in_array(Plugin::getLocalePath('Test'), $locales));
-
-        Plugin::unload('Test');
-        $locales = Configure::read('App.paths.locales');
-        $after   = count($locales);
-
-        self::assertFalse(($before == $after));
-        Plugin::load('Test', ['autoload' => true]);
     }
 
     public function testLoadList()
@@ -116,8 +97,10 @@ class PluginTest extends TestCase
         $NoConfigPlgPath = $pluginsDir . 'NoConfig';
         $Folder->create($NoConfigPlgPath, 0777);
 
-        Plugin::load('Migrations');
-        Plugin::loadList([
+        Cache::drop('test_cached');
+
+        $this->loadPlugins([
+            'Migrations',
             'NoConfig',
             'NoRoutes',
             'PluginTest',
@@ -125,22 +108,25 @@ class PluginTest extends TestCase
             'NoBootstrap'
         ]);
 
-        self::assertTrue(Plugin::loaded('NoBootstrap'));
-        self::assertTrue(Plugin::loaded('PluginTest'));
-        self::assertTrue(Plugin::loaded('NoRoutes'));
-        self::assertTrue(Plugin::loaded('NoConfig'));
-        self::assertTrue(Plugin::loaded('Migrations'));
+        self::assertTrue(Plugin::isLoaded('NoBootstrap'));
+        self::assertTrue(Plugin::isLoaded('PluginTest'));
+        self::assertTrue(Plugin::isLoaded('NoRoutes'));
+        self::assertTrue(Plugin::isLoaded('NoConfig'));
+        self::assertTrue(Plugin::isLoaded('Migrations'));
 
         $Folder->delete($TestPlgPath);
         $Folder->delete($NoRoutesPlgPath);
         $Folder->delete($NoConfigPlgPath);
         $Folder->delete($NoBootstrapPlgPath);
 
-        Plugin::unload('NoConfig');
-        Plugin::unload('NoRoutes');
-        Plugin::unload('PluginTest');
-        Plugin::unload('Migrations');
-        Plugin::unload('NoBootstrap');
+        $this->removePlugins([
+            'Migrations',
+            'NoConfig',
+            'NoRoutes',
+            'PluginTest',
+            'Migrations',
+            'NoBootstrap'
+        ]);
     }
     
     public function testManifestEventViewInitialize()

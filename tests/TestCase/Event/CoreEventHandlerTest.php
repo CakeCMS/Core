@@ -29,19 +29,20 @@ class CoreEventHandlerTest extends IntegrationTestCase
 
     public function testOnSetupAdminData()
     {
+        $this->loadPlugins(['Core']);
+
         EventManager::loadListeners();
 
         self::assertSame([], Nav::items('sidebar'));
 
-        $url = $this->_getUrl([
+        $this->get($this->_getUrl([
             'prefix'     => 'admin',
             'controller' => 'Root',
-            'action'     => 'dashboard',
-        ]);
-
-        $this->get($url);
+            'action'     => 'dashboard'
+        ]));
 
         $nav = Nav::items('sidebar');
+
         self::assertTrue(!empty($nav));
         self::assertArrayHasKey('dashboard', $nav);
         self::assertInstanceOf('Core\Controller\Admin\RootController', $this->_controller);

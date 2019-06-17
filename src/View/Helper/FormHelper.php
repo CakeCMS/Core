@@ -213,14 +213,15 @@ class FormHelper extends CakeFormHelper
     {
         $options += ['process' => false, 'jsForm' => false];
         $options = $this->addClass($options, $this->_class('form'));
+        $request = $this->getView()->getRequest();
 
         $isProcess = $options['process'];
 
         if ($isProcess !== false) {
             $_options = [
                 'url' => [
-                    'plugin'     => $this->request->getParam('plugin'),
-                    'controller' => $this->request->getParam('controller'),
+                    'plugin'     => $request->getParam('plugin'),
+                    'controller' => $request->getParam('controller'),
                     'action'     => 'process'
                 ]
             ];

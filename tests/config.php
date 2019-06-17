@@ -22,7 +22,7 @@ ini_set('intl.default_locale', 'ru_RU');
 //  Write test application config.
 Configure::write('debug', true);
 Configure::write('App', [
-    'namespace'     => 'Test\App',
+    'namespace'     => 'TestApp',
     'encoding'      => 'UTF-8',
     'defaultLocale' => 'ru_RU',
     'base'          => false,

@@ -24,14 +24,15 @@ use Cake\Core\Configure;
  *
  * @package Core
  */
-class Theme extends Plugin
+class Theme extends \Core\Core\Plugin
 {
 
     /**
      * Setup current theme.
      *
-     * @param null|string $prefix
-     * @return null|string
+     * @param   null|string $prefix
+     *
+     * @return  null|string
      */
     public static function setup($prefix = null)
     {
@@ -51,8 +52,9 @@ class Theme extends Plugin
     /**
      * Get name by prefix.
      *
-     * @param string|null $prefix
-     * @return mixed
+     * @param   string|null $prefix
+     *
+     * @return  mixed
      */
     public static function name($prefix = null)
     {
@@ -62,8 +64,9 @@ class Theme extends Plugin
     /**
      * Find theme plugin in path.
      *
-     * @param string $theme
-     * @return null|string
+     * @param   string $theme
+     *
+     * @return  null|string
      */
     public static function find($theme)
     {

@@ -15,10 +15,12 @@
 
 use Cake\Cache\Cache;
 
-Cache::setConfig('test_cached', [
-    'className' => 'File',
-    'duration'  => '+1 week',
-    'path'      => CACHE . 'query' . DS . 'cache' . DS,
-    'prefix'    => 'cache_',
-    'groups'    => ['cached']
-]);
+if (!Cache::getConfig('test_cached')) {
+    Cache::setConfig('test_cached', [
+        'className' => 'File',
+        'duration'  => '+1 week',
+        'path'      => CACHE . 'query' . DS . 'cache' . DS,
+        'prefix'    => 'cache_',
+        'groups'    => ['cached']
+    ]);
+}

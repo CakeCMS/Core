@@ -29,7 +29,7 @@ use Core\ORM\Behavior\ProcessBehavior;
 class ProcessBehaviorTest extends TestCase
 {
 
-    public $fixtures = ['plugin.core.process_behavior'];
+    public $fixtures = ['plugin.Core.ProcessBehavior'];
 
     public function testClassName()
     {
@@ -123,11 +123,11 @@ class ProcessBehaviorTest extends TestCase
     }
 
     /**
-     * @return RowsTable
+     * @return RowsTable|\Cake\ORM\Table
      */
     protected function _table()
     {
-        return TableRegistry::get('Rows', [
+        return TableRegistry::getTableLocator()->get('Rows', [
             'className' => __NAMESPACE__ . '\RowsTable'
         ]);
     }
@@ -136,12 +136,14 @@ class ProcessBehaviorTest extends TestCase
 /**
  * Class RowsTable
  *
- * @package Core\Test\TestCase\ORM\Behavior
  * @property ProcessBehavior $Process
- * @method process($name, array $ids = [])
- * @method processDelete(array $ids)
- * @method processPublish(array $ids)
- * @method processUnPublish(array $ids)
+ *
+ * @method  process($name, array $ids = [])
+ * @method  processDelete(array $ids)
+ * @method  processPublish(array $ids)
+ * @method  processUnPublish(array $ids)
+ *
+ * @package Core\Test\TestCase\ORM\Behavior
  */
 class RowsTable extends Table
 {

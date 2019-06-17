@@ -15,36 +15,16 @@
 
 namespace Core;
 
-use Core\Path\Path;
-use JBZoo\Utils\FS;
-use Pimple\Container;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
-use Core\Helper\Manager as HelperManager;
 
 /**
  * Class Cms
  *
  * @package Core
  */
-class Cms extends Container
+class Cms
 {
-
-    /**
-     * Get cms instance.
-     *
-     * @return Cms
-     */
-    public static function getInstance()
-    {
-        static $instance;
-        if (null === $instance) {
-            $instance = new self();
-            $instance->_initialize();
-        }
-
-        return $instance;
-    }
 
     /**
      * Merge configure values by key.
@@ -59,48 +39,5 @@ class Cms extends Container
         Configure::write($key, $values);
 
         return $values;
-    }
-
-    /**
-     * On initialize application.
-     *
-     * @return void
-     */
-    protected function _initialize()
-    {
-        $this['path'] = function () {
-            return $this->_initPaths();
-        };
-
-        $this['helper'] = function () {
-            return new HelperManager();
-        };
-    }
-
-    /**
-     * Init base paths.
-     *
-     * @return Path
-     * @throws \JBZoo\Path\Exception
-     */
-    protected function _initPaths()
-    {
-        $path = Path::getInstance();
-        $path->setRoot(ROOT);
-
-        //  Setup all webroot paths
-        $path->set('webroot', Configure::read('App.wwwRoot'));
-        foreach ((array) Plugin::loaded() as $name) {
-            $plgPath = Plugin::path($name) . '/' . Configure::read('App.webroot') . '/';
-            $path->set('webroot', FS::clean($plgPath), Path::MOD_APPEND);
-        }
-
-        //  Setup applicatiojn paths
-        $paths = Configure::read('App.paths');
-        foreach ($paths as $alias => $_paths) {
-            $path->set($alias, $_paths);
-        }
-
-        return $path;
     }
 }

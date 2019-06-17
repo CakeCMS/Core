@@ -15,7 +15,7 @@
 
 namespace Core\Test\TestCase\View\Helper;
 
-use Core\Plugin;
+use Core\Core\Plugin;
 use Core\ORM\Table;
 use Cake\Cache\Cache;
 use Core\View\AppView;
@@ -37,20 +37,17 @@ class FormHelperTest extends HelperTestCase
     protected $_name = 'Form';
     protected $_plugin = 'Core';
 
-    public $fixtures = ['plugin.core.pages'];
+    public $fixtures = ['plugin.Core.Pages'];
 
     public function setUp()
     {
         parent::setUp();
-        Plugin::loadList(['Test']);
-        Plugin::routes('Test');
+        $this->loadPlugins(['Core', 'Test']);
     }
 
     public function tearDown()
     {
         parent::tearDown();
-        Plugin::unload('Test');
-        Cache::drop('test_cached');
     }
 
     public function testClassName()

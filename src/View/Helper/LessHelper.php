@@ -15,10 +15,10 @@
 
 namespace Core\View\Helper;
 
-use Core\Plugin;
 use Core\Less\Less;
 use JBZoo\Utils\FS;
 use JBZoo\Utils\Str;
+use Core\Core\Plugin;
 use Cake\Routing\Router;
 use Cake\Core\Configure;
 use Cake\Filesystem\File;
@@ -140,7 +140,8 @@ class LessHelper extends AppHelper
         $webRoot    = APP_ROOT . DS . $webRootDir . DS;
 
         list ($plugin, $source) = $this->_View->pluginSplit($source);
-        if ($plugin !== null && Plugin::loaded($plugin)) {
+
+        if ($plugin !== null && Plugin::isLoaded($plugin)) {
             $webRoot = Plugin::path($plugin) . $webRootDir . DS;
         }
 
@@ -222,7 +223,7 @@ class LessHelper extends AppHelper
         $details = explode('/', $path, 3);
         $pluginName = Inflector::camelize(trim($details[0], '/'));
 
-        if (Plugin::loaded($pluginName)) {
+        if (Plugin::isLoaded($pluginName)) {
             unset($details[0]);
             $source = $pluginName . '.' . ltrim(implode('/', $details), '/');
             return $this->_getAssetUrl($source);

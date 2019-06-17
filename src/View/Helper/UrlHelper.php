@@ -15,8 +15,8 @@
 
 namespace Core\View\Helper;
 
-use Core\Plugin;
 use JBZoo\Utils\FS;
+use Core\Core\Plugin;
 use Cake\Core\Configure;
 use Cake\View\Helper\UrlHelper as CakeUrlHelper;
 
@@ -66,7 +66,7 @@ class UrlHelper extends CakeUrlHelper
     {
         list($plugin, $path) = pluginSplit($source);
         $plugin = (string) $plugin;
-        if (Plugin::loaded($plugin)) {
+        if (Plugin::isLoaded($plugin)) {
             $plgPath = implode('/', [Plugin::path($plugin), Configure::read('App.webroot'), $type, $path]);
             $plgPath = FS::clean($plgPath, '/');
             if (FS::isFile($plgPath)) {

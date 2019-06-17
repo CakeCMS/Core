@@ -13,11 +13,11 @@
  * @author      Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-use Core\Cms;
-use Cake\Mailer\Email;
+use Cake\Chronos\Date;
 use Cake\Core\Configure;
-use Cake\Cache\Cache;
-use Cake\Log\Log;
+use Cake\Chronos\Chronos;
+use Cake\Chronos\MutableDate;
+use Cake\Chronos\MutableDateTime;
 use Cake\Datasource\ConnectionManager;
 
 //  Composer autoload.
@@ -53,11 +53,6 @@ if (!getenv('db_dsn')) {
 ConnectionManager::setConfig('test', ['url' => getenv('db_dsn')]);
 ConnectionManager::setConfig('test_custom_i18n_datasource', ['url' => getenv('db_dsn')]);
 
-use Cake\Chronos\Chronos;
-use Cake\Chronos\Date;
-use Cake\Chronos\MutableDate;
-use Cake\Chronos\MutableDateTime;
-
 Chronos::setTestNow(Chronos::now());
 MutableDateTime::setTestNow(MutableDateTime::now());
 Date::setTestNow(Date::now());
@@ -69,5 +64,3 @@ loadPHPUnitAliases();
 // does not allow the sessionid to be set after stdout
 // has been written to.
 session_id('cli');
-
-Cms::getInstance();

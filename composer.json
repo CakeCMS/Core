@@ -46,7 +46,9 @@
     "autoload-dev" : {
         "psr-4" : {
             "Core\\Test\\" : "./tests",
-            "Test\\App\\"  : "./tests/App/src"
+            "TestApp\\"    : "./tests/App/src",
+            "Test\\"       : "./tests/App/plugins/Test/src",
+            "Realty\\"     : "./tests/App/plugins/Realty/src"
         }
     },
     "scripts"      : {

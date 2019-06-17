@@ -32,16 +32,20 @@ class PathTest extends TestCase
      */
     protected $_path;
 
+    /**
+     * @throws  \JBZoo\Path\Exception
+     */
     public function setUp()
     {
         parent::setUp();
-        $cms = Cms::getInstance();
-        $this->_path = $cms['path'];
+        $this->_path = Path::getInstance();
+        $this->_path->set('plugins', TEST_APP_DIR . 'plugins');
     }
 
     public function testDirs()
     {
         $dirs = $this->_path->dirs('plugins:Test/src');
+
         self::assertSame([
             'Controller',
             'Event',

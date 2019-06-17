@@ -57,36 +57,28 @@ class PagesFixture extends TestFixture
                 'title'     => 'Page 1',
                 'alias'     => 'page-1',
                 'status'    => 1,
-                'params'    => json_encode([
-
-                ], JSON_PRETTY_PRINT),
+                'params'    => json_encode([], JSON_PRETTY_PRINT),
             ],
             [
                 'id'        => 2,
                 'title'     => 'Test page',
                 'alias'     => 'test-page',
                 'status'    => 1,
-                'params'    => json_encode([
-
-                ], JSON_PRETTY_PRINT),
+                'params'    => json_encode([], JSON_PRETTY_PRINT),
             ],
             [
                 'id'        => 3,
                 'title'     => 'Custom page',
                 'alias'     => 'custom-page',
                 'status'    => 1,
-                'params'    => json_encode([
-
-                ], JSON_PRETTY_PRINT),
+                'params'    => json_encode([], JSON_PRETTY_PRINT),
             ],
             [
                 'id'        => 4,
                 'title'     => 'Un publish',
                 'alias'     => 'un-publish',
                 'status'    => 0,
-                'params'    => json_encode([
-
-                ], JSON_PRETTY_PRINT),
+                'params'    => json_encode([], JSON_PRETTY_PRINT),
             ],
         ];
 

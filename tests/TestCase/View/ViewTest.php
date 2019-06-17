@@ -20,7 +20,7 @@ use Core\View\AppView;
 use Core\View\AjaxView;
 use Test\Cases\TestCase;
 use Cake\Http\ServerRequest;
-use Test\App\Controller\FormsController;
+use TestApp\Controller\FormsController;
 
 /**
  * Class ViewTest
@@ -44,7 +44,7 @@ class ViewTest extends TestCase
     {
         parent::setUp();
         $this->View = new AppView();
-        Plugin::load('Test');
+        $this->loadPlugins(['Core', 'Test']);
     }
 
     /**
@@ -56,7 +56,6 @@ class ViewTest extends TestCase
     {
         parent::tearDown();
         unset($this->View);
-        Plugin::unload('Test');
     }
 
     public function testAjaxViewType()
@@ -87,7 +86,7 @@ class ViewTest extends TestCase
         ]);
 
         $controller = new FormsController($request);
-        $view = $controller->createView('Test\App\View\AppView');
+        $view = $controller->createView('TestApp\View\AppView');
         $view->setTemplatePath('Forms');
         $actual = $view->render();
         self::assertRegExp('/Edit template/', $actual);
@@ -104,7 +103,7 @@ class ViewTest extends TestCase
         ]);
 
         $controller = new FormsController($request);
-        $view = $controller->createView('Test\App\View\AppView');
+        $view = $controller->createView('TestApp\View\AppView');
         $view->setTemplatePath('Forms');
         $actual = $view->render();
         self::assertRegExp('/Form template/', $actual);
@@ -124,14 +123,13 @@ class ViewTest extends TestCase
         ]);
 
         $controller = new FormsController($request);
-        $view = $controller->createView('Test\App\View\AppView');
+        $view = $controller->createView('TestApp\View\AppView');
         $view->setTemplatePath('NoExist');
         $view->render(' ');
     }
 
     public function testGetViewFile()
     {
-        Plugin::load('Test', ['autoload' => true]);
         $view = new AppView();
         $path = $view->getViewFile('no_exist');
         self::assertNull($path);
@@ -141,6 +139,5 @@ class ViewTest extends TestCase
 
         $path = $view->getViewFile('Test.Metadata/form');
         self::assertNotNull($path);
-        Plugin::unload('Test');
     }
 }

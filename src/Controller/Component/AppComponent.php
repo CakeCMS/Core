@@ -120,8 +120,10 @@ class AppComponent extends Component
             ->setTemplate('toggle')
             ->setTemplatePath('Common');
 
-        $entity = $table->get($id);
-        $entity->set($field, !(int) $value);
+        $entity   = $table->get($id);
+        $newValue = ! (int) $value;
+
+        $entity->set($field, (int) $newValue);
 
         if ($result = $table->save($entity)) {
             $this->_controller->set('entity', $result);

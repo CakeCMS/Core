@@ -13,7 +13,7 @@
  * @author      Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-namespace Test\App\Toolbar;
+namespace TestApp\Toolbar;
 
 use Core\Toolbar\ToolbarItem;
 

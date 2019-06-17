@@ -16,7 +16,6 @@
 namespace Core\Test\TestCase;
 
 use Core\Theme;
-use Core\Plugin;
 use Cake\Core\App;
 use Cake\Cache\Cache;
 use Cake\Core\Configure;
@@ -30,6 +29,10 @@ use Cake\Filesystem\Folder;
  */
 class ThemeTest extends TestCase
 {
+
+    protected $_loadPlugins = [
+        'Realty'
+    ];
 
     /**
      * @var Folder
@@ -67,13 +70,11 @@ class ThemeTest extends TestCase
 
     public function testCustomTheme()
     {
-        Plugin::load('Realty');
         $themeName = 'Realty';
         Configure::write('Theme.site', $themeName);
         $actual = Theme::setup();
 
         self::assertSame($themeName, $actual);
-        Plugin::unload('Realty');
     }
 
     public function testNotFoundManifestParam()

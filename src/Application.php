@@ -15,6 +15,8 @@
 
 namespace Core;
 
+use Core\Core\Plugin;
+use Cake\Core\Configure;
 use Cake\Http\BaseApplication;
 use Core\View\Middleware\ThemeMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
@@ -28,6 +30,34 @@ use Cake\Error\Middleware\ErrorHandlerMiddleware;
  */
 class Application extends BaseApplication
 {
+
+    public function bootstrap()
+    {
+        parent::bootstrap();
+
+        $this->addPlugin('Core', ['bootstrap' => true, 'routes' => true]);
+
+        //  Load all plugins.
+        /*$plugins = [
+            'Search',
+            'Config',
+            'Community',
+            'Migrations',
+            'Extensions',
+            Configure::read('Theme.site'),
+            Configure::read('Theme.admin'),
+        ];
+
+        foreach ($plugins as $name) {
+            if (Plugin::isLoaded($name)) {
+                continue;
+            }
+
+            if ($path = Plugin::findPlugin($name)) {
+                $this->addPlugin($name, Plugin::getConfigForLoad($path));
+            }
+        }*/
+    }
 
     /**
      * Setup the middleware queue your application will use.
@@ -60,5 +90,26 @@ class Application extends BaseApplication
             ->add(ThemeMiddleware::class);
 
         return $middlewareQueue;
+    }
+
+    /**
+     * @param \Cake\Core\PluginInterface|string $name
+     * @param array $config
+     * @return $this
+     */
+    public function addPlugin($name, array $config = [])
+    {
+        parent::addPlugin($name, $config);
+
+        $plugin = (array) $name;
+
+        foreach ($plugin as $_name) {
+            if ((bool) Plugin::isLoaded($_name)) {
+                Plugin::addManifestCallback($name);
+                Cms::mergeConfig('App.paths.locales', Plugin::getLocalePath($name));
+            }
+        }
+
+        return $this;
     }
 }

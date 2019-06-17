@@ -36,7 +36,7 @@ class AppComponentTest extends TestCase
     /**
      * @var array
      */
-    public $fixtures = ['plugin.core.pages'];
+    public $fixtures = ['plugin.Core.Pages'];
 
     /**
      * @var ServerRequest
@@ -47,8 +47,7 @@ class AppComponentTest extends TestCase
     {
         parent::setUp();
 
-        Plugin::load('Test', ['autoload' => true, 'routes' => true]);
-        Plugin::routes('Test');
+        $this->loadPlugins(['Test']);
 
         Router::scope('/', function ($routes) {
             /** @var $routes \Cake\Routing\RouteBuilder */
@@ -64,12 +63,6 @@ class AppComponentTest extends TestCase
                 'pass'       => [],
             ],
         ]);
-    }
-
-    public function tearDown()
-    {
-        parent::tearDown();
-        Plugin::unload('Test');
     }
 
     public function testRedirect()
@@ -159,7 +152,7 @@ class AppComponentTest extends TestCase
 
         self::assertCount(4, $actual);
         self::assertSame(1, $actual['id']);
-        self::assertFalse($actual['status']);
+        self::assertSame(0, $actual['status']);
         self::assertTrue(array_key_exists('id', $actual));
         self::assertTrue(array_key_exists('url', $actual));
         self::assertTrue(array_key_exists('output', $actual));

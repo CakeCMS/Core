@@ -33,7 +33,7 @@ use Core\Controller\Component\MoveComponent;
 class MoveComponentTest extends TestCase
 {
 
-    public $fixtures = ['plugin.core.moves'];
+    public $fixtures = ['plugin.Core.Moves'];
 
     /**
      * @var ServerRequest

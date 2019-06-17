@@ -13,7 +13,7 @@
  * @author      Sergey Kalistratov <kalistratov.s.m@gmail.com>
  */
 
-use Core\Plugin;
+use Core\Core\Plugin;
 use Cake\Event\Event;
 use Core\View\AppView;
 use Cake\Http\Response;
