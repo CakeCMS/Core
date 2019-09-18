@@ -17,6 +17,7 @@ namespace Core;
 
 use Core\Core\Plugin;
 use Cake\Core\Configure;
+use Core\Event\EventManager;
 use Cake\Http\BaseApplication;
 use Cake\Http\MiddlewareQueue;
 use Cake\Core\PluginInterface;
@@ -66,6 +67,8 @@ class Application extends BaseApplication
                 $this->addPlugin($name, Plugin::getConfigForLoad($path));
             }
         }
+
+        EventManager::loadListeners();
     }
 
     /**

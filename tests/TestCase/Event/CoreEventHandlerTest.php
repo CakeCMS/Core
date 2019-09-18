@@ -33,7 +33,7 @@ class CoreEventHandlerTest extends IntegrationTestCase
 
         EventManager::loadListeners();
 
-        self::assertSame([], Nav::items('sidebar'));
+        self::assertTrue((count(Nav::items('sidebar')) > 0));
 
         $this->get($this->_getUrl([
             'prefix'     => 'admin',
