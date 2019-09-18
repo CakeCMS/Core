@@ -61,7 +61,7 @@
             "@phpcpd",
             "@phploc"
         ],
-        "build-test-app"     : "sh ./scripts/prepare-test-app.sh",
+        "build-test-app"     : "sh ./bin/prepare-test-app.sh",
         "update-all"         : [
             "composer self-update --no-interaction",
             "composer update --no-interaction --optimize-autoloader"
