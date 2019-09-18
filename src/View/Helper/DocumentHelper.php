@@ -67,7 +67,7 @@ class DocumentHelper extends AppHelper
     {
         $pluginEvent = Plugin::getData('Core', 'View.afterLayout');
         if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.afterLayout')) {
-            call_user_func_array($pluginEvent->find(0), [$this->_View, $event, $layoutFile]);
+            call_user_func_array($pluginEvent->find(0), [$this->getView(), $event, $layoutFile]);
         }
     }
 
@@ -105,7 +105,7 @@ class DocumentHelper extends AppHelper
     {
         $pluginEvent = Plugin::getData('Core', 'View.afterRenderFile');
         if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.afterRenderFile')) {
-            call_user_func_array($pluginEvent->find(0), [$this->_View, $event, $viewFile, $content]);
+            call_user_func_array($pluginEvent->find(0), [$this->getView(), $event, $viewFile, $content]);
         }
     }
 
@@ -139,7 +139,7 @@ class DocumentHelper extends AppHelper
     {
         $pluginEvent = Plugin::getData('Core', 'View.beforeLayout');
         if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.beforeLayout')) {
-            call_user_func_array($pluginEvent->find(0), [$this->_View, $event, $layoutFile]);
+            call_user_func_array($pluginEvent->find(0), [$this->getView(), $event, $layoutFile]);
         }
     }
 
@@ -160,7 +160,7 @@ class DocumentHelper extends AppHelper
 
         $pluginEvent = Plugin::getData('Core', 'View.beforeRender');
         if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.beforeRender')) {
-            call_user_func_array($pluginEvent->find(0), [$this->_View, $event, $viewFile]);
+            call_user_func_array($pluginEvent->find(0), [$this->getView(), $event, $viewFile]);
         }
     }
 
@@ -177,7 +177,7 @@ class DocumentHelper extends AppHelper
     {
         $pluginEvent = Plugin::getData('Core', 'View.beforeRenderFile');
         if (is_callable($pluginEvent->find(0)) && Plugin::hasManifestEvent('View.beforeRenderFile')) {
-            call_user_func_array($pluginEvent->find(0), [$this->_View, $event, $viewFile]);
+            call_user_func_array($pluginEvent->find(0), [$this->getView(), $event, $viewFile]);
         }
     }
 
@@ -188,18 +188,20 @@ class DocumentHelper extends AppHelper
      */
     public function getBodyClasses()
     {
-        $prefix = ($this->request->getParam('prefix')) ? 'prefix-' . $this->request->getParam('prefix') : 'prefix-site';
+        $view    = $this->getView();
+        $request = $view->getRequest();
+        $prefix  = ($request->getParam('prefix')) ? 'prefix-' . $request->getParam('prefix') : 'prefix-site';
 
         $classes = [
             $prefix,
-            'theme-'    . Str::low($this->_View->theme),
-            'plugin-'   . Str::low($this->_View->plugin),
-            'view-'     . Str::low($this->_View->name),
-            'tmpl-'     . Str::low($this->_View->template),
-            'layout-'   . Str::low($this->_View->layout)
+            'theme-'    . Str::low($view->getTheme()),
+            'plugin-'   . Str::low($view->getPlugin()),
+            'view-'     . Str::low($view->getName()),
+            'tmpl-'     . Str::low($view->getTemplate()),
+            'layout-'   . Str::low($view->getLayout())
         ];
 
-        $pass = (array) $this->request->getParam('pass');
+        $pass = (array) $request->getParam('pass');
         if (count($pass)) {
             $classes[] = 'item-id-' . array_shift($pass);
         }
@@ -215,10 +217,10 @@ class DocumentHelper extends AppHelper
     public function head()
     {
         $output = [
-            'meta'             => $this->_View->fetch('meta'),
+            'meta'             => $this->getView()->fetch('meta'),
             'assets'           => $this->assets('css'),
-            'fetch_css'        => $this->_View->fetch('css'),
-            'fetch_css_bottom' => $this->_View->fetch('css_bottom'),
+            'fetch_css'        => $this->getView()->fetch('css'),
+            'fetch_css_bottom' => $this->getView()->fetch('css_bottom'),
         ];
 
         return implode('', $output);
@@ -271,7 +273,7 @@ class DocumentHelper extends AppHelper
         $output = implode($this->eol, $output) . $this->eol;
 
         if ($block !== null) {
-            $this->_View->append($block, $output);
+            $this->getView()->append($block, $output);
             return null;
         }
 
@@ -313,7 +315,7 @@ class DocumentHelper extends AppHelper
     protected function _assignMeta($key)
     {
         if (Arr::key($key, $this->_View->viewVars)) {
-            $this->_View->assign($key, $this->_View->viewVars[$key]);
+            $this->getView()->assign($key, $this->_View->viewVars[$key]);
         }
 
         return $this;

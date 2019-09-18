@@ -18,6 +18,8 @@ namespace Core;
 use Core\Core\Plugin;
 use Cake\Core\Configure;
 use Cake\Http\BaseApplication;
+use Cake\Http\MiddlewareQueue;
+use Cake\Core\PluginInterface;
 use Core\View\Middleware\ThemeMiddleware;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
@@ -31,6 +33,13 @@ use Cake\Error\Middleware\ErrorHandlerMiddleware;
 class Application extends BaseApplication
 {
 
+    /**
+     * Load all the application configuration and bootstrap logic.
+     *
+     * Override this method to add additional bootstrap logic for your application.
+     *
+     * @return  void
+     */
     public function bootstrap()
     {
         parent::bootstrap();
@@ -38,7 +47,7 @@ class Application extends BaseApplication
         $this->addPlugin('Core', ['bootstrap' => true, 'routes' => true]);
 
         //  Load all plugins.
-        /*$plugins = [
+        $plugins = [
             'Search',
             'Config',
             'Community',
@@ -56,14 +65,15 @@ class Application extends BaseApplication
             if ($path = Plugin::findPlugin($name)) {
                 $this->addPlugin($name, Plugin::getConfigForLoad($path));
             }
-        }*/
+        }
     }
 
     /**
      * Setup the middleware queue your application will use.
      *
-     * @param   \Cake\Http\MiddlewareQueue $middlewareQueue The middleware queue to setup.
-     * @return  \Cake\Http\MiddlewareQueue The updated middleware queue.
+     * @param   MiddlewareQueue $middlewareQueue The middleware queue to setup.
+     *
+     * @return  MiddlewareQueue The updated middleware queue.
      */
     public function middleware($middlewareQueue)
     {
@@ -93,9 +103,12 @@ class Application extends BaseApplication
     }
 
     /**
-     * @param \Cake\Core\PluginInterface|string $name
-     * @param array $config
-     * @return $this
+     * Add new plugin.
+     *
+     * @param   PluginInterface|string $name
+     * @param   array $config
+     *
+     * @return  $this
      */
     public function addPlugin($name, array $config = [])
     {
